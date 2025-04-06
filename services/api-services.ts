@@ -11,8 +11,8 @@ export const nubaApis = {
     if (form.current) {
       emailjs
         .sendForm(
-          env.NEXT_PUBLIC_EMAIL_JS_SERVICE_KEY,
-          env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_KEY,
+          env.NEXT_PUBLIC_EMAIL_JS_SERVICE_KEY || "",
+          env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_KEY || "",
           form.current,
           {
             publicKey: env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY,
@@ -23,10 +23,10 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.success("Email failed", error);
-            //   console.log("FAILED...", error.text);
+            console.error("FAILED...", error.text);
           }
         );
     }
