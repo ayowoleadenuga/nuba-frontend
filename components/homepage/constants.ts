@@ -1,7 +1,6 @@
 import BenefitsIcon from "@/assets/svg/benefits-icon";
 import HomeIcon from "@/assets/svg/home-icon";
 import RewardsIcon from "@/assets/svg/rewards-icon";
-
 export const revolutioniseList = [
   {
     type: "Benefit",
@@ -18,7 +17,7 @@ export const revolutioniseList = [
     button: "Manage Payments",
     icon: HomeIcon,
     height: "370px",
-    bgUrl: "/assets/payments-bg.jpg",
+    bgUrl: "/assets/managePaymentsBg.jpg",
     color: "#6927DA",
   },
   {

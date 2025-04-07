@@ -13,6 +13,7 @@ interface NavigationProps {
 
 const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
 
   return (
@@ -44,8 +45,9 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
         </div>
 
         <div className="flex items-center gap-5">
-          <GetStartedButton className="bg-white text-black hidden md:block " />
-          {/* <button
+          {/* <GetStartedButton className="bg-white text-black hidden md:block " /> */}
+          <button
+            onClick={() => router.push("/login")}
             className={cn(
               "font-[700] md:block hidden cursor-pointer px-3 h-8",
               hasBg ? "text-white" : "text-black"
@@ -54,9 +56,12 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
             Login
           </button>
 
-          <button className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 ">
+          <button
+            onClick={() => router.push("/sign-up")}
+            className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 "
+          >
             Register
-          </button> */}
+          </button>
         </div>
 
         <div className="md:hidden">
@@ -114,10 +119,10 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
                   </a>
                 </li>
               ))}
-              <li>
-                <GetStartedButton className="bg-white text-black md:hidden block " />
-              </li>
               {/* <li>
+                <GetStartedButton className="bg-white text-black md:hidden block " />
+              </li> */}
+              <li>
                 <button
                   className={cn(
                     "font-[700] cursor-pointer px-3 h-8",
@@ -131,7 +136,7 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
                 <button className=" bg-white text-black font-[700]  cursor-pointer px-3 rounded-[36px] h-8 ">
                   Register
                 </button>
-              </li> */}
+              </li>
             </ul>
           </div>
         )}
