@@ -124,6 +124,7 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
               </li> */}
               <li>
                 <button
+                  onClick={() => router.push("/login")}
                   className={cn(
                     "font-[700] cursor-pointer px-3 h-8",
                     hasBg ? "text-white" : "text-black"
@@ -133,7 +134,10 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
                 </button>
               </li>
               <li>
-                <button className=" bg-white text-black font-[700]  cursor-pointer px-3 rounded-[36px] h-8 ">
+                <button
+                  onClick={() => router.push("/sign-up")}
+                  className=" bg-white text-black font-[700]  cursor-pointer px-3 rounded-[36px] h-8 "
+                >
                   Register
                 </button>
               </li>

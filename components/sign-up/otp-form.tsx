@@ -51,9 +51,9 @@ const OtpForm = () => {
     handlePin(newCode.join("").slice(0, 6));
   };
   return (
-    <div className="flex flex-col items-center justify-center w-[35%] ">
+    <div className="flex flex-col items-center justify-center w-full md:w-[50%] lg:w-[35%] ">
       <VerifyBadge />
-      <p className="text-center text-[28px] font-[600] my-10 ">
+      <p className="text-center text-[24px] md:text-[28px] font-[600] my-10 ">
         Enter the code sent to your email addrress
       </p>
       <div className="flex flex-col space-y-2 ">

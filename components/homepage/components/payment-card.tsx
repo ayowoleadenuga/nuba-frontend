@@ -8,7 +8,7 @@ const PaymentCard: React.FC<PaymentCardProp> = ({ item }) => {
   return (
     <div
       style={{ height: item.height, backgroundImage: `url(${item.bgUrl})` }}
-      className={`w-full md:w-[45%] lg:w-[30%] bg-cover bg-no-repeat rounded-[12px] relative `}
+      className={`w-full xl:w-[30%] bg-cover bg-no-repeat rounded-[12px] relative `}
     >
       <div className=" flex flex-col  h-full items-center justify-center  ">
         <p className="font-[500] text-[11px] text-white ">{item.type} </p>
@@ -16,7 +16,7 @@ const PaymentCard: React.FC<PaymentCardProp> = ({ item }) => {
         <button className="mt-2 bg-white text-black font-[500] text-[14px] w-fit cursor-pointer px-4 rounded-[36px] h-[29px] ">
           {item.button}
         </button>
-        <div className="bg-white absolute bottom-4 w-[90%] h-[55px] rounded-[24px]  flex items-center px-3 justify-between ">
+        <div className="bg-white absolute bottom-4 w-[90%] h-[55px] rounded-[16px]  flex items-center px-3 justify-between ">
           <div className="flex items-center gap-2">
             <div
               style={{ backgroundColor: item.color }}

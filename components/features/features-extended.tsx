@@ -25,7 +25,7 @@ const FeaturesExtended = () => {
           <Image src={payment} alt="payment-method" />
         </div>
       </article>
-      <article className="p-2 md:p-10 xl:p-[80px] mt-[100px] flex  flex-col md:flex-row items-center justify-between w-full gap-10 ">
+      <article className="p-2 md:p-10 xl:p-[80px] mt-[100px] flex  flex-col-reverse md:flex-row items-center justify-between w-full gap-10 ">
         <div className="cardBgImage w-full md:w-[50%] p-5 xl:p-[52px] h-[200px] md:h-[350px] rounded-[40px] ">
           <div className="flex items-center justify-between">
             <Image
@@ -66,18 +66,31 @@ const FeaturesExtended = () => {
           backgroundRepeat: "no-repeat",
           // height: "40vh",
         }}
-        className="h-[50vh] md:h-[80vh] mt-[50px] md:mt-[100px] w-full flex items-center  "
+        className="h-[50vh] md:h-[80vh] mt-[50px] md:mt-[100px] w-full md:flex items-center  hidden  "
       >
-        <div className="w-full md:w-[58%] xl:w-[50%] backdrop-blur-md md:backdrop-blur-none rounded-[16px] p-3 md:p-0">
+        <div className="w-full md:w-[58%] xl:w-[50%] rounded-[16px] p-3 md:p-0 ">
           <p className="text-[40px] md:text-[53px] font-[700] ">
             Seamless Payouts
           </p>
-          <p className="text-[20px] font-[700] ">
+          <p className="text-[20px] font-[700]  ">
             No more waiting! With Nuba’s Seamless Payouts feature, rent payments
             are processed instantly, ensuring your agent gets paid without
             delays.
           </p>
         </div>
+      </article>
+      <article className=" mt-4 w-full pb-[100px] items-center md:hidden  ">
+        <div className="w-full md:w-[58%] xl:w-[50%] rounded-[16px] p-3 md:p-0 ">
+          <p className="text-[32px] md:text-[53px] font-[700] ">
+            Seamless Payouts
+          </p>
+          <p className="text-[12px]   ">
+            No more waiting! With Nuba’s Seamless Payouts feature, rent payments
+            are processed instantly, ensuring your agent gets paid without
+            delays.
+          </p>
+        </div>
+        <Image src={bgImage} alt="seamless" />
       </article>
     </section>
   );

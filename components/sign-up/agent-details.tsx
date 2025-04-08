@@ -3,10 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  nextStep,
-  updateFormData,
-} from "@/redux/features/authSlice";
+import { nextStep, updateFormData } from "@/redux/features/authSlice";
 import { RootState } from "@/redux/store";
 import { CreateAccountState } from "@/types";
 import { agentDetailsSchema } from "@/utils/validator";
@@ -55,11 +52,11 @@ const AgentDetailsForm = () => {
 
   return (
     <form onSubmit={handleContinue} className="h-full ">
-      <p className="text-[28px] font-[600] text-center mb-10 ">
+      <p className="text-[24px] md:text-[28px] font-[600] text-center mb-10 ">
         Agent/ Landlord Details
       </p>
       <NubaInput
-        containerClass={"w-[570px] "}
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Account Name"
         name="accountName"
@@ -74,7 +71,9 @@ const AgentDetailsForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Account Number"
         name="accountNumber"
@@ -86,7 +85,9 @@ const AgentDetailsForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Sort Code"
         name="sortCode"
@@ -97,10 +98,14 @@ const AgentDetailsForm = () => {
         <p className="text-red-500 text-[12px]">{errors.sortCode}</p>
       )}
 
-      <Button disabled={!agreement} type="submit" className="w-[570px] mt-7">
+      <Button
+        disabled={!agreement}
+        type="submit"
+        className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
+      >
         Continue
       </Button>
-      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[570px] ">
+      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input
           type="checkbox"
           className="w-4 h-4 accent-black "

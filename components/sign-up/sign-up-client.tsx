@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import CreateAccountForm from "@/components/sign-up/create-account-form";
 import OtpForm from "@/components/sign-up/otp-form";
 import { RootState } from "@/redux/store";
-import { SignUpStep } from "@/redux/features/authSlice";
+import { nextStep, prevStep, SignUpStep } from "@/redux/features/authSlice";
 import TenancyDetailsForm from "@/components/sign-up/tenancy-details-form";
 import TenancyAgreementUpload from "@/components/sign-up/tenancy-agreement-upload";
 import AgentDetailsForm from "@/components/sign-up/agent-details";
 import NewPaymentForm from "@/components/sign-up/new-payment-method";
+import { Button } from "@/components/ui/button";
 
 const SignUpClient = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const SignUpClient = () => {
       <div className="overflow-y-auto h-[calc(100%-548px)] flex items-center justify-center">
         {renderStep()}
       </div>
-      {/* <div className="flex justify-between mt-4">
+      <div className="flex justify-between mt-4">
         <button
           className="px-4 py-2 bg-gray-300 rounded"
           onClick={() => dispatch(prevStep())}
@@ -56,7 +57,7 @@ const SignUpClient = () => {
         >
           Next
         </Button>
-      </div> */}
+      </div>
     </div>
   );
 };

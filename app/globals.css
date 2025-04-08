@@ -147,3 +147,7 @@ body {
   background-size: cover;
   background-position: center;
 }
+.swiper-pagination-bullet-active {
+  opacity: var(--swiper-pagination-bullet-opacity, 1);
+  background: red;
+}

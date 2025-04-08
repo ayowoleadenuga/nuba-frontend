@@ -68,11 +68,11 @@ const CreateAccountForm = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   return (
     <form onSubmit={handleContinue} className="h-full">
-      <p className="text-[48px] font-[700] text-center mb-10 ">
+      <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">
         Create Account
       </p>
       <NubaInput
-        containerClass={"w-[570px] "}
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="First Name"
         name="firstName"
@@ -83,7 +83,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.firstName}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Last Name"
         name="lastName"
@@ -94,7 +96,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.lastName}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0 cursor-pointer"
         label="Date of Birth"
         readOnly
@@ -110,7 +114,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.dateOfBirth}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Email Address"
         type="email"
@@ -122,7 +128,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.email}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Phone Number"
         name="phoneNumber"
@@ -136,7 +144,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.phoneNumber}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Home Address"
         name="homeAddress"
@@ -147,7 +157,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.homeAddress}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Home Addres II"
         name="homeAddress2"
@@ -158,7 +170,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.homeAddress2}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="City"
         name="city"
@@ -167,7 +181,9 @@ const CreateAccountForm = () => {
       />
       {errors.city && <p className="text-red-500 text-[12px]">{errors.city}</p>}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Post Code"
         name="postCode"
@@ -178,7 +194,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.postCode}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Password"
         type="password"
@@ -190,7 +208,9 @@ const CreateAccountForm = () => {
         <p className="text-red-500 text-[12px]">{errors.password}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Confirm Password"
         type="password"

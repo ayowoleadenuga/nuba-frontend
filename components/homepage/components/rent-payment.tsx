@@ -8,7 +8,7 @@ const RentPayment = () => {
         <p className="font-[600] text-[32px] md:text-[45px] lg:text-[58px] xl:text-[64px] ">
           Rent Payments Fully Secured
         </p>
-        <p className="text-[18px] flex items-center gap-1 flex-wrap">
+        <p className="text-[18px] flex items-center gap-1 flex-wrap mt-10 md:mt-0">
           We prioritize your security with
           <span className="font-[700]"> advanced encryption, 3D </span>
           <span className="font-[700]"> Secure checks</span>, and

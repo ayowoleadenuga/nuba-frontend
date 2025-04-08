@@ -65,7 +65,7 @@ const TenancyDetailsForm = () => {
         Tenancy Details
       </p>
       <NubaInput
-        containerClass={"w-[570px] "}
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Country"
         name="country"
@@ -80,7 +80,9 @@ const TenancyDetailsForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0 cursor-pointer"
         label="Start Date"
         readOnly
@@ -96,7 +98,9 @@ const TenancyDetailsForm = () => {
         <p className="text-red-500 text-[12px]">{errors.startDate}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0 cursor-pointer"
         label="End Date"
         readOnly
@@ -112,7 +116,9 @@ const TenancyDetailsForm = () => {
         <p className="text-red-500 text-[12px]">{errors.endDate}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Rent Frequency"
         name="rentFrequency"
@@ -124,7 +130,9 @@ const TenancyDetailsForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Monthly Rent Amount"
         name="monthlyRentAmt"
@@ -135,10 +143,14 @@ const TenancyDetailsForm = () => {
         <p className="text-red-500 text-[12px]">{errors.monthlyRentAmt}</p>
       )}
 
-      <Button disabled={!agreement} type="submit" className="w-[570px] mt-7">
+      <Button
+        disabled={!agreement}
+        type="submit"
+        className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
+      >
         Continue
       </Button>
-      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[570px] ">
+      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input
           type="checkbox"
           className="w-4 h-4 accent-black "

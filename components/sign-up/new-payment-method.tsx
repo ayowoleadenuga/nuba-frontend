@@ -64,29 +64,29 @@ const NewPaymentForm = () => {
 
   return (
     <form onSubmit={handleContinue} className="h-full ">
-      <p className="text-[28px] font-[600] text-center mb-10 ">
+      <p className="text-[24px] md:text-[28px] font-[600] text-center mb-10 ">
         New Payment Method
       </p>
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] items-center justify-between gap-2">
         <NubaInput
-          containerClass={"w-[380px]  "}
-          inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+          containerClass="w-[160px] md:w-[230px] lg:w-[300px] xl:w-[380px]"
+          inputClass="rounded-[8px] bg-[#f2f6f9] border-b-0"
           label="Card Info"
           name="cardInfo"
           value={formData?.cardInfo}
           onChange={handleChange}
         />
         <NubaInput
-          containerClass={"w-[85px]  "}
-          inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+          containerClass="w-[60px] md:w-[70px] lg:w-[80px] xl:w-[85px]"
+          inputClass="rounded-[8px] bg-[#f2f6f9] border-b-0"
           label="MM/YY"
           name="monthYear"
           value={formData?.monthYear}
           onChange={handleChange}
         />
         <NubaInput
-          containerClass={"w-[85px]  "}
-          inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+          containerClass="w-[60px] md:w-[70px] lg:w-[80px] xl:w-[85px]"
+          inputClass="rounded-[8px] bg-[#f2f6f9] border-b-0"
           label="CVV"
           name="cvv"
           type="number"
@@ -95,6 +95,7 @@ const NewPaymentForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {errors.cardInfo && (
         <p className="text-red-500 text-[12px]">{errors.cardInfo}</p>
       )}
@@ -107,7 +108,9 @@ const NewPaymentForm = () => {
         securely for future payments
       </p>
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Account Number"
         name="newAccountNumber"
@@ -119,7 +122,9 @@ const NewPaymentForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0 m"
         label="Country"
         name="newCountry"
@@ -135,7 +140,7 @@ const NewPaymentForm = () => {
         </p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7"}
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Postal/Zipcode"
         name="postalCode"
@@ -150,7 +155,9 @@ const NewPaymentForm = () => {
       )}
 
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Adderess Line 1"
         name="address1"
@@ -161,7 +168,9 @@ const NewPaymentForm = () => {
         <p className="text-red-500 text-[12px]">{errors.address1}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Adderess Line 2"
         name="address2"
@@ -169,7 +178,9 @@ const NewPaymentForm = () => {
         onChange={handleChange}
       />
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="City"
         name="newCity"
@@ -180,7 +191,9 @@ const NewPaymentForm = () => {
         <p className="text-red-500 text-[12px]">{errors.newCity}</p>
       )}
       <NubaInput
-        containerClass={"w-[570px] mt-7 "}
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="State / Province / Region"
         name="state"
@@ -193,10 +206,14 @@ const NewPaymentForm = () => {
       <p className="font-[500] text-[12px] mt-5 ">
         Once payment methods are added No charges will be taken.
       </p>
-      <Button disabled={!agreement} type="submit" className="w-[570px] mt-7">
+      <Button
+        disabled={!agreement}
+        type="submit"
+        className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
+      >
         Continue
       </Button>
-      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[570px] ">
+      <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input
           type="checkbox"
           className="w-4 h-4 accent-black "

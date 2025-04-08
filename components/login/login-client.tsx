@@ -47,11 +47,13 @@ const LoginClient = () => {
   };
   return (
     <div className="w-full flex items-center justify-center h-full flex-col">
-      <p className="text-[48px] font-[700] text-center mb-10 ">Welcome Back</p>
+      <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">
+        Welcome Back
+      </p>
 
       <form onSubmit={handleSubmit}>
         <NubaInput
-          containerClass={"w-[570px] "}
+          containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] "}
           inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
           label="Email Address"
           placeholder="joeelon@email.com"
@@ -64,7 +66,9 @@ const LoginClient = () => {
           <p className="text-red-500 text-[12px]">{errors.email}</p>
         )}
         <NubaInput
-          containerClass={"w-[570px] mt-7 "}
+          containerClass={
+            "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+          }
           inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
           label="Password"
           placeholder="*****"
@@ -76,7 +80,9 @@ const LoginClient = () => {
         {errors.password && (
           <p className="text-red-500 text-[12px]">{errors.password}</p>
         )}
-        <Button className="w-full mt-7">Continue</Button>
+        <Button className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7">
+          Continue
+        </Button>
         <p className="font-[700] text-[12px] text-center mt-5 ">
           By continuing, you agree to our Terms & Conditions.{" "}
         </p>

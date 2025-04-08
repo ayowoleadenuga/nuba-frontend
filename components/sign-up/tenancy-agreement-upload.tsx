@@ -23,8 +23,8 @@ const TenancyAgreementUpload = () => {
   };
 
   return (
-    <div className="w-[45%] ">
-      <p className="text-[28px] font-[600] text-center mb-10 ">
+    <div className="w-full md:w-[65%] lg:w-[45%] ">
+      <p className="text-[24px] md:text-[28px] font-[600] text-center my-10 ">
         Tenancy Agreement Upload
       </p>
       <UploadFile
