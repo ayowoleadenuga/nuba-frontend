@@ -11,8 +11,8 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "NUBA",
-  description: "NUBA - Rewards from your rent",
+  title: "Nuba",
+  description: "Nuba - Rewards from your rent",
 };
 
 export default function RootLayout({

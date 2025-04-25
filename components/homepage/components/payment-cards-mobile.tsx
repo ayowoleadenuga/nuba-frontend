@@ -29,7 +29,7 @@ export default function PaymentCardMobile() {
           stretch: 0,
           depth: 100,
           modifier: 1,
-          slideShadows: true,
+          //   slideShadows: true,
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}

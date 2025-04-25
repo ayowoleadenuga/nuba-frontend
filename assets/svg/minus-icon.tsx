@@ -4,7 +4,7 @@ const MinusIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       {...props}
-      width="14"
+      width={props.width || "14"}
       height="4"
       viewBox="0 0 14 4"
       fill="none"

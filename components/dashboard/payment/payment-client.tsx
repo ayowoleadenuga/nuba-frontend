@@ -3,12 +3,13 @@ import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
 import { IconButton } from "@mui/material";
 import DashboardPage from "@/components/dashboard/dashboard-page";
+import PaymentPage from "@/components/dashboard/payment/payment-page";
 
-const DashboardClient = () => {
+const PaymentClient = () => {
   return (
     <div className="w-full">
       <div className="py-2 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
-        <p className="text-[20px] font-[600] ">Dashboard</p>
+        <p className="text-[20px] font-[600] ">Pay Rent</p>
         <div className="flex items-center gap-4 ">
           <div>
             <div className="flex items-center">
@@ -22,9 +23,9 @@ const DashboardClient = () => {
           </IconButton>
         </div>
       </div>
-      <DashboardPage />
+      <PaymentPage />
     </div>
   );
 };
 
-export default DashboardClient;
+export default PaymentClient;
