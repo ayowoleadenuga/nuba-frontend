@@ -3,7 +3,13 @@ import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const AutopayOn = () => {
+interface AutoPayOnProps {
+  setTab: React.Dispatch<React.SetStateAction<"" | "autopay-setup">>;
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
+}
+const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab, setMakePayment }) => {
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-[#F8F8F8] p-4">
@@ -17,7 +23,7 @@ const AutopayOn = () => {
               Your payment of 1,223.88 is processing today
             </p>
           </div>
-          <button>
+          <button onClick={() => setTab("autopay-setup")}>
             <ArrowRightIcon />
           </button>
         </div>
@@ -31,7 +37,10 @@ const AutopayOn = () => {
           <p className="font-[600] text-[12px] ">Total balance</p>
           <p className="text-[10px]">£1,223.88</p>
         </div>
-        <Button className=" flex items-center justify-center w-full mt-2 ">
+        <Button
+          onClick={() => setMakePayment("start")}
+          className=" flex items-center justify-center w-full mt-2 "
+        >
           Make Payment
         </Button>
       </div>

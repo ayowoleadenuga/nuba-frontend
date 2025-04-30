@@ -6,8 +6,8 @@ import DashboardPage from "@/components/dashboard/dashboard-page";
 
 const DashboardClient = () => {
   return (
-    <div className="w-full">
-      <div className="py-2 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
+    <div className="w-full p-5">
+      <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
         <p className="text-[20px] font-[600] ">Dashboard</p>
         <div className="flex items-center gap-4 ">
           <div>

@@ -17,15 +17,18 @@ import ListItemText from "@mui/material/ListItemText";
 import { NubaLogo } from "@/public/assets/nuba-logo";
 import { cn, formatDate } from "@/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@mui/material";
 import NotificationIcon from "@/assets/svg/notification-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
 import { DropdownIcon } from "@/assets/svg/dropdown-icon";
-import { sideListItems, supportList } from "@/components/sidebar/constants";
+import {
+  adminSideListItems,
+  supportList,
+  sideListItems,
+} from "@/components/sidebar/constants";
 
 const drawerWidth = 260;
-
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -126,6 +129,7 @@ export default function DashboardLayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -224,9 +228,12 @@ export default function DashboardLayoutWrapper({
             justifyContent: "center",
           }}
         >
-          <div className="flex w-full items-center justify-center  ">
+          <button
+            onClick={() => router.push("/")}
+            className="flex w-full items-center justify-center  "
+          >
             <NubaLogo fill="white" />
-          </div>
+          </button>
         </DrawerHeader>
 
         <List>
@@ -367,9 +374,11 @@ export default function DashboardLayoutWrapper({
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: 0,
           mt: 10,
-          width: `calc(100vw - ${drawerWidth}px)`,
+          width: `${
+            open ? `calc(100vw - ${drawerWidth}px)` : `calc(100vw - 65px)`
+          }`,
         }}
       >
         <DrawerHeader className="bg-[#FAFAFA]  ">{children}</DrawerHeader>

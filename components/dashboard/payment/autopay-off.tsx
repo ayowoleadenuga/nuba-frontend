@@ -11,7 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const AutopayOff = () => {
+interface AutoPayOffProps {
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
+}
+const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment }) => {
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -19,7 +24,7 @@ const AutopayOff = () => {
           <div>
             <div className="flex items-center gap-1">
               <CheckedIcon fill="#999B9E" />
-              <p className="text-[12px] font-[500] ">Autopay activated</p>
+              <p className="text-[12px] font-[500] ">Autopay off</p>
             </div>
             <p className="text-[12px] text-[#999B9E] mt-1 ">
               Your payment of 1,223.88 is processing today
@@ -68,7 +73,10 @@ const AutopayOff = () => {
           <p className="font-[600] text-[12px] ">Total balance</p>
           <p className="text-[10px]">£1,223.88</p>
         </div>
-        <Button className=" flex items-center justify-center w-full mt-2 ">
+        <Button
+          onClick={() => setMakePayment("start")}
+          className=" flex items-center justify-center w-full mt-2 "
+        >
           Make Payment
         </Button>
       </div>

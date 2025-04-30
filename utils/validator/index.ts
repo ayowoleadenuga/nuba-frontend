@@ -80,3 +80,21 @@ export const newPaymentSchema = z
     message: "At least one address is required",
     path: ["address1"],
   });
+
+export const supportClientFormSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.string().email("Please provide a valid email address"),
+  issue: z.string().min(1, "Please describe your issue"),
+});
+
+export const changePasswordSettingsSchema = z
+  .object({
+    oldPassword: z
+      .string()
+      .min(8, "Password is required with a minimum of 8 characters"),
+    newPassword: z.string(),
+  })
+  .refine(data => data.oldPassword === data.newPassword, {
+    path: ["newPassword"],
+    message: "Passwords do not match",
+  });

@@ -2,7 +2,7 @@
 import { ArrowDownIcon } from "@/assets/svg/arrow-dropdown-icon";
 import CalendarComp from "@/components/ui/calendar-component";
 import { cn } from "@/utils";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface RequestProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -14,6 +14,7 @@ interface RequestProps extends React.InputHTMLAttributes<HTMLInputElement> {
   setSelectedDate?: (date: Date | null) => void;
   dropdownItems?: string[];
   inputClass?: string;
+  dropdownButtonStyle?: string;
 }
 
 const NubaInput: React.FC<RequestProps> = ({
@@ -30,11 +31,40 @@ const NubaInput: React.FC<RequestProps> = ({
   onChange,
   value,
   name,
+  dropdownButtonStyle,
   ...props
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [dateIsSelected, setDateIsSelected] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowCalendar(false);
+      }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(e.target as Node)
+      ) {
+        setShowCalendar(false);
+      }
+    };
+
+    if (showCalendar) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showCalendar]);
 
   const handleSelectItem = (item: string) => {
     setIsDropdownOpen(false);
@@ -76,7 +106,7 @@ const NubaInput: React.FC<RequestProps> = ({
         {(dropdown || dropdownIcon) && (
           <button
             type="button"
-            className="absolute top-4 right-3"
+            className={cn("absolute top-4 right-3", dropdownButtonStyle)}
             onClick={e => {
               e.preventDefault();
               if (dropdownIcon) setShowCalendar(!showCalendar);
@@ -100,7 +130,7 @@ const NubaInput: React.FC<RequestProps> = ({
           </ul>
         )}
         {dropdownIcon && showCalendar && (
-          <div className="fixed top-[7vh] right-4 z-[50]">
+          <div ref={calendarRef} className="fixed top-[10vh] right-4 z-[50]">
             <CalendarComp
               setShowCalendar={setShowCalendar}
               setSelectedDate={setSelectedDate}

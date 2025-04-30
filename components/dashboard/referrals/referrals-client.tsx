@@ -4,8 +4,8 @@ import React from "react";
 
 const ReferralsClient = () => {
   return (
-    <div className="">
-      <div className="py-2 border-b border-b-[#D9D9D9] w-full ">
+    <div className="w-full p-5">
+      <div className="pb-4 border-b border-b-[#D9D9D9] w-full ">
         <p className="text-[20px] font-[600] ">Referral & Reward Program</p>
       </div>
       <div className="flex w-full justify-between mt-5">

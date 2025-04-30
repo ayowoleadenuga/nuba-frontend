@@ -13,6 +13,7 @@ const config: Config = {
           primary: "#7F56D9",
           secondary: "#f7f3ff",
           fadedPink: "#FAFAFA",
+          orange: "#CF931D",
         },
         blackText: "#1F2632",
         grayText: "#474747",

@@ -1,14 +1,16 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
 import { IconButton } from "@mui/material";
-import DashboardPage from "@/components/dashboard/dashboard-page";
 import PaymentPage from "@/components/dashboard/payment/payment-page";
+import AutopaySetup from "@/components/dashboard/payment/autopay-setup";
 
 const PaymentClient = () => {
+  const [tab, setTab] = useState<"" | "autopay-setup">("");
   return (
-    <div className="w-full">
-      <div className="py-2 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
+    <div className="w-full p-5 bg-[#fafafa] ">
+      <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
         <p className="text-[20px] font-[600] ">Pay Rent</p>
         <div className="flex items-center gap-4 ">
           <div>
@@ -23,7 +25,11 @@ const PaymentClient = () => {
           </IconButton>
         </div>
       </div>
-      <PaymentPage />
+      {tab === "autopay-setup" ? (
+        <AutopaySetup setTab={setTab} />
+      ) : (
+        <PaymentPage setTab={setTab} />
+      )}
     </div>
   );
 };

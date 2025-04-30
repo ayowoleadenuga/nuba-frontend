@@ -20,6 +20,26 @@ export interface ContactState {
   error: string | null;
   success: boolean;
 }
+export interface SupportCenterState {
+  fullName: string;
+  email: string;
+  issue: string;
+}
+
+export interface SettingsState {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  rentAddress: string;
+  rentAmount: string;
+  leaseDuration: string;
+  landlordName: string;
+  landlordbankDetails: string;
+  preferredPaymnetMethod: string;
+  rentDueDate: Date | null;
+  oldPassword: string;
+  newPassword: string;
+}
 
 export interface FormLoginValue {
   email: string;

@@ -11,7 +11,6 @@ import {
 import { RootState } from "@/redux/store";
 import { CreateAccountState } from "@/types";
 import { newPaymentSchema } from "@/utils/validator";
-import { countries } from "@/components/sign-up/constants";
 import { useRouter } from "next/navigation";
 
 const NewPaymentForm = () => {
@@ -130,7 +129,7 @@ const NewPaymentForm = () => {
         name="newCountry"
         value={formData?.newCountry}
         dropdown
-        dropdownItems={countries}
+        dropdownItems={["United Kingdom"]}
         onChange={handleChange}
       />
 

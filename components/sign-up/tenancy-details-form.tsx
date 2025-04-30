@@ -71,7 +71,7 @@ const TenancyDetailsForm = () => {
         name="country"
         value={formData?.country}
         dropdown
-        dropdownItems={countries}
+        dropdownItems={["United Kingdom"]}
         onChange={handleChange}
       />
 
@@ -106,7 +106,7 @@ const TenancyDetailsForm = () => {
         readOnly
         dropdownIcon
         setSelectedDate={setEndDate}
-        name="dateOfBirth"
+        name="endDate"
         onChange={() => {
           setErrors({ endDate: "" });
         }}
