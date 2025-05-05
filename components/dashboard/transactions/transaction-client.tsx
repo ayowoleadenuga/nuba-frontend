@@ -45,7 +45,7 @@ const TransactionClient = () => {
         </div>
 
         <TransactionTable />
-        <div className="border border-border px-2 py-3 mt-4 ">
+        <div className="md:hidden block border border-border px-2 py-3 mt-4 ">
           <div className="flex items-center justify-between w-full">
             <div className="w-[48%] ">
               <p className="uppercase text-[12px] font-[500] ">Rent Payment</p>
