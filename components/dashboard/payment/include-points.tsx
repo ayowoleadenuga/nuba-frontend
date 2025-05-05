@@ -30,7 +30,7 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Points you have</p>
-            <p className="text-[12px] text-grayText ">302.56</p>
+            <p className="text-[12px] text-grayText ">30,256</p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn 167 more points to reach the 30% milestone

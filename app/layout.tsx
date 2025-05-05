@@ -12,7 +12,7 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "Nuba",
+  title: "Nuba - Rewards from your rent",
   description: "Nuba - Rewards from your rent",
 };
 

@@ -67,7 +67,7 @@ const SupportClient = () => {
           <div>
             <div className="flex items-center">
               <PointIcon />
-              <p className="font-[700] text-[#CF931D]  ">302.56 pts</p>
+              <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
             </div>
             <p className="text-[11px] text-[#999B9E] ">Member since ‘25</p>
           </div>

@@ -42,7 +42,7 @@ const DashboardPage = () => {
             <p className=" text-[10px] md:text-[12px] font-[500] ">
               Rewards & Referral
             </p>
-            <p className="text-[24px] md:text-[32px] font-[500] ">302.56</p>
+            <p className="text-[24px] md:text-[32px] font-[500] ">30,256</p>
             <p className="text-[12px] font-[500] ">From 4 Referrals</p>
           </div>
         </div>

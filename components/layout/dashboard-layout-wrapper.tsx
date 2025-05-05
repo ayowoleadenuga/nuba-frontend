@@ -209,7 +209,7 @@ export default function DashboardLayoutWrapper({
               }}
             >
               <PointIcon />
-              <p className="font-[700] text-[#CF931D]  ">302.56 pts</p>
+              <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
             </Box>
             <Avatar sx={{ width: "20px", height: "20px" }} />
             <p className="font-[700] text-white  ">Samantha Greeves</p>

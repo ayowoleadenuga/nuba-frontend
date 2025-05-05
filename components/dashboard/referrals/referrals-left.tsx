@@ -7,7 +7,7 @@ const ReferralsLeft = () => {
   return (
     <div className="  w-full md:w-[49%] bg-white p-5 ">
       <p className="text-[12px] font-[600] ">My reward points</p>
-      <p className="font-[700] text-[32px] ">302.56 pts</p>
+      <p className="font-[700] text-[32px] ">30,256 pts</p>
       <p className="text-[12px] font-[600] mt-6 ">
         Earn Rent Discounts with Referrals
       </p>
@@ -22,7 +22,7 @@ const ReferralsLeft = () => {
         </div>
         <div className="flex items-center justify-between mt-5">
           <p className="text-[12px] text-grayText ">Points you have</p>
-          <p className="text-[12px] text-grayText ">302.56</p>
+          <p className="text-[12px] text-grayText ">30,256</p>
         </div>
         <p className="text-[12px] text-grayText mt-5 ">
           Earn 167 more points to reach the 30% milestone
