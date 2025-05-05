@@ -27,10 +27,10 @@ const DetailsTab = () => {
           <p className="font-[600] text-[12px] text-[#2A4152] ">
             Profile Details
           </p>
-          <p className="text-[10px] bo ">Manage your rent payment profile.</p>
+          <p className="text-[10px] ">Manage your rent payment profile.</p>
         </div>
         <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
-          <div className="w-[50%] ">
+          <div className="w-full md:w-[70%] xl:w-[50%] ">
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Full Name"
@@ -72,12 +72,12 @@ const DetailsTab = () => {
               More information about your rent details.
             </p>
           </div>
-          <button className="font-[600] text-[12px] text-[#2A4152] underline ">
+          {/* <button className="font-[600] text-[12px] text-[#2A4152] underline ">
             Move Residence
-          </button>
+          </button> */}
         </div>
         <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
-          <div className="w-[50%] ">
+          <div className="w-full md:w-[70%] xl:w-[50%]">
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Rent Address"

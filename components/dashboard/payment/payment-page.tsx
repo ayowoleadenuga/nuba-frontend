@@ -10,11 +10,15 @@ import EarnedCard from "./earned-card";
 import React, { useState } from "react";
 import MakePayment from "./make-payment";
 import PaymentResponse from "./payment-response";
+import { useRouter } from "nextjs-toploader/app";
 
 interface PaymentPageProps {
-  setTab: React.Dispatch<React.SetStateAction<"" | "autopay-setup">>;
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
 }
 const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
+  const router = useRouter();
   const [makePayment, setMakePayment] = useState<"" | "start" | "complete">("");
   return (
     <div className="py-6 ">
@@ -24,22 +28,24 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
             onClick={() => setMakePayment("")}
             className="text-[12px] font-[600] my-5 flex items-center gap-2"
           >
-            <ArrowLeftIcon /> Confrim your payment
+            <ArrowLeftIcon /> Confirm your payment
           </button>
         ) : (
           <p className="font-[600] text-[12px] ">
             Greenwood Apartments || 123 Main Street, London
           </p>
         )}
-        <div className="flex items-center">
-          <p className="text-[12px] font-[500] ">Payment History</p>
-          <button>
-            <OptionsIcon />
+        <div className="hidden md:flex items-center">
+          <button
+            onClick={() => router.push("/transactions")}
+            className="text-[12px] font-[500] "
+          >
+            Payment History
           </button>
         </div>
       </div>
       {makePayment === "" ? (
-        <div className="grid grid-cols-2 gap-10 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
           <div className="cardStyle bg-white h-fit  ">
             <div className="flex items-center justify-between">
               <p className="font-[600] text-[14px] ">Charges</p>
@@ -82,17 +88,17 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
             </div>
           </div>
           <AutopayOn setTab={setTab} setMakePayment={setMakePayment} />
-          {/* <AutopayOff setMakePayment={setMakePayment} /> */}
+          {/* <AutopayOff setMakePayment={setMakePayment} setTab={setTab} /> */}
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />
       ) : (
         <PaymentResponse />
       )}
-      <p className="text-[18px] font-[500] mt-10 mb-4 ">
+      <p className="hidden md:block text-[18px] font-[500] mt-10 mb-4 ">
         Your rewards & benefits on Nuba
       </p>
-      <div className="flex items-center gap-10">
+      <div className="hidden md:flex items-center gap-10">
         <EarnedCard
           earned="You’ve earned"
           point="30,265"

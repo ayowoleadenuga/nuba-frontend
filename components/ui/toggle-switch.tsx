@@ -5,7 +5,7 @@ interface ToggleSwitchProp {
 const ToggleSwitch: React.FC<ToggleSwitchProp> = ({ isOn, setIsOn }) => {
   return (
     <div
-      className={`w-10 h-[28px] flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition duration-300 ${
+      className={`w-10 h-[28px] flex items-center rounded-full p-1 cursor-pointer transition duration-300 ${
         isOn ? "bg-[#000000] " : "bg-gray-300"
       }`}
       onClick={() => setIsOn(!isOn)}

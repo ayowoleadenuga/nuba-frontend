@@ -3,12 +3,14 @@ import contactReducer from "./features/contactSlice";
 import signupReducer from "./features/authSlice";
 import supportCenterReduer from "./features/support-center-slice";
 import settingsReduer from "./features/settings-slice";
+import paymentReducer from "./features/paymentSlice";
 
 const rootReducer = combineReducers({
   contact: contactReducer,
   signup: signupReducer,
   supportCenter: supportCenterReduer,
   settings: settingsReduer,
+  payment: paymentReducer,
 });
 
 export const store = configureStore({

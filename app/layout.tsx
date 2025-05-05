@@ -4,6 +4,7 @@ import "./globals.css";
 import ReduxProvider from "@/redux/provider";
 import { Toaster } from "sonner";
 import Head from "next/head";
+import NextTopLoader from "nextjs-toploader";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -27,8 +28,9 @@ export default function RootLayout({
       </Head>
       <ReduxProvider>
         <body className={` ${rubik.className} antialiased `}>
-          <Toaster position="top-center" />
           {children}
+          <Toaster position="top-center" />
+          <NextTopLoader color="#cd921c" zIndex={10000} showSpinner={false} />
         </body>
       </ReduxProvider>
     </html>

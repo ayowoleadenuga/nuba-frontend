@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
 import { IconButton } from "@mui/material";
-import PaymentPage from "@/components/dashboard/payment/payment-page";
-import AutopaySetup from "@/components/dashboard/payment/autopay-setup";
+import PaymentPage from "./payment-page";
+import AutopaySetup from "./autopay-setup";
+import IncludePoints from "./include-points";
 
 const PaymentClient = () => {
-  const [tab, setTab] = useState<"" | "autopay-setup">("");
+  const [tab, setTab] = useState<"" | "autopay-setup" | "include-points">("");
   return (
     <div className="w-full p-5 bg-[#fafafa] ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
@@ -27,6 +28,8 @@ const PaymentClient = () => {
       </div>
       {tab === "autopay-setup" ? (
         <AutopaySetup setTab={setTab} />
+      ) : tab === "include-points" ? (
+        <IncludePoints setTab={setTab} />
       ) : (
         <PaymentPage setTab={setTab} />
       )}

@@ -11,7 +11,7 @@ import {
 import { RootState } from "@/redux/store";
 import { CreateAccountState } from "@/types";
 import { newPaymentSchema } from "@/utils/validator";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 const NewPaymentForm = () => {
   const router = useRouter();

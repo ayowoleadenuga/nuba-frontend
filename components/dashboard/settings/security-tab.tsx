@@ -26,7 +26,7 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
           <p className="text-[10px] bo ">Manage your security settings.</p>
         </div>
         <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
-          <div className="w-[50%] ">
+          <div className="w-full md:w-[70%] xl:w-[50%] ">
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Old Password"

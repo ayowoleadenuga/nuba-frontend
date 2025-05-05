@@ -60,7 +60,7 @@ const TransactionTable = () => {
   const pageCount = Math.ceil(sortedData.length / itemsPerPage);
 
   return (
-    <div className="overflow-x-auto mt-6 px-2">
+    <div className="overflow-x-auto mt-6 px-2 md:block hidden ">
       <table className="w-[95%] text-sm text-left">
         <thead className="w-full">
           <tr className=" font-[600] text-[12px] w-full ">

@@ -11,19 +11,45 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import NubaInput from "@/components/ui/nuba-input";
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(faqs);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   return (
-    <div className="w-[49%]  ">
+    <div className="w-full md:w-[49%]  ">
       <div className="bg-white p-5">
         <div className="w-full flex items-center justify-between ">
           <p className="text-[12px] font-[600] ">Referral history</p>
 
-          <button className="bg-[#F1F1F1] flex items-center gap-1 h-[28px] px-[6px] text-[8px] font-[600] text-[#2A4152] ">
-            This Month
-            <ArrowDownIcon />
-          </button>
+          <div className="border rounded-[4px] h-[30px] flex items-center  gap-2 px-1 md:px-2 ">
+            <NubaInput
+              containerClass={"w-[70px] md:w-[100px] space-y-0  "}
+              inputClass=" rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0 "
+              dropdownButtonStyle="top-2 right-0"
+              label=""
+              placeholder="Start date"
+              readOnly
+              dropdownIcon
+              setSelectedDate={setStartDate}
+              name="startDate"
+              value={startDate ? startDate.toLocaleDateString() : ""}
+            />
+            <p className="font-[500] text-[14px] ">-</p>
+            <NubaInput
+              containerClass={"w-[70px] md:w-[100px] space-y-0  "}
+              inputClass=" rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0 "
+              dropdownButtonStyle="top-2 right-0"
+              label=""
+              placeholder="End Date"
+              readOnly
+              dropdownIcon
+              setSelectedDate={setEndDate}
+              name="startDate"
+              value={endDate ? endDate.toLocaleDateString() : ""}
+            />
+          </div>
         </div>
         <div className="rounded-[4px] border border-[#d9d9d9] mt-10 ">
           <p className="border-b border-b-[#d9d9d9] text-[11px] p-4 text-right">
@@ -49,7 +75,7 @@ const ReferralsRight = () => {
           return (
             <Accordion key={index} type="single" collapsible>
               <AccordionItem value={faq.answer}>
-                <AccordionTrigger className="font-[600] ">
+                <AccordionTrigger className="font-[600] text-start ">
                   {faq.question}{" "}
                 </AccordionTrigger>
                 <AccordionContent>{faq.answer} </AccordionContent>

@@ -5,7 +5,7 @@ import CopyButton from "@/components/ui/copy-button";
 
 const ReferralsLeft = () => {
   return (
-    <div className="w-[49%] bg-white p-5 ">
+    <div className="  w-full md:w-[49%] bg-white p-5 ">
       <p className="text-[12px] font-[600] ">My reward points</p>
       <p className="font-[700] text-[32px] ">302.56 pts</p>
       <p className="text-[12px] font-[600] mt-6 ">
@@ -28,7 +28,7 @@ const ReferralsLeft = () => {
           Earn 167 more points to reach the 30% milestone
         </p>
       </div>
-      <GradientProgressBar />
+      <GradientProgressBar percentage={70} />
       <div className="bg-[#FAFAFA] mt-6 p-2 rounded-[4px] ">
         <p className="text-[10px] ">
           Refer friends to earn points. Once you reach a milestone, you can

@@ -3,7 +3,7 @@ import { navLinks } from "@/components/constants";
 import { NubaLogo } from "@/public/assets/nuba-logo";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import React, { PropsWithChildren, useState } from "react";
 
 const FeaturesLayout = ({ children }: PropsWithChildren) => {

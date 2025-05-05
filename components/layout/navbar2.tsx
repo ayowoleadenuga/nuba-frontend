@@ -2,7 +2,7 @@
 import { navLinks } from "@/components/constants";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
 
 interface NavigationProps {

@@ -9,7 +9,7 @@ import React, { useState } from "react";
 const SupportFaqs = () => {
   const [faqQuestions, setFaqQuestions] = useState(faqs);
   return (
-    <div className="mt-10 w-[50%] ">
+    <div className="mt-10 w-full md:w-[70%] xl:w-[50%] ">
       {faqQuestions.map((faq, index) => {
         return (
           <div

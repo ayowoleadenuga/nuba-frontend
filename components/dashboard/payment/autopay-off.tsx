@@ -15,8 +15,11 @@ interface AutoPayOffProps {
   setMakePayment: React.Dispatch<
     React.SetStateAction<"" | "start" | "complete">
   >;
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
 }
-const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment }) => {
+const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -30,7 +33,7 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment }) => {
               Your payment of 1,223.88 is processing today
             </p>
           </div>
-          <button>
+          <button onClick={() => setTab("autopay-setup")}>
             <ArrowRightIcon />
           </button>
         </div>
@@ -39,7 +42,7 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment }) => {
             <CheckedIcon fill="#999B9E" />
             <p className="text-[12px]  ">Include Points in Payment</p>
           </div>
-          <button>
+          <button onClick={() => setTab("include-points")}>
             <ArrowRightIcon />
           </button>
         </div>

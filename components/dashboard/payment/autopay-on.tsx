@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 
 interface AutoPayOnProps {
-  setTab: React.Dispatch<React.SetStateAction<"" | "autopay-setup">>;
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
   setMakePayment: React.Dispatch<
     React.SetStateAction<"" | "start" | "complete">
   >;

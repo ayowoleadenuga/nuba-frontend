@@ -107,7 +107,7 @@ const SettingsClient = () => {
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)}
-                className={`pb-3 min-w-[150px]  border-b-[3px]  border-b-[#cbd5e1] ${
+                className={`pb-3 w-fit px-5 md:px-0 md:min-w-[150px]  border-b-[3px]  border-b-[#cbd5e1] ${
                   isActive
                     ? "text-black border-b-[3px] border-b-black"
                     : "text-[#999B9E] "
@@ -122,7 +122,7 @@ const SettingsClient = () => {
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className="bg-white w-full p-8"
+        className="bg-white w-full p-4 md:p-8"
       >
         {showTab(currentTab)}
         <div className="flex justify-end w-full gap-5 ">

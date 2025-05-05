@@ -130,7 +130,10 @@ const NubaInput: React.FC<RequestProps> = ({
           </ul>
         )}
         {dropdownIcon && showCalendar && (
-          <div ref={calendarRef} className="fixed top-[10vh] right-4 z-[50]">
+          <div
+            ref={calendarRef}
+            className="fixed top-[10vh] right-0 md:right-4 z-[50]"
+          >
             <CalendarComp
               setShowCalendar={setShowCalendar}
               setSelectedDate={setSelectedDate}

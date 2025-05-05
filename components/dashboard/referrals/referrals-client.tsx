@@ -8,7 +8,7 @@ const ReferralsClient = () => {
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full ">
         <p className="text-[20px] font-[600] ">Referral & Reward Program</p>
       </div>
-      <div className="flex w-full justify-between mt-5">
+      <div className="flex flex-col md:flex-row w-full justify-between mt-5">
         <ReferralsLeft />
         <ReferralsRight />
       </div>

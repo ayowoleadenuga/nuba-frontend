@@ -76,7 +76,7 @@ const SupportClient = () => {
           </IconButton>
         </div>
       </div>
-      <div className="w-[50%] ">
+      <div className="w-full md:w-[70%] xl:w-[50%] ">
         <div className="w-full flex items-center justify-between mt-10 gap-2">
           <input
             className="w-[80%] h-[44px] px-4 border border-border rounded-[10px] outline-none text-[14px] "
@@ -86,7 +86,7 @@ const SupportClient = () => {
         </div>
       </div>
       <SupportFaqs />
-      <div className="w-[50%] my-10 ">
+      <div className="w-full md:w-[70%] xl:w-[50%] my-10 ">
         <div className="w-full border-b border-b-[#E2E8F0] pb-1 ">
           <p className="font-[600] text-[12px] text-[#2A4152] ">
             Still need help?
@@ -100,7 +100,7 @@ const SupportClient = () => {
           onSubmit={handleSubmit}
           className="w-full border-b border-b-[#E2E8F0] pb-6 "
         >
-          <div className="w-[70%] ">
+          <div className="w-full md:w-[70%] ">
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Full Name"
@@ -119,7 +119,7 @@ const SupportClient = () => {
               label="Email"
               placeholder=""
               name="email"
-              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={email}
               onChange={e => handleChange("email", e.target.value)}
             />
@@ -131,7 +131,7 @@ const SupportClient = () => {
               label="Describe your issue"
               placeholder=""
               name="message"
-              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
               value={issue}
               onChange={e => handleChange("issue", e.target.value)}
             />

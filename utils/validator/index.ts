@@ -98,3 +98,9 @@ export const changePasswordSettingsSchema = z
     path: ["newPassword"],
     message: "Passwords do not match",
   });
+
+export const paymentSchema = z.object({
+  cardName: z.string().min(1, "Please enter card holder name"),
+  cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
+  cardNo: z.string().min(11, "Minimum of 11 digits is required"),
+});
