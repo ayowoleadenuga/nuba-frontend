@@ -6,7 +6,7 @@ const DashboardPage = () => {
     <div className="py-6 px-4">
       <p className="font-[600] text-[12px] ">Welcome Samantha,</p>
       <div className=" border-b border-b-[#D9D9D9] pb-5">
-        <div className="bg-[#2A4152] py-7 px-10 text-white rounded-[8px]  md:min-w-[500px] w-full md:w-[30%] mt-5  ">
+        <div className="bg-[#2A4152] py-7 px-10 text-white rounded-[8px]  w-full md:w-[40%] mt-5  ">
           <p className="font-[500] ">Rent Details</p>
           <p className="font-[500] mt-6 ">£1,200.0</p>
           <div className="mt-6">
@@ -42,7 +42,7 @@ const DashboardPage = () => {
             <p className=" text-[10px] md:text-[12px] font-[500] ">
               Rewards & Referral
             </p>
-            <p className="text-[24px] md:text-[32px] font-[500] ">30,256</p>
+            <p className="text-[24px] md:text-[32px] font-[500] ">302.56</p>
             <p className="text-[12px] font-[500] ">From 4 Referrals</p>
           </div>
         </div>
