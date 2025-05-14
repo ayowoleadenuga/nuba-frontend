@@ -12,8 +12,9 @@ const MobileNavbar = () => {
   const pathname = usePathname();
   const cleanedPathname = pathname.replace(/^\/+|\/+$/g, "");
 
+  const firstSegment = cleanedPathname.split("/")[0];
   const capitalizedPathanme =
-    cleanedPathname.charAt(0).toUpperCase() + cleanedPathname.slice(1);
+    firstSegment.charAt(0).toUpperCase() + firstSegment.slice(1);
 
   return (
     <div className="md:hidden bg-black text-white px-4 h-[70px] flex items-center  z-50 fixed top-0 right-0 w-full">

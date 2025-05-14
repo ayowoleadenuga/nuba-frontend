@@ -31,7 +31,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   });
 
   return (
-    <div className="w-full md:w-[60%] xl:w-[40%] ">
+    <div className="w-full md:w-[60%] xl:w-[40%] min-h-[70vh] ">
       <button
         onClick={() => setTab("")}
         className="text-[12px] font-[600] my-5 flex items-center gap-2"

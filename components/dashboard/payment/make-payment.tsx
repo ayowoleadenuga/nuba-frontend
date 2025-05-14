@@ -107,8 +107,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
           </AccordionItem>
         </Accordion>
 
-        <Accordion type="single" collapsible className=" ">
-          <AccordionItem value="item-1">
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" className="border-0 ">
             <AccordionTrigger
               dropdownVisible={false}
               className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3 "

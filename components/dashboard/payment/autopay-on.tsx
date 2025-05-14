@@ -14,7 +14,7 @@ interface AutoPayOnProps {
 const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab, setMakePayment }) => {
   return (
     <div className=" rounded-[4px] ">
-      <div className="bg-[#F8F8F8] p-4">
+      <div className="bg-white p-4">
         <div className="flex items-center justify-between border-b border-[#d9d9d9] pb-2">
           <div>
             <div className="flex items-center gap-1">
@@ -34,7 +34,7 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab, setMakePayment }) => {
           <p className="text-[10px]">£1,223.88 Mar 01,2025</p>
         </div>
       </div>
-      <div className="mt-2 bg-[#F8F8F8] p-4">
+      <div className="mt-2 bg-white p-4">
         <div className="flex items-center justify-between text-[#999B9E] ">
           <p className="font-[600] text-[12px] ">Total balance</p>
           <p className="text-[10px]">£1,223.88</p>

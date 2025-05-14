@@ -33,17 +33,21 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
             <p className="text-[12px] text-grayText ">30,256</p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
-            Earn 167 more points to reach the 30% milestone
+            Earn
+            <span className="mr-1 text-brandCore-orange "> 167</span>
+            more points to reach the 30% milestone
           </p>
         </div>
         <GradientProgressBar percentage={40} />
-        <div className="bg-[#FAFAFA] mt-6 p-2 rounded-[4px] ">
+        <div className="p-2 bg-[#fafafa] mt-5 ">
           <p className="text-[10px] ">
             Refer friends to earn points. Once you reach a milestone, you can
             redeem a rent discount or keep saving for a bigger reward. Your
             points reset after any redemption.
           </p>
-          <Button className="bg-[#D9D9D9] text-[12px] text-grayText w-full mt-10 ">
+        </div>
+        <div className="  p-2 rounded-[4px] ">
+          <Button className="bg-[#D9D9D9] text-[12px] text-grayText w-full mt-5 ">
             Keep referring to unlock
           </Button>
         </div>

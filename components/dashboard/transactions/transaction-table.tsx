@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown";
 import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
+import { useRouter } from "nextjs-toploader/app";
 
 type SortKey = keyof Transaction;
 
@@ -24,7 +25,7 @@ const TransactionTable = () => {
   const [sortBy, setSortBy] = useState<SortKey>("date");
   const [ascending, setAscending] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const router = useRouter();
   const handleSort = (key: SortKey) => {
     if (key === sortBy) {
       setAscending(!ascending);
@@ -136,16 +137,10 @@ const TransactionTable = () => {
                     className="bg-white border rounded-md shadow-lg text-sm "
                   >
                     <DropdownMenuLabel
-                      onClick={() => console.log("View clicked", tx)}
+                      onClick={() => router.push("/transactions/10293343211")}
                       className="px-4 py-1 hover:bg-gray-100 cursor-pointer"
                     >
                       View
-                    </DropdownMenuLabel>
-                    <DropdownMenuLabel
-                      onClick={() => console.log("Delete clicked", tx)}
-                      className="px-4 py-1 hover:bg-gray-100 cursor-pointer text-red-500"
-                    >
-                      Delete
                     </DropdownMenuLabel>
                   </DropdownMenuContent>
                 </DropdownMenu>

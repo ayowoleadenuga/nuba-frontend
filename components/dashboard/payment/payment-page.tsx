@@ -87,15 +87,15 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </div>
             </div>
           </div>
-          <AutopayOn setTab={setTab} setMakePayment={setMakePayment} />
-          {/* <AutopayOff setMakePayment={setMakePayment} setTab={setTab} /> */}
+          {/* <AutopayOn setTab={setTab} setMakePayment={setMakePayment} /> */}
+          <AutopayOff setMakePayment={setMakePayment} setTab={setTab} />
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />
       ) : (
-        <PaymentResponse />
+        <PaymentResponse paymentSuccessful={false} />
       )}
-      <p className="hidden md:block text-[18px] font-[500] mt-10 mb-4 ">
+      <p className="hidden md:block text-[18px] font-[500] mt-[210px] mb-4 ">
         Your rewards & benefits on Nuba
       </p>
       <div className="hidden md:flex items-center gap-10">

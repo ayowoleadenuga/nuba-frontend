@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
@@ -5,10 +6,12 @@ import TransactionTable from "./transaction-table";
 import { IconButton } from "@mui/material";
 import ammexCard from "@/assets/svg/amex-card.svg";
 import Image from "next/image";
+import { useRouter } from "nextjs-toploader/app";
 
 const TransactionClient = () => {
+  const router = useRouter();
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-5 ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
         <p className="text-[20px] font-[600] ">Transactions</p>
         <div className="flex items-center gap-4 ">
@@ -40,12 +43,17 @@ const TransactionClient = () => {
             <p className="text-[12px] text-grayText ">£0</p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
-            Earn 167 more points to reach the 30% milestone
+            Earn
+            <span className="mr-1 text-brandCore-orange "> 167</span>
+            more points to reach the 30% milestone
           </p>
         </div>
 
         <TransactionTable />
-        <div className="md:hidden block border border-border px-2 py-3 mt-4 ">
+        <div
+          onClick={() => router.push("/transactions/1")}
+          className="md:hidden block border border-border px-2 py-3 mt-4 cursor-pointer"
+        >
           <div className="flex items-center justify-between w-full">
             <div className="w-[48%] ">
               <p className="uppercase text-[12px] font-[500] ">Rent Payment</p>
