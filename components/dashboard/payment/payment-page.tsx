@@ -93,7 +93,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />
       ) : (
-        <PaymentResponse paymentSuccessful={false} />
+        <PaymentResponse paymentSuccessful={true} />
       )}
       <p className="hidden md:block text-[18px] font-[500] mt-[210px] mb-4 ">
         Your rewards & benefits on Nuba

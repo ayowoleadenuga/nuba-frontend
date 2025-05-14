@@ -39,7 +39,7 @@ const PaymentResponse: React.FC<PaymentResponseInterface> = ({
         </p>
         {paymentSuccessful ? (
           <button
-            onClick={() => router.push("/transactions")}
+            onClick={() => router.push("/transactions/1")}
             className="flex items-center gap-1 underline"
           >
             View payment details <ArrowRightIcon />
