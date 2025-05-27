@@ -24,7 +24,7 @@ const SettingsClient = () => {
   const allTabs = ["Details", "Account", "Security"];
   const currentTab = searchParams.get("tab") || "Details";
   const [rentDueDate, setRentDueDate] = useState<Date | null>(null);
-  const { oldPassword, newPassword } = useSelector(
+  const { oldPassword, newPassword, confirmPassword } = useSelector(
     (state: RootState) => state.settings
   );
 
@@ -62,12 +62,13 @@ const SettingsClient = () => {
       const result = changePasswordSettingsSchema.safeParse({
         oldPassword,
         newPassword,
+        confirmPassword,
       });
 
       const errorMessages: { [key: string]: string } = {};
 
       if (!result.success) {
-        result.error.errors.forEach(err => {
+        result.error.errors.forEach((err) => {
           errorMessages[err.path[0]] = err.message;
         });
       }
@@ -101,7 +102,7 @@ const SettingsClient = () => {
 
       <div className="mt-10 border-b border-b-[#D9D9D9]">
         <div className="w-fit flex items-center ">
-          {allTabs.map(tab => {
+          {allTabs.map((tab) => {
             const isActive = currentTab === tab;
             return (
               <button

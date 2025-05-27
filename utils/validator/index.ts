@@ -33,7 +33,7 @@ export const signUpFormSchema = z
       .min(8, "Password is required with a minimum of 8 characters"),
     confirmPassword: z.string(),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
@@ -47,7 +47,7 @@ export const tenancyDetailsSchema = z
     monthlyRentAmt: z.string().min(1, "Monthly rent amount is required"),
   })
   .refine(
-    data => data.endDate >= data.startDate,
+    (data) => data.endDate >= data.startDate,
     {
       message: "End date cannot be earlier than start date",
       path: ["endDate"], // this will show the error under endDate
@@ -77,7 +77,7 @@ export const newPaymentSchema = z
     state: z.string().min(1, "State or Province or Region is required"),
     cardName: z.string().min(1, "Card name is required"),
   })
-  .refine(data => data.address1?.trim() || data.address2?.trim(), {
+  .refine((data) => data.address1?.trim() || data.address2?.trim(), {
     message: "At least one address is required",
     path: ["address1"],
   });
@@ -90,13 +90,15 @@ export const supportClientFormSchema = z.object({
 
 export const changePasswordSettingsSchema = z
   .object({
-    oldPassword: z
+    oldPassword: z.string(),
+    newPassword: z
       .string()
       .min(8, "Password is required with a minimum of 8 characters"),
-    newPassword: z.string(),
+    confirmPassword: z.string().min(8, "Please confirm your new password"),
   })
-  .refine(data => data.oldPassword === data.newPassword, {
-    path: ["newPassword"],
+
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
     message: "Passwords do not match",
   });
 

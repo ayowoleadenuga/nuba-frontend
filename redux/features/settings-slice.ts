@@ -14,6 +14,7 @@ const initialState = {
   rentDueDate: null,
   oldPassword: "",
   newPassword: "",
+  confirmPassword: "",
 };
 
 export const settingsSlice = createSlice({

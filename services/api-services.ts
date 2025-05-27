@@ -74,7 +74,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -197,5 +197,9 @@ export const nubaApis = {
         toast.error(error.data.message);
       }
     },
+  },
+
+  changePassword: {
+    handleChangePassword: () => {},
   },
 };

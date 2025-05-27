@@ -24,30 +24,30 @@ const baseQueryWithAuth = fetchBaseQuery({
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithAuth,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     registerUser: builder.mutation<signUpResponse, sigUpPayload>({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/register",
         method: "POST",
         body: payload,
       }),
     }),
     sendOTP: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/email/verify",
         method: "POST",
         body: payload,
       }),
     }),
     resendOTP: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/email/verification-link",
         method: "POST",
         body: payload,
       }),
     }),
     login: builder.mutation<loginResponse, loginPayload>({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/login",
         method: "POST",
         body: payload,
@@ -63,7 +63,7 @@ export const authApi = createApi({
       tenancyDetailsResponse,
       tenancyDetailsPayload
     >({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/rent-details",
         method: "PATCH",
         body: payload,
@@ -77,16 +77,23 @@ export const authApi = createApi({
       }),
     }),
     uploadLandlordDetails: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/landlord-details",
         method: "PATCH",
         body: payload,
       }),
     }),
     uploadNewPaymentMethod: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/payment-methods",
         method: "POST",
+        body: payload,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (payload) => ({
+        url: "/user/change-password",
+        method: "PUT",
         body: payload,
       }),
     }),
@@ -103,4 +110,5 @@ export const {
   useUploadNewPaymentMethodMutation,
   useResendOTPMutation,
   useLogoutMutation,
+  useChangePasswordMutation,
 } = authApi;
