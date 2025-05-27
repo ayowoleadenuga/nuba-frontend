@@ -1,6 +1,6 @@
 "use client";
 import { OptionsIcon } from "@/assets/svg/options-icon";
-import { PointIcon } from "@/assets/svg/point-icon";
+import { PointsIcon } from "@/assets/svg/points-icon";
 import SupportFaqs from "@/components/dashboard/support/support-faqs";
 import { Button } from "@/components/ui/button";
 import { IconButton } from "@mui/material";
@@ -66,7 +66,7 @@ const SupportClient = () => {
         <div className="flex items-center gap-4 ">
           <div>
             <div className="flex items-center">
-              <PointIcon />
+              <PointsIcon />
               <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
             </div>
             <p className="text-[11px] text-[#999B9E] ">Member since ‘25</p>

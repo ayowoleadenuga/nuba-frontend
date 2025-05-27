@@ -2,7 +2,7 @@
 import MinusIcon from "@/assets/svg/minus-icon";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import PlusIcon from "@/assets/svg/plus-icon";
-import { PointIcon } from "@/assets/svg/point-icon";
+import { PointsIcon } from "@/assets/svg/points-icon";
 import { faqs } from "@/components/homepage/constants";
 import React, { useState } from "react";
 

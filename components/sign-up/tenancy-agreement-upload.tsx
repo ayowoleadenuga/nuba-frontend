@@ -1,25 +1,42 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import NubaInput from "@/components/ui/nuba-input";
 import UploadFile from "@/components/ui/upload-file";
+import { useUploadTenancyAgreementMutation } from "@/redux/features/authApiSlice";
 import { nextStep, updateFormData } from "@/redux/features/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const TenancyAgreementUpload = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { tenancyAgreement, paymentReference } = useSelector(
+  const { paymentReference } = useSelector(
     (state: RootState) => state.signup.formData
   );
+  const [uploadTenancyAgreement, { isLoading }] =
+    useUploadTenancyAgreementMutation();
+  const [file, setFile] = useState<File | null>(null);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      dispatch(updateFormData({ [event.target.name]: file }));
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile); // Not in Redux
     }
   };
 
-  const handleClearFile = () => {
-    dispatch(updateFormData({ tenancyAgreement: null }));
+  const handleSubmit = async () => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      await uploadTenancyAgreement(formData).unwrap();
+      dispatch(nextStep());
+      toast.success("Tenancy agreement uploaded");
+    } catch (error) {
+      toast.error("Upload failed");
+      console.error(error);
+    }
   };
 
   return (
@@ -31,8 +48,8 @@ const TenancyAgreementUpload = () => {
         description="Upload Tenancy Agreemment"
         containerClass={["py-[90px]"]}
         handleFileChange={handleFileChange}
-        handleClearFile={handleClearFile}
-        selectedFile={tenancyAgreement as File | null}
+        handleClearFile={() => setFile(null)}
+        selectedFile={file as File | null}
         name="tenancyAgreement"
       />
       <NubaInput
@@ -46,11 +63,11 @@ const TenancyAgreementUpload = () => {
         }
       />
       <Button
-        disabled={!paymentReference || !tenancyAgreement}
+        disabled={!paymentReference || !file || isLoading}
         className="w-full mt-10"
-        onClick={() => dispatch(nextStep())}
+        onClick={handleSubmit}
       >
-        Continue
+        {isLoading ? "Uploading" : "Continue"}
       </Button>
     </div>
   );

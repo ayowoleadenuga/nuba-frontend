@@ -1,3 +1,4 @@
+import { loginResponseData } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum SignUpStep {
@@ -28,7 +29,7 @@ interface SignUpState {
     startDate: string;
     endDate: string;
     rentFrequency: string;
-    monthlyRentAmt: string;
+    monthlyRentAmt: string | number;
     tenancyAgreement?: File | null;
     paymentReference: string;
     accountNumber: string;
@@ -44,7 +45,10 @@ interface SignUpState {
     address2: string;
     newCity: string;
     state: string;
+    cardName: string;
   };
+  token: string | null;
+  user: loginResponseData | null;
 }
 
 const initialState: SignUpState = {
@@ -82,7 +86,10 @@ const initialState: SignUpState = {
     address2: "",
     newCity: "",
     state: "",
+    cardName: "",
   },
+  token: null,
+  user: null,
 };
 
 const signupSlice = createSlice({
@@ -113,9 +120,22 @@ const signupSlice = createSlice({
       state.formData = { ...state.formData, ...action.payload };
     },
     resetSignup: () => initialState,
+    setAuthData: (
+      state,
+      action: PayloadAction<{ token: string; user: loginResponseData }>
+    ) => {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+    },
   },
 });
 
-export const { nextStep, prevStep, setStep, updateFormData, resetSignup } =
-  signupSlice.actions;
+export const {
+  nextStep,
+  prevStep,
+  setStep,
+  updateFormData,
+  resetSignup,
+  setAuthData,
+} = signupSlice.actions;
 export default signupSlice.reducer;

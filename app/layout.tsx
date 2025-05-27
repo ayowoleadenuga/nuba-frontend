@@ -1,9 +1,9 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/redux/provider";
 import { Toaster } from "sonner";
-import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
 
 const rubik = Rubik({
@@ -12,27 +12,27 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: "Nuba - Rewards from your rent",
-  description: "Nuba - Rewards from your rent",
+  title: "Nuba - Rewards from your rent",
+  description: "Nuba - Rewards from your rent",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </Head>
-      <ReduxProvider>
-        <body className={` ${rubik.className} antialiased `}>
+    <html lang="en" className={rubik.className}>
+      <body>
+        <ReduxProvider>
           {children}
           <Toaster position="top-center" />
           <NextTopLoader color="#cd921c" zIndex={10000} showSpinner={false} />
-        </body>
-      </ReduxProvider>
+        </ReduxProvider>
+      </body>
     </html>
   );
 }

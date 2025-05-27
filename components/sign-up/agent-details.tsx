@@ -7,6 +7,8 @@ import { nextStep, updateFormData } from "@/redux/features/authSlice";
 import { RootState } from "@/redux/store";
 import { CreateAccountState } from "@/types";
 import { agentDetailsSchema } from "@/utils/validator";
+import { useUploadLandlordDetailsMutation } from "@/redux/features/authApiSlice";
+import { nubaApis } from "@/services/api-services";
 
 const AgentDetailsForm = () => {
   const dispatch = useDispatch();
@@ -22,8 +24,10 @@ const AgentDetailsForm = () => {
       [e.target.name]: "",
     }));
   };
+  const [uploadLandlordDetails, { isLoading }] =
+    useUploadLandlordDetailsMutation();
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = agentDetailsSchema.safeParse({
       accountNumber: formData.accountNumber,
@@ -45,9 +49,16 @@ const AgentDetailsForm = () => {
     }
 
     setErrors({});
-    console.log("clicked to move to tenancy agreement");
-    // dispatch(resetSignup());
-    dispatch(nextStep());
+    const payload = {
+      accountNumber: formData.accountNumber,
+      accountName: formData.accountName,
+      sortCode: formData.sortCode,
+    };
+    await nubaApis.auth.handleUploadLandlordDetails(
+      payload,
+      uploadLandlordDetails,
+      dispatch
+    );
   };
 
   return (
@@ -99,11 +110,11 @@ const AgentDetailsForm = () => {
       )}
 
       <Button
-        disabled={!agreement}
+        disabled={!agreement || isLoading}
         type="submit"
         className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
       >
-        Continue
+        {isLoading ? "Uploading" : "Continue"}
       </Button>
       <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input

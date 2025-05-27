@@ -75,6 +75,7 @@ export const newPaymentSchema = z
     address2: z.string().optional(),
     newCity: z.string().min(1, "City is required"),
     state: z.string().min(1, "State or Province or Region is required"),
+    cardName: z.string().min(1, "Card name is required"),
   })
   .refine(data => data.address1?.trim() || data.address2?.trim(), {
     message: "At least one address is required",

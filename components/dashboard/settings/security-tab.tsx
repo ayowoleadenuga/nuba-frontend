@@ -32,6 +32,7 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
               label="Old Password"
               placeholder=""
               name="oldPassword"
+              type="password"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={oldPassword}
               onChange={e => handleChange("oldPassword", e.target.value)}
@@ -39,12 +40,12 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
             {errors.oldPassword && (
               <p className="text-red-500 text-[12px]">{errors.oldPassword}</p>
             )}
-
             <NubaInput
               containerClass={"w-full mt-6"}
               label="New Password"
               placeholder=""
               name="newPassword"
+              type="password"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={newPassword}
               onChange={e => handleChange("newPassword", e.target.value)}

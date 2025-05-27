@@ -1,9 +1,15 @@
 "use client";
 import { VerifyBadge } from "@/assets/svg/verify-badge";
 import { Button } from "@/components/ui/button";
+import {
+  useResendOTPMutation,
+  useSendOTPMutation,
+} from "@/redux/features/authApiSlice";
 import { nextStep, updateFormData } from "@/redux/features/authSlice";
+import { RootState } from "@/redux/store";
+import { nubaApis } from "@/services/api-services";
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const OtpForm = () => {
   const dispatch = useDispatch();
@@ -11,8 +17,11 @@ const OtpForm = () => {
     dispatch(updateFormData({ otp: value }));
   };
   const [code, setCode] = useState<string>("");
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
+  const [sendOTP, { isLoading }] = useSendOTPMutation();
+  const [resendOTP, { isLoading: ResendOTPLoading }] = useResendOTPMutation();
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const formData = useSelector((state: RootState) => state.signup.formData);
   useEffect(() => {
     if (code.length === 6) {
       handlePin(code);
@@ -50,6 +59,15 @@ const OtpForm = () => {
     setCode(newCode.join("").slice(0, 6));
     handlePin(newCode.join("").slice(0, 6));
   };
+
+  const handleVerifyEMail = async (payload: { token: string }) => {
+    await nubaApis.auth.handleSendOTP(payload, sendOTP, dispatch);
+  };
+
+  const handleResendOTP = async () => {
+    const payload = { email: formData.email };
+    await nubaApis.auth.handleResendOTP(payload, resendOTP);
+  };
   return (
     <div className="flex flex-col items-center justify-center w-full md:w-[50%] lg:w-[35%] ">
       <VerifyBadge />
@@ -84,16 +102,24 @@ const OtpForm = () => {
         </p> */}
       </div>
       <Button
-        onClick={() => dispatch(nextStep())}
-        disabled={code.length !== 6}
+        onClick={() =>
+          handleVerifyEMail({
+            token: code,
+          })
+        }
+        disabled={code.length !== 6 || isLoading}
         className="px-[80px] mt-[50px] font-[500] text-[14px] "
       >
-        SUBMIT
+        {isLoading ? "VERYFYING EMAIL..." : "SUBMIT"}
       </Button>
       <p className="text-center text-gray-400 text-[12px] font-[500] mt-5 ">
         Didn’t receive the code?{" "}
-        <button className="text-black font-[700] cursor-pointer">
-          Resend code
+        <button
+          disabled={ResendOTPLoading}
+          onClick={handleResendOTP}
+          className="text-black font-[700] "
+        >
+          {ResendOTPLoading ? "Resending" : "Resend code"}
         </button>
       </p>
     </div>

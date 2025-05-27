@@ -5,11 +5,7 @@ import React, { PropsWithChildren } from "react";
 
 const GrandLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className=" ">
-      {/* <Navbar /> */}
-      <div className=" ">{children}</div>
-      {/* <Footer /> */}
-    </div>
+    <div>{children}</div>
   );
 };
 

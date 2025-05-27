@@ -1,11 +1,25 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import NubaInput from "@/components/ui/nuba-input";
-import { FormLoginValue } from "@/types";
+import {
+  useLoginMutation,
+  useResendOTPMutation,
+} from "@/redux/features/authApiSlice";
+import { nubaApis } from "@/services/api-services";
+import { FormLoginValue, loginPayload } from "@/types";
 import { loginFormSchema } from "@/utils/validator";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "nextjs-toploader/app";
+import { useSearchParams } from "next/navigation";
 
 const LoginClient = () => {
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const router = useRouter();
+  const [loginUser, { isLoading }] = useLoginMutation();
+  const [resendOTP, { isLoading: ResendOTPLoading }] = useResendOTPMutation();
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
@@ -25,7 +39,25 @@ const LoginClient = () => {
       [event.target.name]: "",
     }));
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleResendOTP = async () => {
+    const payload = { email: loginDetails.email };
+    await nubaApis.auth.handleResendOTP(payload, resendOTP);
+  };
+
+  const successRoute = () => router.push(redirectTo);
+  const errorRoute = () => router.push("/sign-up");
+  const onSubmit = async (formData: loginPayload) => {
+    await nubaApis.auth.handleLogin(
+      formData,
+      loginUser,
+      dispatch,
+      successRoute,
+      errorRoute,
+      handleResendOTP
+    );
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const result = loginFormSchema.safeParse(loginDetails);
@@ -42,6 +74,10 @@ const LoginClient = () => {
       setErrors(errorMessages);
       return;
     }
+    await onSubmit({
+      email: loginDetails.email,
+      password: loginDetails.password,
+    });
 
     setErrors({});
   };
@@ -80,8 +116,12 @@ const LoginClient = () => {
         {errors.password && (
           <p className="text-red-500 text-[12px]">{errors.password}</p>
         )}
-        <Button className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7">
-          Continue
+        <Button
+          disabled={isLoading}
+          type="submit"
+          className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
+        >
+          {isLoading ? "Logging in" : "Continue"}
         </Button>
         <p className="font-[700] text-[12px] text-center mt-5 ">
           By continuing, you agree to our Terms & Conditions.{" "}

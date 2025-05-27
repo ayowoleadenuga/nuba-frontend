@@ -1,5 +1,7 @@
 "use client";
 import { ArrowDownIcon } from "@/assets/svg/arrow-dropdown-icon";
+import HidePassword from "@/assets/svg/hide-password";
+import ShowPassword from "@/assets/svg/show-password";
 import CalendarComp from "@/components/ui/calendar-component";
 import { cn } from "@/utils";
 import { useEffect, useRef, useState } from "react";
@@ -38,6 +40,10 @@ const NubaInput: React.FC<RequestProps> = ({
   const [showCalendar, setShowCalendar] = useState(false);
   const [dateIsSelected, setDateIsSelected] = useState(false);
   const calendarRef = useRef<HTMLDivElement>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const inputType =
+    type === "password" ? (showPassword ? "text" : "password") : type || "text";
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -89,7 +95,7 @@ const NubaInput: React.FC<RequestProps> = ({
       <div className={cn("w-full relative", containerClass)}>
         <input
           onClick={() => dropdownIcon && setShowCalendar(!showCalendar)}
-          type={type || "text"}
+          type={inputType}
           id={label}
           placeholder={props.placeholder}
           className={cn(
@@ -116,6 +122,16 @@ const NubaInput: React.FC<RequestProps> = ({
             <ArrowDownIcon fill="" width={15} height={15} />
           </button>
         )}
+        {type === "password" && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(prev => !prev)}
+            className="absolute top-2.5 right-3 text-gray-500"
+          >
+            {showPassword ? <HidePassword /> : <ShowPassword />}
+          </button>
+        )}
+
         {dropdown && isDropdownOpen && (
           <ul className="absolute left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-[250px] overflow-y-auto">
             {dropdownItems.map((item, index) => (

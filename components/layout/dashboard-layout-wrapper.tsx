@@ -20,13 +20,22 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@mui/material";
 import NotificationIcon from "@/assets/svg/notification-icon";
-import { PointIcon } from "@/assets/svg/point-icon";
+import { PointsIcon } from "@/assets/svg/points-icon";
 import { DropdownIcon } from "@/assets/svg/dropdown-icon";
 import {
   adminSideListItems,
   supportList,
   sideListItems,
 } from "@/components/sidebar/constants";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown";
+import LogoutButton from "@/components/ui/logout-button";
 
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -132,6 +141,7 @@ export default function DashboardLayoutWrapper({
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [showLogout, setShowLogout] = React.useState<boolean>(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -140,7 +150,7 @@ export default function DashboardLayoutWrapper({
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const user = useSelector((state: RootState) => state.signup.user);
   return (
     <Box sx={{ display: "flex" }}>
       {/* <CssBaseline /> */}
@@ -208,14 +218,23 @@ export default function DashboardLayoutWrapper({
                 justifyContent: "center",
               }}
             >
-              <PointIcon />
+              <PointsIcon />
               <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
             </Box>
             <Avatar sx={{ width: "20px", height: "20px" }} />
-            <p className="font-[700] text-white  ">Samantha Greeves</p>
-            <button>
-              <DropdownIcon />
-            </button>
+            <p className="font-[700] text-white  ">
+              {user?.firstName} {user?.lastName}{" "}
+            </p>
+            <div className="relative w-auto">
+              <button onClick={() => setShowLogout(!showLogout)}>
+                <DropdownIcon />
+              </button>
+              {showLogout && (
+                <div className="absolute px-4 py-1 top-8 right-5  text-white rounded-[8px] ">
+                  <LogoutButton />
+                </div>
+              )}
+            </div>
           </Box>
         </Toolbar>
       </AppBar>

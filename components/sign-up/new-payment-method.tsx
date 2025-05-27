@@ -12,6 +12,11 @@ import { RootState } from "@/redux/store";
 import { CreateAccountState } from "@/types";
 import { newPaymentSchema } from "@/utils/validator";
 import { useRouter } from "nextjs-toploader/app";
+import {
+  useLogoutMutation,
+  useUploadNewPaymentMethodMutation,
+} from "@/redux/features/authApiSlice";
+import { nubaApis } from "@/services/api-services";
 
 const NewPaymentForm = () => {
   const router = useRouter();
@@ -21,6 +26,7 @@ const NewPaymentForm = () => {
     [key in keyof CreateAccountState]?: string;
   }>({});
   const [agreement, setAgreement] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
     setErrors(prevErrors => ({
@@ -28,8 +34,10 @@ const NewPaymentForm = () => {
       [e.target.name]: "",
     }));
   };
+  const [uploadNewPaymentMethod, { isLoading }] =
+    useUploadNewPaymentMethodMutation();
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = newPaymentSchema.safeParse({
       cardInfo: formData.cardInfo,
@@ -42,6 +50,7 @@ const NewPaymentForm = () => {
       address2: formData.address2,
       newCity: formData.newCity,
       state: formData.state,
+      cardName: formData.cardName,
     });
 
     const errorMessages: { [key: string]: string } = {};
@@ -58,7 +67,24 @@ const NewPaymentForm = () => {
     }
 
     setErrors({});
-    router.push("/dashboard");
+    const payload = {
+      country: formData.newCountry,
+      postcode: formData.postalCode,
+      city: formData.newCity,
+      address: formData.address1,
+      address_2: formData.address2,
+      state: formData.state,
+      cardName: formData.cardInfo,
+      cardNumber: formData.cardInfo,
+      cvc: formData.cvv,
+      mmYY: formData.monthYear,
+    };
+    await nubaApis.auth.handleUploadNewPaymentMethod(
+      payload,
+      uploadNewPaymentMethod,
+      dispatch,
+      () => router.push("/dashboard")
+    );
   };
 
   return (
@@ -106,6 +132,19 @@ const NewPaymentForm = () => {
         By authorising your card you consent to your details being stored
         securely for future payments
       </p>
+      <NubaInput
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Card Name"
+        name="cardName"
+        value={formData?.cardName}
+        onChange={handleChange}
+      />
+      {errors.cardName && (
+        <p className="text-red-500 text-[12px]">{errors.cardName}</p>
+      )}
       <NubaInput
         containerClass={
           "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
@@ -210,7 +249,7 @@ const NewPaymentForm = () => {
         type="submit"
         className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
       >
-        Continue
+        {isLoading ? "Submitting" : "Continue"}
       </Button>
       <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input

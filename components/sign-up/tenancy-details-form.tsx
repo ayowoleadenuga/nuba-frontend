@@ -9,26 +9,53 @@ import {
   updateFormData,
 } from "@/redux/features/authSlice";
 import { RootState } from "@/redux/store";
-import { CreateAccountState } from "@/types";
+import { CreateAccountState, tenancyDetailsPayload } from "@/types";
 import { tenancyDetailsSchema } from "@/utils/validator";
 import { countries } from "@/components/sign-up/constants";
+import { useRegisterTenancyDetailsMutation } from "@/redux/features/authApiSlice";
+import { nubaApis } from "@/services/api-services";
 
 const TenancyDetailsForm = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.signup.formData);
+  const [registerTenancyDetails, { isLoading }] =
+    useRegisterTenancyDetailsMutation();
   const [errors, setErrors] = React.useState<{
     [key in keyof CreateAccountState]?: string;
   }>({});
   const [agreement, setAgreement] = useState(false);
+
+  const formatNumberWithCommas = (value: string | number): string => {
+    const num = String(value).replace(/[^\d]/g, "");
+    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateFormData({ [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    if (name === "monthlyRentAmt") {
+      const numericValue = value.replace(/[^\d]/g, "");
+      const formattedValue = formatNumberWithCommas(numericValue);
+      dispatch(updateFormData({ [name]: formattedValue }));
+    } else {
+      dispatch(updateFormData({ [name]: value }));
+    }
+
     setErrors(prevErrors => ({
       ...prevErrors,
-      [e.target.name]: "",
+      [name]: "",
     }));
   };
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (formData: tenancyDetailsPayload) => {
+    await nubaApis.auth.handleUploadTenancyDetails(
+      formData,
+      registerTenancyDetails,
+      dispatch
+    );
+  };
+
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = tenancyDetailsSchema.safeParse({
       country: formData.country,
@@ -52,9 +79,16 @@ const TenancyDetailsForm = () => {
     }
 
     setErrors({});
-    console.log("clicked to move to tenancy agreement");
-    // dispatch(resetSignup());
-    dispatch(setStep(SignUpStep.TENANCY_AGREEMENT));
+    const payload = {
+      country: formData.country,
+      startDate: String(startDate),
+      enDate: String(endDate),
+      rentFrequency: formData.rentFrequency,
+      monthlyPrice: Number(
+        String(formData.monthlyRentAmt).replace(/[^\d]/g, "")
+      ),
+    };
+    await onSubmit(payload);
   };
 
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -144,11 +178,11 @@ const TenancyDetailsForm = () => {
       )}
 
       <Button
-        disabled={!agreement}
+        disabled={!agreement || isLoading}
         type="submit"
         className="w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"
       >
-        Continue
+        {isLoading ? "Uploading tenancy details" : "Continue"}
       </Button>
       <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] ">
         <input

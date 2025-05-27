@@ -10,16 +10,22 @@ import {
   resetSignup,
 } from "@/redux/features/authSlice";
 import { RootState } from "@/redux/store";
-import { CreateAccountState } from "@/types";
+import { CreateAccountState, sigUpPayload } from "@/types";
 import { signUpFormSchema } from "@/utils/validator";
+import { GoogleIcon } from "@/assets/svg/google-icon";
+import { useRegisterUserMutation } from "@/redux/features/authApiSlice";
+import { nubaApis } from "@/services/api-services";
 
 const CreateAccountForm = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.signup.formData);
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const [errors, setErrors] = React.useState<{
     [key in keyof CreateAccountState]?: string;
   }>({});
 
+  const user = useSelector((state: RootState) => state.signup.user);
+  console.log("the user is", user);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
     setErrors(prevErrors => ({
@@ -28,7 +34,11 @@ const CreateAccountForm = () => {
     }));
   };
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (formData: sigUpPayload) => {
+    await nubaApis.auth.handleRegister(formData, registerUser, dispatch);
+  };
+
+  const handleContinue = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = signUpFormSchema.safeParse({
       firstName: formData?.firstName,
@@ -51,18 +61,28 @@ const CreateAccountForm = () => {
       });
     }
 
-    // if (!selectedFile) {
-    //   errorMessages.selectedFile = "File is required!";
-    // }
-
     if (Object.keys(errorMessages).length > 0) {
       setErrors(errorMessages);
       return;
     }
 
     setErrors({});
-    dispatch(resetSignup());
-    dispatch(setStep(SignUpStep.OTP));
+    const payload: sigUpPayload = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      phone: formData.phoneNumber,
+      address1: formData.homeAddress,
+      address2: formData.homeAddress2,
+      city: formData.city,
+      postcode: formData.postCode,
+      dateOfBirth: selectedDate?.toISOString() || "",
+      email: formData.email,
+      password: formData.password,
+      password_confirmation: formData.confirmPassword,
+    };
+
+    await onSubmit(payload);
+    // dispatch(resetSignup());
   };
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -221,12 +241,20 @@ const CreateAccountForm = () => {
       {errors.confirmPassword && (
         <p className="text-red-500 text-[12px]">{errors.confirmPassword}</p>
       )}
-      <Button type="submit" className="w-full mt-7">
-        Continue
+      <Button disabled={isLoading} type="submit" className="w-full mt-7">
+        {isLoading ? "Creating account..." : "Continue"}
       </Button>
       <p className="font-[700] text-[12px] text-center mt-5 ">
         By continuing, you agree to our Terms & Conditions.{" "}
       </p>
+      <p className="text-[#004790] text-[14px] font-[700] text-center ">OR</p>
+      <Button
+        type="button"
+        className="w-full mt-2 text-[#004790] text-[14px] font-[700] bg-[#e5ecf3] "
+      >
+        <GoogleIcon />
+        Sign Up with Google
+      </Button>
     </form>
   );
 };

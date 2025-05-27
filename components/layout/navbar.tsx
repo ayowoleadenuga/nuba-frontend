@@ -1,11 +1,11 @@
 "use client";
+import React, { useState } from "react";
 import { navLinks } from "@/components/constants";
-import { GetStartedButton } from "@/components/ui/get-started-button";
 import { cn } from "@/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 
 interface NavigationProps {
   hasBg?: boolean;
