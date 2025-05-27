@@ -90,10 +90,10 @@ export const supportClientFormSchema = z.object({
 
 export const changePasswordSettingsSchema = z
   .object({
-    oldPassword: z.string(),
+    oldPassword: z.string().min(8, "Old password is required"),
     newPassword: z
       .string()
-      .min(8, "Password is required with a minimum of 8 characters"),
+      .min(8, "New password is required with a minimum of 8 characters"),
     confirmPassword: z.string().min(8, "Please confirm your new password"),
   })
 

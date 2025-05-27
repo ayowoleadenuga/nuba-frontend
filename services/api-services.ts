@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/authSlice";
 import { AppDispatch } from "@/redux/store";
 import {
+  ChangePasswordPayload,
   landlordDetailsPayload,
   loginPayload,
   loginResponse,
@@ -51,6 +52,10 @@ export type SendOTPTrigger = (payload: { token: string }) => {
 
 export type ResendOTPTrigger = (payload: { email: string }) => {
   unwrap: () => Promise<any>;
+};
+
+export type ChangePasswordTrigger = (payload: ChangePasswordPayload) => {
+  unwrap: () => Promise<{ message: string }>;
 };
 
 export const nubaApis = {
@@ -200,6 +205,20 @@ export const nubaApis = {
   },
 
   changePassword: {
-    handleChangePassword: () => {},
+    handleChangePassword: async (
+      payload: {
+        currentPassword: string;
+        newPassword: string;
+        newPasswordConfirmation: string;
+      },
+      changePasswordMutation: ChangePasswordTrigger
+    ) => {
+      try {
+        const res = await changePasswordMutation(payload).unwrap();
+        toast.success(res.message || "Password changed successfully");
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to change password");
+      }
+    },
   },
 };

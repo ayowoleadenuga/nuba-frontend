@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { SettingsState } from "@/types";
 import { resetSettingsForm } from "@/redux/features/settings-slice";
+import { nubaApis } from "@/services/api-services";
+import { useChangePasswordMutation } from "@/redux/features/authApiSlice";
 
 const SettingsClient = () => {
   const router = useRouter();
@@ -27,6 +29,7 @@ const SettingsClient = () => {
   const { oldPassword, newPassword, confirmPassword } = useSelector(
     (state: RootState) => state.settings
   );
+  const [changePasswordMutation] = useChangePasswordMutation();
 
   const formRef = useRef(null);
   const handleTabClick = (tab: string) => {
@@ -50,13 +53,24 @@ const SettingsClient = () => {
           />
         );
       case "Security":
-        return <SecurityTab errors={errors} />;
+        return (
+          <SecurityTab
+            errors={errors}
+            onClearError={(field) => {
+              setErrors((prev) => {
+                const updated = { ...prev };
+                delete updated[field];
+                return updated;
+              });
+            }}
+          />
+        );
       default:
         return <DetailsTab />;
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (currentTab === "Security") {
       const result = changePasswordSettingsSchema.safeParse({
@@ -79,6 +93,16 @@ const SettingsClient = () => {
       }
 
       setErrors({});
+
+      await nubaApis.changePassword.handleChangePassword(
+        {
+          currentPassword: oldPassword,
+          newPassword: newPassword,
+          newPasswordConfirmation: confirmPassword,
+        },
+        changePasswordMutation
+      );
+
       dispatch(resetSettingsForm());
     }
   };

@@ -171,3 +171,9 @@ export interface newPaymentPayload {
   cvc: string;
   mmYY: string;
 }
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
+}

@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface SecurityTabProps {
   errors: Partial<Record<keyof SettingsState, string>>;
+  onClearError?: (field: keyof SettingsState) => void;
 }
-const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
+const SecurityTab: React.FC<SecurityTabProps> = ({ errors, onClearError }) => {
   const { oldPassword, newPassword, confirmPassword } = useSelector(
     (state: RootState) => state.settings
   );
@@ -16,6 +17,10 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
 
   const handleChange = (field: keyof SettingsState, value: string) => {
     dispatch(setSettingsField({ field, value }));
+
+    if (value && errors[field]) {
+      onClearError?.(field);
+    }
   };
 
   return (
