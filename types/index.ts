@@ -179,6 +179,12 @@ export interface ChangePasswordPayload {
   new_password_confirmation: string;
 }
 
+export interface UpdateUserProfilePayload {
+  firstName: string;
+  lastName: string;
+  phone: string;
+}
+
 export interface Landlord {
   accountName: string | null;
   accountNumber: string | null;

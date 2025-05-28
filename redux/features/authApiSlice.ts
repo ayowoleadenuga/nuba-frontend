@@ -107,6 +107,18 @@ export const authApi = createApi({
     getUserRentsDetails: builder.query<GetRentDetailsResponse, string>({
       query: (rentId) => `/user/rents/${rentId}`,
     }),
+
+    getUserProfile: builder.query({
+      query: () => "/me",
+    }),
+
+    updateUserProfile: builder.mutation({
+      query: (payload) => ({
+        url: "/user",
+        method: "PUT",
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -123,4 +135,6 @@ export const {
   useChangePasswordMutation,
   useGetUserRentsQuery,
   useGetUserRentsDetailsQuery,
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
 } = authApi;

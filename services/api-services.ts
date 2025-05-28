@@ -16,6 +16,7 @@ import {
   sigUpPayload,
   tenancyDetailsPayload,
   tenancyDetailsResponse,
+  UpdateUserProfilePayload,
 } from "@/types";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -56,6 +57,10 @@ export type ResendOTPTrigger = (payload: { email: string }) => {
 
 export type ChangePasswordTrigger = (payload: ChangePasswordPayload) => {
   unwrap: () => Promise<{ message: string }>;
+};
+
+export type UpdateUserProfileTrigger = (payload: UpdateUserProfilePayload) => {
+  unwrap: () => Promise<any>;
 };
 
 export const nubaApis = {
@@ -236,5 +241,21 @@ export const nubaApis = {
       }
     },
   },
+
+  updateUserProfile: {
+    handleUpdateUserProfile: async (
+      payload: { firstName: string; lastName: string; phone: string },
+      updateUserProfileMutation: UpdateUserProfileTrigger
+    ) => {
+      try {
+        const res = await updateUserProfileMutation(payload).unwrap();
+        toast.success("Profile updated successfully");
+        return res;
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to update profile");
+      }
+    },
+  },
+
   admin: {},
 };
