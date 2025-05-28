@@ -96,9 +96,9 @@ const SettingsClient = () => {
 
       await nubaApis.changePassword.handleChangePassword(
         {
-          currentPassword: oldPassword,
-          newPassword: newPassword,
-          newPasswordConfirmation: confirmPassword,
+          current_password: oldPassword,
+          new_password: newPassword,
+          new_password_confirmation: confirmPassword,
         },
         changePasswordMutation
       );

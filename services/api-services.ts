@@ -222,9 +222,9 @@ export const nubaApis = {
   changePassword: {
     handleChangePassword: async (
       payload: {
-        currentPassword: string;
-        newPassword: string;
-        newPasswordConfirmation: string;
+        current_password: string;
+        new_password: string;
+        new_password_confirmation: string;
       },
       changePasswordMutation: ChangePasswordTrigger
     ) => {

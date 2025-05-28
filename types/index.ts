@@ -173,7 +173,7 @@ export interface newPaymentPayload {
 }
 
 export interface ChangePasswordPayload {
-  currentPassword: string;
-  newPassword: string;
-  newPasswordConfirmation: string;
+  current_password: string;
+  new_password: string;
+  new_password_confirmation: string;
 }
