@@ -70,7 +70,7 @@ const DashboardPage = () => {
           <div className="bg-[#2A4152] py-7 px-10 text-white rounded-[8px]  w-full md:w-[80%] lg:w-[50%] xl:w-[40%] mt-5  ">
             <p className="font-[500] ">Rent Details</p>
             <p className="font-[500] mt-6 text-[32px]">
-              £ {rentDetail?.monthlyPrice}
+              £{rentDetail?.monthlyPrice}
             </p>
             <div className="mt-6">
               <p className="font-[700] text-[10px]"> Property Name </p>
