@@ -12,7 +12,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      // await logout().unwrap();
       dispatch(resetSignup());
       router.push("/");
     } catch (err) {

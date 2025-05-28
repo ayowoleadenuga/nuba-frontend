@@ -86,7 +86,7 @@ export interface loginResponse {
   message: string;
   status: string;
   statusCode: string;
-  "access-token": string;
+  accessToken: string;
   data: loginResponseData;
 }
 
@@ -147,7 +147,7 @@ export interface tenancyDetailsResponse {
 export interface tenancyDetailsPayload {
   country: string;
   startDate: string;
-  enDate: string;
+  endDate: string;
   rentFrequency: string;
   monthlyPrice: number;
 }

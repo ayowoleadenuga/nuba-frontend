@@ -5,8 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatDate = (dateInput: string | Date): string => {
-  const date = new Date(dateInput);
+export const formatDate = (dateInput: string | Date | null): string => {
+  const date = new Date(dateInput ? dateInput : "");
   const day = date.getDate();
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.getFullYear();
@@ -39,4 +39,14 @@ export const handleCopy = async (
   } catch (err) {
     console.error("Failed to copy: ", err);
   }
+};
+
+export const formatDate2 = (dateString: Date) => {
+  const date: Date = new Date(dateString);
+  const day: string = String(date.getDate()).padStart(2, "0");
+  const month: string = String(date.getMonth() + 1).padStart(2, "0");
+  const year: number = date.getFullYear();
+  const formattedDate: string = `${year}-${month}-${day}`;
+
+  return formattedDate;
 };

@@ -14,7 +14,7 @@ import { tenancyDetailsSchema } from "@/utils/validator";
 import { countries } from "@/components/sign-up/constants";
 import { useRegisterTenancyDetailsMutation } from "@/redux/features/authApiSlice";
 import { nubaApis } from "@/services/api-services";
-
+import { formatDate } from "@/utils";
 const TenancyDetailsForm = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.signup.formData);
@@ -81,8 +81,8 @@ const TenancyDetailsForm = () => {
     setErrors({});
     const payload = {
       country: formData.country,
-      startDate: String(startDate),
-      enDate: String(endDate),
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate),
       rentFrequency: formData.rentFrequency,
       monthlyPrice: Number(
         String(formData.monthlyRentAmt).replace(/[^\d]/g, "")

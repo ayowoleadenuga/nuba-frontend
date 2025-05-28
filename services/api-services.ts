@@ -140,12 +140,27 @@ export const nubaApis = {
         const response = await loginUser(payload).unwrap();
         dispatch(
           setAuthData({
-            token: response["access-token"],
+            token: response.accessToken,
             user: response.data,
           })
         );
         toast.success("Login Successful");
         route();
+        if (response?.data?.onboarding?.isOnboarded === false) {
+          if (response?.data?.onboarding?.step === 0) {
+            route2();
+            dispatch(setStep(SignUpStep.TENANCY_DETAILS));
+          } else if (response?.data?.onboarding?.step === 1) {
+            route2();
+            dispatch(setStep(SignUpStep.TENANCY_AGREEMENT));
+          } else if (response?.data?.onboarding?.step === 2) {
+            route2();
+            dispatch(setStep(SignUpStep.AGENT_DETAILS));
+          } else if (response?.data?.onboarding?.step === 3) {
+            route2();
+            dispatch(setStep(SignUpStep.NEW_PAYMENT_METHOD));
+          }
+        }
       } catch (error: any) {
         console.error(error);
         toast.error(error.data.message);
@@ -198,4 +213,5 @@ export const nubaApis = {
       }
     },
   },
+  admin: {},
 };
