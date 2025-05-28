@@ -107,3 +107,12 @@ export const paymentSchema = z.object({
   cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
   cardNo: z.string().min(11, "Minimum of 11 digits is required"),
 });
+
+export const updateUserProfileSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^\d+$/, "Phone number must be digits only"),
+});

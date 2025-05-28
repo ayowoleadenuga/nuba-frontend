@@ -43,6 +43,10 @@ export interface SettingsState {
   confirmPassword: string;
 }
 
+export type SettingsErrorState = {
+  [K in keyof SettingsState]?: string;
+};
+
 export interface FormLoginValue {
   email: string;
   password: string;

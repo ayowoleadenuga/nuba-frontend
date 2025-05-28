@@ -11,25 +11,25 @@ import SecurityTab from "./security-tab";
 import { Button } from "@/components/ui/button";
 import { Check } from "@/assets/svg/check";
 import { CancelIcon } from "@/assets/svg/cancel-icon";
-import { changePasswordSettingsSchema } from "@/utils/validator";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { SettingsState } from "@/types";
-import { resetSettingsForm } from "@/redux/features/settings-slice";
-import { nubaApis } from "@/services/api-services";
-import { useChangePasswordMutation } from "@/redux/features/authApiSlice";
+import { SettingsErrorState} from "@/types";
+import { useSettingsSubmit } from "./use-settings-submit";
 
 const SettingsClient = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dispatch = useDispatch();
   const allTabs = ["Details", "Account", "Security"];
   const currentTab = searchParams.get("tab") || "Details";
   const [rentDueDate, setRentDueDate] = useState<Date | null>(null);
-  const { oldPassword, newPassword, confirmPassword } = useSelector(
-    (state: RootState) => state.settings
-  );
-  const [changePasswordMutation] = useChangePasswordMutation();
+  const {
+    oldPassword,
+    newPassword,
+    confirmPassword,
+    firstName,
+    lastName,
+    phoneNumber,
+  } = useSelector((state: RootState) => state.settings);
 
   const formRef = useRef(null);
   const handleTabClick = (tab: string) => {
@@ -37,14 +37,24 @@ const SettingsClient = () => {
     params.set("tab", tab);
     router.replace(`?${params.toString()}`);
   };
-  const [errors, setErrors] = useState<{
-    [key in keyof SettingsState]?: string;
-  }>({});
+
+  const [errors, setErrors] = useState<SettingsErrorState>({});
 
   const showTab = (tab: string) => {
     switch (tab) {
       case "Details":
-        return <DetailsTab />;
+        return (
+          <DetailsTab
+            errors={errors}
+            onClearError={(field) => {
+              setErrors((prev) => {
+                const updated = { ...prev };
+                delete updated[field];
+                return updated;
+              });
+            }}
+          />
+        );
       case "Account":
         return (
           <AccountTab
@@ -66,46 +76,39 @@ const SettingsClient = () => {
           />
         );
       default:
-        return <DetailsTab />;
+        return (
+          <DetailsTab
+            errors={errors}
+            onClearError={(field) => {
+              setErrors((prev) => {
+                const updated = { ...prev };
+                delete updated[field];
+                return updated;
+              });
+            }}
+          />
+        );
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (currentTab === "Security") {
-      const result = changePasswordSettingsSchema.safeParse({
-        oldPassword,
-        newPassword,
-        confirmPassword,
-      });
+  const { handleSubmit } = useSettingsSubmit(
+    currentTab === "Security"
+      ? {
+          currentTab: "Security",
+          oldPassword,
+          newPassword,
+          confirmPassword,
+          setErrors,
+        }
+      : {
+          currentTab: "Details",
+          firstName,
+          lastName,
+          phoneNumber,
+          setErrors,
+        }
+  );
 
-      const errorMessages: { [key: string]: string } = {};
-
-      if (!result.success) {
-        result.error.errors.forEach((err) => {
-          errorMessages[err.path[0]] = err.message;
-        });
-      }
-
-      if (Object.keys(errorMessages).length > 0) {
-        setErrors(errorMessages);
-        return;
-      }
-
-      setErrors({});
-
-      await nubaApis.changePassword.handleChangePassword(
-        {
-          current_password: oldPassword,
-          new_password: newPassword,
-          new_password_confirmation: confirmPassword,
-        },
-        changePasswordMutation
-      );
-
-      dispatch(resetSettingsForm());
-    }
-  };
   return (
     <div className="w-full p-5">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between">

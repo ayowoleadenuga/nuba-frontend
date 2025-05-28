@@ -2,15 +2,21 @@ import { skipToken } from "@reduxjs/toolkit/query/react";
 import NubaInput from "@/components/ui/nuba-input";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetUserRentsQuery,
   useGetUserRentsDetailsQuery,
 } from "@/redux/features/authApiSlice";
 import ErrorMessage from "../skeletons/error-message";
+import { SettingsState } from "@/types";
 
-const DetailsTab = () => {
+interface DetailsTabProps {
+  errors: Partial<Record<keyof SettingsState, string>>;
+  onClearError?: (field: keyof SettingsState) => void;
+}
+
+const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
   const {
     firstName,
     lastName,
@@ -80,6 +86,10 @@ const DetailsTab = () => {
 
   const handleChange = (field: keyof RootState["settings"], value: string) => {
     dispatch(setSettingsField({ field, value }));
+
+    if (value && errors[field]) {
+      onClearError?.(field);
+    }
   };
 
   return (
@@ -111,6 +121,9 @@ const DetailsTab = () => {
                   value={firstName}
                   onChange={(e) => handleChange("firstName", e.target.value)}
                 />
+                {errors.firstName && (
+                  <p className="text-red-500 text-[12px]">{errors.firstName}</p>
+                )}
                 <NubaInput
                   containerClass={"w-full mt-6"}
                   label="Last Name"
@@ -119,6 +132,10 @@ const DetailsTab = () => {
                   value={lastName}
                   onChange={(e) => handleChange("lastName", e.target.value)}
                 />
+                {errors.lastName && (
+                  <p className="text-red-500 text-[12px]">{errors.lastName}</p>
+                )}
+
                 {/* <NubaInput
               containerClass={"w-full mt-6"}
               label="Email"
@@ -139,6 +156,12 @@ const DetailsTab = () => {
                   value={phoneNumber}
                   onChange={(e) => handleChange("phoneNumber", e.target.value)}
                 />
+
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-[12px]">
+                    {errors.phoneNumber}
+                  </p>
+                )}
               </div>
             </div>
           </div>
