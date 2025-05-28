@@ -27,7 +27,8 @@ export interface SupportCenterState {
 }
 
 export interface SettingsState {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phoneNumber: string;
   rentAddress: string;
@@ -176,4 +177,35 @@ export interface ChangePasswordPayload {
   current_password: string;
   new_password: string;
   new_password_confirmation: string;
+}
+
+export interface Landlord {
+  accountName: string | null;
+  accountNumber: string | null;
+  sortCode: string | null;
+}
+
+export interface Rent {
+  id: string;
+  country: string;
+  startDate: string;
+  endDate: string;
+  rentFrequency: string;
+  monthlyPrice: number;
+  landlord: Landlord;
+  agreements: any[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GetAllRentsResponse {
+  status: string;
+  statusCode: number;
+  data: Rent[];
+}
+
+export interface GetRentDetailsResponse {
+  status: string;
+  statusCode: number;
+  data: Rent;
 }

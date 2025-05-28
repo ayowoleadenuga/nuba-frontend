@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const DetailsTab = () => {
   const {
-    fullName,
-    email,
+    firstName,
+    lastName,
+    // email,
     phoneNumber,
     rentAddress,
     rentAmount,
@@ -33,13 +34,21 @@ const DetailsTab = () => {
           <div className="w-full md:w-[70%] xl:w-[50%] ">
             <NubaInput
               containerClass={"w-full mt-6"}
-              label="Full Name"
+              label="First Name"
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
-              value={fullName}
-              onChange={e => handleChange("fullName", e.target.value)}
+              value={firstName}
+              onChange={(e) => handleChange("firstName", e.target.value)}
             />
             <NubaInput
+              containerClass={"w-full mt-6"}
+              label="Last Name"
+              placeholder=""
+              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+              value={lastName}
+              onChange={(e) => handleChange("lastName", e.target.value)}
+            />
+            {/* <NubaInput
               containerClass={"w-full mt-6"}
               label="Email"
               placeholder=""
@@ -47,7 +56,7 @@ const DetailsTab = () => {
               value={email}
               type="email"
               onChange={e => handleChange("email", e.target.value)}
-            />
+            /> */}
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Phone Number"
@@ -57,7 +66,7 @@ const DetailsTab = () => {
               inputMode="numeric"
               pattern="[0-9]*"
               value={phoneNumber}
-              onChange={e => handleChange("phoneNumber", e.target.value)}
+              onChange={(e) => handleChange("phoneNumber", e.target.value)}
             />
           </div>
         </div>
@@ -84,7 +93,7 @@ const DetailsTab = () => {
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={rentAddress}
-              onChange={e => handleChange("rentAddress", e.target.value)}
+              onChange={(e) => handleChange("rentAddress", e.target.value)}
             />
             <NubaInput
               containerClass={"w-full mt-6"}
@@ -92,7 +101,7 @@ const DetailsTab = () => {
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={rentAmount}
-              onChange={e => handleChange("rentAmount", e.target.value)}
+              onChange={(e) => handleChange("rentAmount", e.target.value)}
             />
             <NubaInput
               containerClass={"w-full mt-6"}
@@ -100,7 +109,7 @@ const DetailsTab = () => {
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={leaseDuration}
-              onChange={e => handleChange("leaseDuration", e.target.value)}
+              onChange={(e) => handleChange("leaseDuration", e.target.value)}
             />
             <NubaInput
               containerClass={"w-full mt-6"}
@@ -108,7 +117,7 @@ const DetailsTab = () => {
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={landlordName}
-              onChange={e => handleChange("landlordName", e.target.value)}
+              onChange={(e) => handleChange("landlordName", e.target.value)}
             />
             <NubaInput
               containerClass={"w-full mt-6"}
@@ -116,7 +125,7 @@ const DetailsTab = () => {
               placeholder=""
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={landlordbankDetails}
-              onChange={e =>
+              onChange={(e) =>
                 handleChange("landlordbankDetails", e.target.value)
               }
             />

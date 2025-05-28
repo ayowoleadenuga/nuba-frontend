@@ -11,9 +11,6 @@ import { toast } from "sonner";
 
 const TenancyAgreementUpload = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { paymentReference } = useSelector(
-    (state: RootState) => state.signup.formData
-  );
   const [uploadTenancyAgreement, { isLoading }] =
     useUploadTenancyAgreementMutation();
   const [file, setFile] = useState<File | null>(null);
@@ -52,18 +49,9 @@ const TenancyAgreementUpload = () => {
         selectedFile={file as File | null}
         name="tenancyAgreement"
       />
-      <NubaInput
-        containerClass={"w-full mt-7 "}
-        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
-        label="Payment Reference"
-        name="paymentReference"
-        value={paymentReference}
-        onChange={e =>
-          dispatch(updateFormData({ paymentReference: e.target.value }))
-        }
-      />
+
       <Button
-        disabled={!paymentReference || !file || isLoading}
+        disabled={!file || isLoading}
         className="w-full mt-10"
         onClick={handleSubmit}
       >
