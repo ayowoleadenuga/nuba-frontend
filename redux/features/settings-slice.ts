@@ -2,7 +2,8 @@ import { SettingsState } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  fullName: "",
+  firstName: "",
+  lastName: "",
   email: "",
   phoneNumber: "",
   rentAddress: "",
@@ -14,6 +15,7 @@ const initialState = {
   rentDueDate: null,
   oldPassword: "",
   newPassword: "",
+  confirmPassword: "",
 };
 
 export const settingsSlice = createSlice({

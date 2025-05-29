@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/authSlice";
 import { AppDispatch } from "@/redux/store";
 import {
+  ChangePasswordPayload,
   landlordDetailsPayload,
   loginPayload,
   loginResponse,
@@ -15,6 +16,7 @@ import {
   sigUpPayload,
   tenancyDetailsPayload,
   tenancyDetailsResponse,
+  UpdateUserProfilePayload,
 } from "@/types";
 import emailjs from "@emailjs/browser";
 import { toast } from "sonner";
@@ -53,6 +55,14 @@ export type ResendOTPTrigger = (payload: { email: string }) => {
   unwrap: () => Promise<any>;
 };
 
+export type ChangePasswordTrigger = (payload: ChangePasswordPayload) => {
+  unwrap: () => Promise<{ message: string }>;
+};
+
+export type UpdateUserProfileTrigger = (payload: UpdateUserProfilePayload) => {
+  unwrap: () => Promise<any>;
+};
+
 export const nubaApis = {
   sendEmail: (
     form: React.RefObject<HTMLFormElement | null>,
@@ -74,7 +84,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -213,5 +223,39 @@ export const nubaApis = {
       }
     },
   },
+
+  changePassword: {
+    handleChangePassword: async (
+      payload: {
+        current_password: string;
+        new_password: string;
+        new_password_confirmation: string;
+      },
+      changePasswordMutation: ChangePasswordTrigger
+    ) => {
+      try {
+        const res = await changePasswordMutation(payload).unwrap();
+        toast.success(res.message || "Password changed successfully");
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to change password");
+      }
+    },
+  },
+
+  updateUserProfile: {
+    handleUpdateUserProfile: async (
+      payload: { firstName: string; lastName: string; phone: string },
+      updateUserProfileMutation: UpdateUserProfileTrigger
+    ) => {
+      try {
+        const res = await updateUserProfileMutation(payload).unwrap();
+        toast.success("Profile updated successfully");
+        return res;
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to update profile");
+      }
+    },
+  },
+
   admin: {},
 };

@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { env } from "@/env";
 import {
+  GetAllRentsResponse,
+  GetRentDetailsResponse,
   loginPayload,
   loginResponse,
   signUpResponse,
@@ -24,30 +26,30 @@ const baseQueryWithAuth = fetchBaseQuery({
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithAuth,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     registerUser: builder.mutation<signUpResponse, sigUpPayload>({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/register",
         method: "POST",
         body: payload,
       }),
     }),
     sendOTP: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/email/verify",
         method: "POST",
         body: payload,
       }),
     }),
     resendOTP: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/email/verification-link",
         method: "POST",
         body: payload,
       }),
     }),
     login: builder.mutation<loginResponse, loginPayload>({
-      query: payload => ({
+      query: (payload) => ({
         url: "/auth/login",
         method: "POST",
         body: payload,
@@ -63,7 +65,7 @@ export const authApi = createApi({
       tenancyDetailsResponse,
       tenancyDetailsPayload
     >({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/rent-details",
         method: "PATCH",
         body: payload,
@@ -77,16 +79,43 @@ export const authApi = createApi({
       }),
     }),
     uploadLandlordDetails: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/landlord-details",
         method: "PATCH",
         body: payload,
       }),
     }),
     uploadNewPaymentMethod: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/onboarding/payment-methods",
         method: "POST",
+        body: payload,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (payload) => ({
+        url: "/user/change-password",
+        method: "PUT",
+        body: payload,
+      }),
+    }),
+
+    getUserRents: builder.query<GetAllRentsResponse, void>({
+      query: () => "/user/rents",
+    }),
+
+    getUserRentsDetails: builder.query<GetRentDetailsResponse, string>({
+      query: (rentId) => `/user/rents/${rentId}`,
+    }),
+
+    getUserProfile: builder.query({
+      query: () => "/me",
+    }),
+
+    updateUserProfile: builder.mutation({
+      query: (payload) => ({
+        url: "/user",
+        method: "PUT",
         body: payload,
       }),
     }),
@@ -103,4 +132,9 @@ export const {
   useUploadNewPaymentMethodMutation,
   useResendOTPMutation,
   useLogoutMutation,
+  useChangePasswordMutation,
+  useGetUserRentsQuery,
+  useGetUserRentsDetailsQuery,
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
 } = authApi;
