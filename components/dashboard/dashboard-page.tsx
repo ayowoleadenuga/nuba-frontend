@@ -21,6 +21,8 @@ import ErrorMessage from "./skeletons/error-message";
 
 const DashboardPage = () => {
   const user = useSelector((state: RootState) => state.signup.user);
+  const userAll = useSelector((state: RootState) => state.signup);
+
   const router = useRouter();
 
   const {
