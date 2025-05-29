@@ -33,7 +33,7 @@ export const signUpFormSchema = z
       .min(8, "Password is required with a minimum of 8 characters"),
     confirmPassword: z.string(),
   })
-  .refine(data => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
   });
@@ -47,7 +47,7 @@ export const tenancyDetailsSchema = z
     monthlyRentAmt: z.string().min(1, "Monthly rent amount is required"),
   })
   .refine(
-    data => data.endDate >= data.startDate,
+    (data) => data.endDate >= data.startDate,
     {
       message: "End date cannot be earlier than start date",
       path: ["endDate"], // this will show the error under endDate
@@ -77,7 +77,7 @@ export const newPaymentSchema = z
     state: z.string().min(1, "State or Province or Region is required"),
     cardName: z.string().min(1, "Card name is required"),
   })
-  .refine(data => data.address1?.trim() || data.address2?.trim(), {
+  .refine((data) => data.address1?.trim() || data.address2?.trim(), {
     message: "At least one address is required",
     path: ["address1"],
   });
@@ -90,13 +90,15 @@ export const supportClientFormSchema = z.object({
 
 export const changePasswordSettingsSchema = z
   .object({
-    oldPassword: z
+    oldPassword: z.string().min(8, "Old password is required"),
+    newPassword: z
       .string()
-      .min(8, "Password is required with a minimum of 8 characters"),
-    newPassword: z.string(),
+      .min(8, "New password is required with a minimum of 8 characters"),
+    confirmPassword: z.string().min(8, "Please confirm your new password"),
   })
-  .refine(data => data.oldPassword === data.newPassword, {
-    path: ["newPassword"],
+
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
     message: "Passwords do not match",
   });
 
@@ -104,4 +106,13 @@ export const paymentSchema = z.object({
   cardName: z.string().min(1, "Please enter card holder name"),
   cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
   cardNo: z.string().min(11, "Minimum of 11 digits is required"),
+});
+
+export const updateUserProfileSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^\d+$/, "Phone number must be digits only"),
 });

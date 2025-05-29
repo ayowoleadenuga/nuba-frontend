@@ -7,15 +7,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 interface SecurityTabProps {
   errors: Partial<Record<keyof SettingsState, string>>;
+  onClearError?: (field: keyof SettingsState) => void;
 }
-const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
-  const { oldPassword, newPassword } = useSelector(
+const SecurityTab: React.FC<SecurityTabProps> = ({ errors, onClearError }) => {
+  const { oldPassword, newPassword, confirmPassword } = useSelector(
     (state: RootState) => state.settings
   );
   const dispatch = useDispatch();
 
   const handleChange = (field: keyof SettingsState, value: string) => {
     dispatch(setSettingsField({ field, value }));
+
+    if (value && errors[field]) {
+      onClearError?.(field);
+    }
   };
 
   return (
@@ -35,7 +40,7 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
               type="password"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={oldPassword}
-              onChange={e => handleChange("oldPassword", e.target.value)}
+              onChange={(e) => handleChange("oldPassword", e.target.value)}
             />
             {errors.oldPassword && (
               <p className="text-red-500 text-[12px]">{errors.oldPassword}</p>
@@ -48,10 +53,26 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors }) => {
               type="password"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={newPassword}
-              onChange={e => handleChange("newPassword", e.target.value)}
+              onChange={(e) => handleChange("newPassword", e.target.value)}
             />
             {errors.newPassword && (
               <p className="text-red-500 text-[12px]">{errors.newPassword}</p>
+            )}
+
+            <NubaInput
+              containerClass={"w-full mt-6"}
+              label="Confirm Password"
+              placeholder=""
+              name="confirmPassword"
+              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+              value={confirmPassword}
+              onChange={(e) => handleChange("confirmPassword", e.target.value)}
+            />
+
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-[12px]">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
         </div>

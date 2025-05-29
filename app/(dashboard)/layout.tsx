@@ -11,10 +11,11 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const pathname = usePathname();
   const user = useSelector((state: RootState) => state.signup.user);
+  const userAll = useSelector((state: RootState) => state.signup);
 
   useEffect(() => {
     // || !user?.onboarding?.isOnboarded
-    if (!user) {
+    if (!userAll?.token || !user?.onboarding?.isOnboarded) {
       router.push(`/login?redirectTo=${pathname}`);
     }
   }, [user, router]);
