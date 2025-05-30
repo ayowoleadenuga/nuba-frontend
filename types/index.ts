@@ -219,3 +219,33 @@ export interface GetRentDetailsResponse {
   statusCode: number;
   data: Rent;
 }
+
+export interface UserProfile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address1: string;
+  address2: string;
+  city: string;
+  postcode: string;
+  joinedAt: string;
+  referralCode: string | null;
+  referralLink: string;
+  status: "active" | "inactive";
+  onboarding: {
+    isOnboarded: boolean;
+    step: number;
+  };
+  statistics: {
+    rentPaidAmount: string;
+    totalRentPaid: number;
+    totalReferral: number;
+    unitsEarned: string;
+  };
+}
+
+export interface UserProfileDetailsResponse {
+  data: UserProfile;
+}
