@@ -68,7 +68,7 @@ export const newPaymentSchema = z
     cardInfo: z.string().min(1, "Card information is required"),
     monthYear: z.string().min(1, "Month/Year of expiry is required"),
     cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
-    newAccountNumber: z.string().min(1, "Account number is required"),
+    // newAccountNumber: z.string().min(1, "Account number is required"),
     newCountry: z.string().min(1, "Country is required"),
     postalCode: z.string().min(1, "Postal or zipcode is required"),
     address1: z.string().optional(),

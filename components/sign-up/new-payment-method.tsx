@@ -29,7 +29,7 @@ const NewPaymentForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -43,7 +43,7 @@ const NewPaymentForm = () => {
       cardInfo: formData.cardInfo,
       monthYear: formData.monthYear,
       cvv: formData.cvv,
-      newAccountNumber: formData.newAccountNumber,
+      // newAccountNumber: formData.newAccountNumber,
       newCountry: formData.newCountry,
       postalCode: formData.postalCode,
       address1: formData.address1,
@@ -56,7 +56,7 @@ const NewPaymentForm = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -74,7 +74,7 @@ const NewPaymentForm = () => {
       address: formData.address1,
       address_2: formData.address2,
       state: formData.state,
-      cardName: formData.cardInfo,
+      cardName: formData.cardName,
       cardNumber: formData.cardInfo,
       cvc: formData.cvv,
       mmYY: formData.monthYear,
@@ -145,7 +145,8 @@ const NewPaymentForm = () => {
       {errors.cardName && (
         <p className="text-red-500 text-[12px]">{errors.cardName}</p>
       )}
-      <NubaInput
+
+      {/* <NubaInput
         containerClass={
           "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
         }
@@ -157,7 +158,7 @@ const NewPaymentForm = () => {
       />
       {errors.newAccountNumber && (
         <p className="text-red-500 text-[12px]">{errors.newAccountNumber}</p>
-      )}
+      )} */}
 
       <NubaInput
         containerClass={

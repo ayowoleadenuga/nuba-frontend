@@ -9,6 +9,7 @@ import {
   sigUpPayload,
   tenancyDetailsPayload,
   tenancyDetailsResponse,
+  UserProfileDetailsResponse,
 } from "@/types";
 import { RootState } from "@/redux/store";
 
@@ -108,8 +109,8 @@ export const authApi = createApi({
       query: (rentId) => `/user/rents/${rentId}`,
     }),
 
-    getUserProfile: builder.query({
-      query: () => "/me",
+    getUserProfile: builder.query<UserProfileDetailsResponse, void>({
+      query: () => "user/me",
     }),
 
     updateUserProfile: builder.mutation({

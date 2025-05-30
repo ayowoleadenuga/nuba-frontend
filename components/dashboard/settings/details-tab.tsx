@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   useGetUserRentsQuery,
   useGetUserRentsDetailsQuery,
+  useGetUserProfileQuery,
 } from "@/redux/features/authApiSlice";
 import ErrorMessage from "../skeletons/error-message";
 import { SettingsState } from "@/types";
@@ -31,6 +32,9 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
   const user = useSelector((state: RootState) => state.signup.user);
   const dispatch = useDispatch();
 
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
   const {
     data: rents,
     isError: isRentsError,
@@ -47,18 +51,34 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
 
   useEffect(() => {
     if (user) {
-      dispatch(setSettingsField({ field: "firstName", value: user.firstName }));
-      dispatch(setSettingsField({ field: "lastName", value: user.lastName }));
       dispatch(
-        setSettingsField({ field: "phoneNumber", value: user.phoneNumber })
+        setSettingsField({
+          field: "firstName",
+          value: userProfile?.firstName ?? "",
+        })
+      );
+      dispatch(
+        setSettingsField({
+          field: "lastName",
+          value: userProfile?.lastName ?? "",
+        })
+      );
+      dispatch(
+        setSettingsField({
+          field: "phoneNumber",
+          value: userProfile?.phoneNumber ?? "",
+        })
       );
     }
-  }, [user, dispatch]);
+  }, [userProfile]);
 
   useEffect(() => {
     if (rentDetail) {
       dispatch(
-        setSettingsField({ field: "rentAddress", value: rentDetail.country })
+        setSettingsField({
+          field: "rentAddress",
+          value: rentDetail?.country ?? "",
+        })
       );
       dispatch(
         setSettingsField({
@@ -72,13 +92,13 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
       dispatch(
         setSettingsField({
           field: "landlordName",
-          value: rentDetail.landlord.accountName,
+          value: rentDetail.landlord.accountName || "Not provided",
         })
       );
       dispatch(
         setSettingsField({
           field: "landlordbankDetails",
-          value: rentDetail.landlord.accountNumber,
+          value: rentDetail.landlord.accountNumber || "Not provided",
         })
       );
     }
