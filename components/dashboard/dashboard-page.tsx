@@ -1,6 +1,7 @@
 "use client";
 import CopyButton from "@/components/ui/copy-button";
 import {
+  useGetUserProfileQuery,
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/authApiSlice";
@@ -18,12 +19,17 @@ import {
 } from "@/utils";
 import RentStatsSkeleton from "./skeletons/rent-stats-skeleton";
 import ErrorMessage from "./skeletons/error-message";
+import ReferralSkeleton from "./skeletons/referral-skeleton";
 
 const DashboardPage = () => {
-  const user = useSelector((state: RootState) => state.signup.user);
-  const userAll = useSelector((state: RootState) => state.signup);
-
   const router = useRouter();
+  const {
+    data: userProfileDetails,
+    isLoading: isUserProfileLoading,
+    isError: isUserProfileError,
+    error: userProfileError,
+  } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
 
   const {
     data: rents,
@@ -55,7 +61,9 @@ const DashboardPage = () => {
 
   return (
     <div className="py-6 px-4">
-      <p className="font-[600] text-[12px] ">Welcome {user?.firstName},</p>
+      <p className="font-[600] text-[12px] ">
+        Welcome {userProfile?.firstName},
+      </p>
 
       <div className=" border-b border-b-[#D9D9D9] pb-5">
         {isRentsError || isRentDetailsError ? (
@@ -80,7 +88,7 @@ const DashboardPage = () => {
             </div>
             <div className="mt-6">
               <p className="font-[700] text-[10px]"> Address </p>
-              <p className="font-[700] text-[12px]">{rentDetail?.country}</p>
+              <p className="font-[700] text-[12px]">{userProfile?.address1}</p>
             </div>
             <button
               onClick={() => router.push("/payment")}
@@ -135,8 +143,12 @@ const DashboardPage = () => {
                 <p className="text-[10px] md:text-[12px] font-[500]">
                   Rewards & Referral
                 </p>
-                <p className="text-[24px] md:text-[32px] font-[500]">302.56</p>
-                <p className="text-[12px] font-[500]">From 4 Referrals</p>
+                <p className="text-[24px] md:text-[32px] font-[500]">
+                  {userProfile?.statistics.unitsEarned}
+                </p>
+                <p className="text-[12px] font-[500]">
+                  From {userProfile?.statistics.totalReferral} Referrals
+                </p>
               </div>
             </div>
             <p className="font-[600] text-[12px] mt-10">Share</p>
@@ -144,8 +156,21 @@ const DashboardPage = () => {
         )}
       </div>
 
-      <CopyButton name="COPY" value="SAMANTEX" />
-      <CopyButton name="LINK" value="https://get.nuba.ukr/r/samantex" />
+      {isUserProfileError ? (
+        <ErrorMessage
+          message={
+            (userProfileError as any)?.data?.message ??
+            "Unable to load user profile."
+          }
+        />
+      ) : isUserProfileLoading || !userProfile ? (
+        <ReferralSkeleton />
+      ) : (
+        <>
+          <CopyButton name="COPY" value={userProfile.referralCode ?? ""} />
+          <CopyButton name="LINK" value={userProfile.referralLink ?? ""} />
+        </>
+      )}
     </div>
   );
 };

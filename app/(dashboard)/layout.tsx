@@ -14,8 +14,8 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
   const userAll = useSelector((state: RootState) => state.signup);
 
   useEffect(() => {
-    // || !user?.onboarding?.isOnboarded
-    if (!userAll?.token || !user?.onboarding?.isOnboarded) {
+    // !userAll?.token || !user?.onboarding?.isOnboarded
+    if (!userAll?.token) {
       router.push(`/login?redirectTo=${pathname}`);
     }
   }, [user, router]);
