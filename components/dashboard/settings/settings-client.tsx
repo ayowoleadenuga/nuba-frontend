@@ -11,10 +11,12 @@ import SecurityTab from "./security-tab";
 import { Button } from "@/components/ui/button";
 import { Check } from "@/assets/svg/check";
 import { CancelIcon } from "@/assets/svg/cancel-icon";
-import {useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { SettingsErrorState} from "@/types";
+import { SettingsErrorState } from "@/types";
 import { useSettingsSubmit } from "./use-settings-submit";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 
 const SettingsClient = () => {
   const router = useRouter();
@@ -40,6 +42,34 @@ const SettingsClient = () => {
 
   const [errors, setErrors] = useState<SettingsErrorState>({});
 
+  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+    useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
+  const joinedYear = React.useMemo(() => {
+    if (!userProfile?.joinedAt) return "";
+    const date = new Date(userProfile.joinedAt);
+    return `${date.getFullYear().toString().slice(-2)}`;
+  }, [userProfile?.joinedAt]);
+
+  const { handleSubmit } = useSettingsSubmit(
+    currentTab === "Security"
+      ? {
+          currentTab: "Security",
+          oldPassword,
+          newPassword,
+          confirmPassword,
+          setErrors,
+        }
+      : {
+          currentTab: "Details",
+          firstName,
+          lastName,
+          phoneNumber,
+          setErrors,
+        }
+  );
+
   const showTab = (tab: string) => {
     switch (tab) {
       case "Details":
@@ -53,6 +83,7 @@ const SettingsClient = () => {
                 return updated;
               });
             }}
+            onCancel={() => router.push("/dashboard")}
           />
         );
       case "Account":
@@ -86,44 +117,35 @@ const SettingsClient = () => {
                 return updated;
               });
             }}
+            onCancel={() => router.push("/dashboard")}
           />
         );
     }
   };
-
-  const { handleSubmit } = useSettingsSubmit(
-    currentTab === "Security"
-      ? {
-          currentTab: "Security",
-          oldPassword,
-          newPassword,
-          confirmPassword,
-          setErrors,
-        }
-      : {
-          currentTab: "Details",
-          firstName,
-          lastName,
-          phoneNumber,
-          setErrors,
-        }
-  );
 
   return (
     <div className="w-full p-5">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between">
         <p className="text-[20px] font-[600]">Settings</p>
         <div className="flex items-center gap-4">
-          <div>
-            <div className="flex items-center">
-              <PointsIcon />
-              <p className="font-[700] text-[#CF931D]">30,256 pts</p>
+          {isProfileDetailsLoading ? (
+            <PointsDateJoinSkeleton />
+          ) : (
+            <div>
+              <div className="flex items-center gap-2">
+                <PointsIcon />
+                <p className="font-[700] text-[#CF931D]">
+                  {userProfile?.statistics.unitsEarned} pts
+                </p>
+              </div>
+              <p className="text-[11px] text-[#999B9E]">
+                Member since ‘{joinedYear}
+              </p>
             </div>
-            <p className="text-[11px] text-[#999B9E]">Member since ‘25</p>
-          </div>
-          <IconButton>
+          )}
+          {/* <IconButton>
             <OptionsIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
 
@@ -147,26 +169,31 @@ const SettingsClient = () => {
           })}
         </div>
       </div>
+
       <form
         ref={formRef}
         onSubmit={handleSubmit}
         className="bg-white w-full p-4 md:p-8"
       >
         {showTab(currentTab)}
-        <div className="flex justify-end w-full gap-5 ">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="text-[12px] font-[600] px-4 text-brandCore-orange border border-border rounded-[6px] flex items-center gap-2 "
-          >
-            Cancel <CancelIcon />
-          </button>
-          <Button
-            type="submit"
-            className="text-[12px] font-[600] flex items-center gap-2 "
-          >
-            Save Settings <Check />
-          </Button>
-        </div>
+
+        {currentTab !== "Details" && (
+          <div className="flex justify-end w-full gap-5 ">
+            <button
+              type="button"
+              onClick={() => router.push("/dashboard")}
+              className="text-[12px] font-[600] px-4 text-brandCore-orange border border-border rounded-[6px] flex items-center gap-2 "
+            >
+              Cancel <CancelIcon />
+            </button>
+            <Button
+              type="submit"
+              className="text-[12px] font-[600] flex items-center gap-2 "
+            >
+              Save Settings <Check />
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );

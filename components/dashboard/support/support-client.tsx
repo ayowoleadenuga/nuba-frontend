@@ -11,11 +11,24 @@ import { RootState } from "@/redux/store";
 import { setField } from "@/redux/features/support-center-slice";
 import { SupportCenterState } from "@/types";
 import { supportClientFormSchema } from "@/utils/validator";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 
 const SupportClient = () => {
+  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+    useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
+  const joinedYear = React.useMemo(() => {
+    if (!userProfile?.joinedAt) return "";
+    const date = new Date(userProfile.joinedAt);
+    return `${date.getFullYear().toString().slice(-2)}`;
+  }, [userProfile?.joinedAt]);
+
   const { issue, email, fullName } = useSelector(
     (state: RootState) => state.supportCenter
   );
+
   const dispatch = useDispatch();
   const [errors, setErrors] = React.useState<{
     [key in keyof SupportCenterState]?: string;
@@ -28,7 +41,7 @@ const SupportClient = () => {
     value: string
   ) => {
     dispatch(setField({ field, value }));
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: "",
     }));
@@ -46,7 +59,7 @@ const SupportClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -63,17 +76,25 @@ const SupportClient = () => {
     <div className="w-full p-5">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
         <p className="text-[20px] font-[600] ">Support Center</p>
-        <div className="flex items-center gap-4 ">
-          <div>
-            <div className="flex items-center">
-              <PointsIcon />
-              <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
+        <div className="flex items-center gap-4">
+          {isProfileDetailsLoading ? (
+            <PointsDateJoinSkeleton />
+          ) : (
+            <div>
+              <div className="flex items-center gap-2">
+                <PointsIcon />
+                <p className="font-[700] text-[#CF931D]">
+                  {userProfile?.statistics.unitsEarned} pts
+                </p>
+              </div>
+              <p className="text-[11px] text-[#999B9E]">
+                Member since ‘{joinedYear}
+              </p>
             </div>
-            <p className="text-[11px] text-[#999B9E] ">Member since ‘25</p>
-          </div>
-          <IconButton>
+          )}
+          {/* <IconButton>
             <OptionsIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
       <div className="w-full md:w-[70%] xl:w-[50%] ">
@@ -108,7 +129,7 @@ const SupportClient = () => {
               name="full_name"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={fullName}
-              onChange={e => handleChange("fullName", e.target.value)}
+              onChange={(e) => handleChange("fullName", e.target.value)}
             />
             {errors.fullName && (
               <p className="text-red-500 text-[12px]">{errors.fullName}</p>
@@ -121,7 +142,7 @@ const SupportClient = () => {
               name="email"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={email}
-              onChange={e => handleChange("email", e.target.value)}
+              onChange={(e) => handleChange("email", e.target.value)}
             />
             {errors.email && (
               <p className="text-red-500 text-[12px]">{errors.email}</p>
@@ -133,7 +154,7 @@ const SupportClient = () => {
               name="message"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
               value={issue}
-              onChange={e => handleChange("issue", e.target.value)}
+              onChange={(e) => handleChange("issue", e.target.value)}
             />
             {errors.issue && (
               <p className="text-red-500 text-[12px]">{errors.issue}</p>

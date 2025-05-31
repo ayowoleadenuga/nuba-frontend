@@ -1,14 +1,8 @@
 "use client";
 import CopyButton from "@/components/ui/copy-button";
-import {
-  useGetUserProfileQuery,
-  useGetUserRentsDetailsQuery,
-  useGetUserRentsQuery,
-} from "@/redux/features/authApiSlice";
 import { RootState } from "@/redux/store";
 import { useRouter } from "nextjs-toploader/app";
 import React from "react";
-import { useSelector } from "react-redux";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import RentCardSkeleton from "./skeletons/rent-card-skeleton";
 import {
@@ -20,6 +14,8 @@ import {
 import RentStatsSkeleton from "./skeletons/rent-stats-skeleton";
 import ErrorMessage from "./skeletons/error-message";
 import ReferralSkeleton from "./skeletons/referral-skeleton";
+import { useGetUserRentsDetailsQuery, useGetUserRentsQuery } from "@/redux/features/rentsApiSlice";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 const DashboardPage = () => {
   const router = useRouter();
