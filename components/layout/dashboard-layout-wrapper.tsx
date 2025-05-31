@@ -36,6 +36,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown";
 import LogoutButton from "@/components/ui/logout-button";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import UserInfoSkeleton from "../dashboard/skeletons/user-info-skeleton";
 
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -72,7 +74,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: prop => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
@@ -95,7 +97,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: prop => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -150,7 +152,11 @@ export default function DashboardLayoutWrapper({
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const user = useSelector((state: RootState) => state.signup.user);
+
+  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+    useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
   return (
     <Box sx={{ display: "flex" }}>
       {/* <CssBaseline /> */}
@@ -201,41 +207,46 @@ export default function DashboardLayoutWrapper({
               {formatDate(new Date())}
             </Typography>
           </Box>
-          <Box className="flex items-center gap-2">
-            <IconButton
-              size="small"
-              aria-label="Notifications"
-              color="inherit"
-              sx={{ mr: 2 }}
-              // sx={{ display: open ? "none" : "block" }}
-            >
-              <NotificationIcon />
-            </IconButton>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <PointsIcon />
-              <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
+          {isProfileDetailsLoading ? (
+            <UserInfoSkeleton />
+          ) : (
+            <Box className="flex items-center gap-2">
+              <IconButton
+                size="small"
+                aria-label="Notifications"
+                color="inherit"
+                sx={{ mr: 2 }}
+              >
+                <NotificationIcon />
+              </IconButton>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PointsIcon />
+                <p className="font-[700] text-[#CF931D]">
+                  {userProfile?.statistics.unitsEarned} pts
+                </p>
+              </Box>
+              <Avatar sx={{ width: "20px", height: "20px" }} />
+              <p className="font-[700] text-white">
+                {userProfile?.firstName} {userProfile?.lastName}
+              </p>
+              <div className="relative w-auto">
+                <button onClick={() => setShowLogout(!showLogout)}>
+                  <DropdownIcon />
+                </button>
+                {showLogout && (
+                  <div className="absolute px-4 py-1 top-8 right-5 text-white rounded-[8px]">
+                    <LogoutButton />
+                  </div>
+                )}
+              </div>
             </Box>
-            <Avatar sx={{ width: "20px", height: "20px" }} />
-            <p className="font-[700] text-white  ">
-              {user?.firstName} {user?.lastName}{" "}
-            </p>
-            <div className="relative w-auto">
-              <button onClick={() => setShowLogout(!showLogout)}>
-                <DropdownIcon />
-              </button>
-              {showLogout && (
-                <div className="absolute px-4 py-1 top-8 right-5  text-white rounded-[8px] ">
-                  <LogoutButton />
-                </div>
-              )}
-            </div>
-          </Box>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer sx={{ px: 5 }} variant="permanent" open={open}>

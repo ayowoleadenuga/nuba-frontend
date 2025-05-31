@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import MakePayment from "./make-payment";
 import PaymentResponse from "./payment-response";
 import { useRouter } from "nextjs-toploader/app";
+import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 
 interface PaymentPageProps {
   setTab: React.Dispatch<
@@ -20,6 +21,8 @@ interface PaymentPageProps {
 const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
   const router = useRouter();
   const [makePayment, setMakePayment] = useState<"" | "start" | "complete">("");
+  const { data } = useGetPaymentMethodsQuery(undefined);
+
   return (
     <div className="py-6 ">
       <div className="flex items-center justify-between">
