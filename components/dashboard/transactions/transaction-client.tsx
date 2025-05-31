@@ -14,6 +14,8 @@ import { useGetUserTransactionsQuery } from "@/redux/features/transactionsApiSli
 const TransactionClient = () => {
   const router = useRouter();
   const { data } = useGetUserTransactionsQuery(undefined);
+  console.log(data);
+
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
@@ -21,7 +23,7 @@ const TransactionClient = () => {
   const joinedYear = React.useMemo(() => {
     if (!userProfile?.joinedAt) return "";
     const date = new Date(userProfile.joinedAt);
-    return `'${date.getFullYear().toString().slice(-2)}`;
+    return `${date.getFullYear().toString().slice(-2)}`;
   }, [userProfile?.joinedAt]);
 
   return (

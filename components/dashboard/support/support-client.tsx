@@ -22,7 +22,7 @@ const SupportClient = () => {
   const joinedYear = React.useMemo(() => {
     if (!userProfile?.joinedAt) return "";
     const date = new Date(userProfile.joinedAt);
-    return `'${date.getFullYear().toString().slice(-2)}`;
+    return `${date.getFullYear().toString().slice(-2)}`;
   }, [userProfile?.joinedAt]);
 
   const { issue, email, fullName } = useSelector(
