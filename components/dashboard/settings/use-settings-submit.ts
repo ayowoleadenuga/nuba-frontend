@@ -6,7 +6,10 @@ import {
 } from "@/utils/validator";
 import { nubaApis } from "@/services/api-services";
 import { SettingsErrorState } from "@/types";
-import { useChangePasswordMutation, useUpdateUserProfileMutation } from "@/redux/features/userApiSlice";
+import {
+  useChangePasswordMutation,
+  useUpdateUserProfileMutation,
+} from "@/redux/features/userApiSlice";
 
 type BaseProps = {
   setErrors: React.Dispatch<React.SetStateAction<SettingsErrorState>>;
@@ -36,6 +39,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
     if (props.currentTab === "Security") {
       const { oldPassword, newPassword, confirmPassword, setErrors } = props;
+      console.log("Submitting form for tab:", props.currentTab);
 
       const result = changePasswordSettingsSchema.safeParse({
         oldPassword,
@@ -61,6 +65,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
         },
         changePasswordMutation
       );
+      console.log("Password changed successfully");
       dispatch(resetSettingsForm());
     }
 

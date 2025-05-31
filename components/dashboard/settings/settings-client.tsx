@@ -180,6 +180,7 @@ const SettingsClient = () => {
         {currentTab !== "Details" && (
           <div className="flex justify-end w-full gap-5 ">
             <button
+              type="button"
               onClick={() => router.push("/dashboard")}
               className="text-[12px] font-[600] px-4 text-brandCore-orange border border-border rounded-[6px] flex items-center gap-2 "
             >
