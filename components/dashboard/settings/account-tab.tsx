@@ -1,5 +1,6 @@
 "use client";
 import NubaInput from "@/components/ui/nuba-input";
+import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
 import { SettingsState } from "@/types";
@@ -22,6 +23,8 @@ const AccountTab: React.FC<AccountTabProps> = ({
     dispatch(setSettingsField({ field, value }));
   };
 
+  const { data: paymentMethods } = useGetPaymentMethodsQuery(undefined);
+
   return (
     <div>
       <div className="w-full mb-10  ">
@@ -41,7 +44,7 @@ const AccountTab: React.FC<AccountTabProps> = ({
               dropdown
               dropdownItems={["Ammex", "Mastercard"]}
               value={preferredPaymnetMethod}
-              onChange={e =>
+              onChange={(e) =>
                 handleChange("preferredPaymnetMethod", e.target.value)
               }
             />

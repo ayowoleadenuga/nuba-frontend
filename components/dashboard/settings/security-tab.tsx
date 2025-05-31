@@ -62,6 +62,7 @@ const SecurityTab: React.FC<SecurityTabProps> = ({ errors, onClearError }) => {
             <NubaInput
               containerClass={"w-full mt-6"}
               label="Confirm Password"
+              type="password"
               placeholder=""
               name="confirmPassword"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "

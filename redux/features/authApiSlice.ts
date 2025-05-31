@@ -1,15 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { env } from "@/env";
 import {
-  GetAllRentsResponse,
-  GetRentDetailsResponse,
   loginPayload,
   loginResponse,
   signUpResponse,
   sigUpPayload,
   tenancyDetailsPayload,
   tenancyDetailsResponse,
-  UserProfileDetailsResponse,
 } from "@/types";
 import { RootState } from "@/redux/store";
 
@@ -93,33 +90,6 @@ export const authApi = createApi({
         body: payload,
       }),
     }),
-    changePassword: builder.mutation({
-      query: (payload) => ({
-        url: "/user/change-password",
-        method: "PUT",
-        body: payload,
-      }),
-    }),
-
-    getUserRents: builder.query<GetAllRentsResponse, void>({
-      query: () => "/user/rents",
-    }),
-
-    getUserRentsDetails: builder.query<GetRentDetailsResponse, string>({
-      query: (rentId) => `/user/rents/${rentId}`,
-    }),
-
-    getUserProfile: builder.query<UserProfileDetailsResponse, void>({
-      query: () => "user/me",
-    }),
-
-    updateUserProfile: builder.mutation({
-      query: (payload) => ({
-        url: "/user",
-        method: "PUT",
-        body: payload,
-      }),
-    }),
   }),
 });
 
@@ -133,9 +103,4 @@ export const {
   useUploadNewPaymentMethodMutation,
   useResendOTPMutation,
   useLogoutMutation,
-  useChangePasswordMutation,
-  useGetUserRentsQuery,
-  useGetUserRentsDetailsQuery,
-  useGetUserProfileQuery,
-  useUpdateUserProfileMutation,
 } = authApi;

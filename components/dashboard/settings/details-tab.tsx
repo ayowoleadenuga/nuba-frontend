@@ -4,13 +4,13 @@ import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useGetUserRentsQuery,
-  useGetUserRentsDetailsQuery,
-  useGetUserProfileQuery,
-} from "@/redux/features/authApiSlice";
 import ErrorMessage from "../skeletons/error-message";
 import { SettingsState } from "@/types";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 interface DetailsTabProps {
   errors: Partial<Record<keyof SettingsState, string>>;
@@ -29,7 +29,6 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
     landlordName,
     landlordbankDetails,
   } = useSelector((state: RootState) => state.settings);
-  const user = useSelector((state: RootState) => state.signup.user);
   const dispatch = useDispatch();
 
   const { data: userProfileDetails } = useGetUserProfileQuery();
@@ -50,7 +49,7 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
   const rentDetail = rentDetails?.data;
 
   useEffect(() => {
-    if (user) {
+    if (userProfile) {
       dispatch(
         setSettingsField({
           field: "firstName",

@@ -16,6 +16,9 @@ import supportCenterReducer from "./features/support-center-slice";
 import settingsReducer from "./features/settings-slice";
 import paymentReducer from "./features/paymentSlice";
 import { authApi } from "@/redux/features/authApiSlice";
+import { userApi } from "@/redux/features/userApiSlice";
+import { rentsApi } from "@/redux/features/rentsApiSlice";
+import { paymentsApi } from "./features/paymentsApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -30,19 +33,28 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   payment: paymentReducer,
   [authApi.reducerPath]: authApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
+  [rentsApi.reducerPath]: rentsApi.reducer,
+  [paymentsApi.reducerPath]: paymentsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         ignoredPaths: ["signup.formData.tenancyAgreement"],
       },
-    }).concat(authApi.middleware),
+    }).concat(
+      authApi.middleware,
+      authApi.middleware,
+      userApi.middleware,
+      rentsApi.middleware,
+      paymentsApi.middleware
+    ),
 });
 
 export const persistor = persistStore(store);

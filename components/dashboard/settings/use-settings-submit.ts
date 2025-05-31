@@ -1,8 +1,4 @@
 import { useDispatch } from "react-redux";
-import {
-  useChangePasswordMutation,
-  useUpdateUserProfileMutation,
-} from "@/redux/features/authApiSlice";
 import { resetSettingsForm } from "@/redux/features/settings-slice";
 import {
   changePasswordSettingsSchema,
@@ -10,6 +6,7 @@ import {
 } from "@/utils/validator";
 import { nubaApis } from "@/services/api-services";
 import { SettingsErrorState } from "@/types";
+import { useChangePasswordMutation, useUpdateUserProfileMutation } from "@/redux/features/userApiSlice";
 
 type BaseProps = {
   setErrors: React.Dispatch<React.SetStateAction<SettingsErrorState>>;
