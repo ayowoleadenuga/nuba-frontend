@@ -13,14 +13,14 @@ const baseQueryWithAuth = fetchBaseQuery({
   },
 });
 
-export const paymentsApi = createApi({
-  reducerPath: "paymentsApi",
+export const transactionsApi = createApi({
+  reducerPath: "transactionsApi",
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
-    getPaymentMethods: builder.query({
-      query: () => "/user/payment-methods",
+    getUserTransactions: builder.query({
+      query: () => "/user/transactions",
     }),
   }),
 });
 
-export const { useGetPaymentMethodsQuery } = paymentsApi;
+export const { useGetUserTransactionsQuery } = transactionsApi;

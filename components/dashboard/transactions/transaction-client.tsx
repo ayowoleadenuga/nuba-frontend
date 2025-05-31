@@ -9,9 +9,11 @@ import Image from "next/image";
 import { useRouter } from "nextjs-toploader/app";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
+import { useGetUserTransactionsQuery } from "@/redux/features/transactionsApiSlice";
 
 const TransactionClient = () => {
   const router = useRouter();
+  const { data } = useGetUserTransactionsQuery(undefined);
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;

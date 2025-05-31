@@ -19,6 +19,7 @@ import { authApi } from "@/redux/features/authApiSlice";
 import { userApi } from "@/redux/features/userApiSlice";
 import { rentsApi } from "@/redux/features/rentsApiSlice";
 import { paymentsApi } from "./features/paymentsApiSlice";
+import { transactionsApi } from "./features/transactionsApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [rentsApi.reducerPath]: rentsApi.reducer,
   [paymentsApi.reducerPath]: paymentsApi.reducer,
+  [transactionsApi.reducerPath]: transactionsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -53,7 +55,8 @@ export const store = configureStore({
       authApi.middleware,
       userApi.middleware,
       rentsApi.middleware,
-      paymentsApi.middleware
+      paymentsApi.middleware,
+      transactionsApi.middleware
     ),
 });
 
