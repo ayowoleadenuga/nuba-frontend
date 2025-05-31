@@ -7,9 +7,21 @@ import { format } from "date-fns";
 import { TransactionsIcon } from "@/assets/svg/transactions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "nextjs-toploader/app";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 const TransactionDetails = () => {
   const router = useRouter();
+
+  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+    useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
+  const joinedYear = React.useMemo(() => {
+    if (!userProfile?.joinedAt) return "";
+    const date = new Date(userProfile.joinedAt);
+    return `'${date.getFullYear().toString().slice(-2)}`;
+  }, [userProfile?.joinedAt]);
+
   return (
     <div className="w-full p-5  min-h-[100vh] pb-[60px] ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
@@ -20,9 +32,15 @@ const TransactionDetails = () => {
           <div>
             <div className="flex items-center">
               <PointsIcon />
-              <p className="font-[700] text-[#CF931D]  ">30,256 pts</p>
+              <p className="font-[700] text-[#CF931D]  ">
+                {" "}
+                {userProfile?.statistics.unitsEarned} pts
+              </p>
             </div>
-            <p className="text-[11px] text-[#999B9E] ">Member since ‘25</p>
+            <p className="text-[11px] text-[#999B9E] ">
+              {" "}
+              Member since ‘{joinedYear}
+            </p>
           </div>
           <IconButton>
             <OptionsIcon />

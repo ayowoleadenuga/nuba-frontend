@@ -1,8 +1,8 @@
+import React, { FC, useEffect, useRef } from "react";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import NubaInput from "@/components/ui/nuba-input";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
-import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../skeletons/error-message";
 import { SettingsState } from "@/types";
@@ -11,13 +11,21 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import { Button } from "@/components/ui/button";
+import { Check } from "@/assets/svg/check";
+import { CancelIcon } from "@/assets/svg/cancel-icon";
 
 interface DetailsTabProps {
   errors: Partial<Record<keyof SettingsState, string>>;
   onClearError?: (field: keyof SettingsState) => void;
+  onCancel?: () => void;
 }
 
-const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
+const DetailsTab: FC<DetailsTabProps> = ({
+  errors,
+  onClearError,
+  onCancel,
+}) => {
   const {
     firstName,
     lastName,
@@ -182,6 +190,22 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
                   </p>
                 )}
               </div>
+
+              <div className="flex justify-end w-full gap-5 mt-4">
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  className="text-[12px] font-[600] px-4 text-brandCore-orange border border-border rounded-[6px] flex items-center gap-2 "
+                >
+                  Cancel <CancelIcon />
+                </button>
+                <Button
+                  type="submit"
+                  className="text-[12px] font-[600] flex items-center gap-2 "
+                >
+                  Save Settings <Check />
+                </Button>
+              </div>
             </div>
           </div>
           <div className="w-full my-10 ">
@@ -198,7 +222,7 @@ const DetailsTab: FC<DetailsTabProps> = ({ errors, onClearError }) => {
             Move Residence
           </button> */}
             </div>
-            <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
+            <div className="w-full border-b border-b-[#E2E8F0] pb-6">
               <div className="w-full md:w-[70%] xl:w-[50%]">
                 <NubaInput
                   containerClass={"w-full mt-6"}

@@ -17,9 +17,11 @@ const baseQueryWithAuth = fetchBaseQuery({
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithAuth,
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     getUserProfile: builder.query<UserProfileDetailsResponse, void>({
       query: () => "user/me",
+      providesTags: ["User"],
     }),
     updateUserProfile: builder.mutation({
       query: (payload) => ({
@@ -27,6 +29,8 @@ export const userApi = createApi({
         method: "PUT",
         body: payload,
       }),
+
+      invalidatesTags: ["User"],
     }),
     changePassword: builder.mutation({
       query: (payload) => ({

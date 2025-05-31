@@ -35,7 +35,7 @@ const DashboardClient = () => {
                 </p>
               </div>
               <p className="text-[11px] text-[#999B9E]">
-                Member since '{joinedYear}
+                Member since ‘{joinedYear}
               </p>
             </div>
           )}
