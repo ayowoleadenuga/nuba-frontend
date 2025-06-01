@@ -103,7 +103,7 @@ export interface signUpResponse {
 }
 
 export interface loginResponseData {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -116,6 +116,18 @@ export interface loginResponseData {
     isOnboarded: boolean;
     step: number;
   };
+  statistics: {
+    rentPaidAmount: string;
+    totalRentPaid: number;
+    totalReferral: number;
+    unitsEarned: string;
+    mileStone: number;
+    unitBalance: number;
+  };
+  status: string;
+  referralCode: string | null;
+  referralLink: string;
+  joinedAt: string;
 }
 
 export interface sigUpPayload {
@@ -248,4 +260,62 @@ export interface UserProfile {
 
 export interface UserProfileDetailsResponse {
   data: UserProfile;
+}
+
+export interface Transaction {
+  id: number;
+  orderId: number;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    address1: string;
+    address2: string;
+    city: string;
+    postcode: string;
+    onboarding: {
+      isOnboarded: boolean;
+      step: number;
+    };
+    statistics: {
+      rentPaidAmount: number;
+      totalRentPaid: number;
+      totalReferral: number;
+      unitsEarned: number;
+    };
+    status: string;
+    joinedAt: string;
+  };
+  subscription: string;
+  service: string;
+  paymentId: string;
+  transactionNumber: string;
+  amount: number;
+  status: string;
+  cardType: string;
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginationMeta {
+  total: number;
+  count: number;
+  per_page: number;
+  current_page: number;
+  total_pages: number;
+  links: {
+    first: string;
+    last: string;
+    prev: string;
+    next: string;
+  };
+}
+
+export interface GetUserTransactionsResponse {
+  success: boolean;
+  data: Transaction[];
+  meta: PaginationMeta;
 }

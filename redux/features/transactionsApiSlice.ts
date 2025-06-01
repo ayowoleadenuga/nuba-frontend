@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { env } from "@/env";
 import { RootState } from "@/redux/store";
+import { GetUserTransactionsResponse } from "@/types";
 
 const baseQueryWithAuth = fetchBaseQuery({
   baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
@@ -17,7 +18,7 @@ export const transactionsApi = createApi({
   reducerPath: "transactionsApi",
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
-    getUserTransactions: builder.query({
+    getUserTransactions: builder.query<GetUserTransactionsResponse, void>({
       query: () => "/user/transactions",
     }),
   }),
