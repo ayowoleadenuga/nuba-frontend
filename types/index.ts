@@ -162,6 +162,7 @@ export interface tenancyDetailsResponse {
   created_at: string;
   updated_at: number;
 }
+
 export interface tenancyDetailsPayload {
   country: string;
   startDate: string;
@@ -318,4 +319,18 @@ export interface GetUserTransactionsResponse {
   success: boolean;
   data: Transaction[];
   meta: PaginationMeta;
+}
+
+export interface PaymentMethod {
+  id: string;
+  country: string;
+  postcode: string;
+  city: string;
+  address: string;
+  address_2?: null;
+  state: string;
+  mmYY: string;
+  cardName: string;
+  lastDigits: string;
+  created_at: string;
 }

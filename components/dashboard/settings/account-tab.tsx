@@ -1,19 +1,12 @@
 "use client";
 import NubaInput from "@/components/ui/nuba-input";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
 import { SettingsState } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
-import ammex from "@/assets/svg/amex-card.svg";
-import { Mastercard } from "@/assets/svg/mastercard";
-import Image from "next/image";
+import PaymentAccordionItem from "./payment-accordion-item";
 
 interface AccountTabProps {
   setRentDueDate: (Date: Date | null) => void;
@@ -31,7 +24,7 @@ const AccountTab: React.FC<AccountTabProps> = ({
     dispatch(setSettingsField({ field, value }));
   };
 
-  const { data: paymentMethods } = useGetPaymentMethodsQuery(undefined);
+  const { data: paymentMethods } = useGetPaymentMethodsQuery();
   console.log("Payment Methods:", paymentMethods);
 
   return (
@@ -59,32 +52,15 @@ const AccountTab: React.FC<AccountTabProps> = ({
             /> */}
 
             <Accordion type="single" collapsible className=" ">
-              <AccordionItem value="item-1">
-                <AccordionTrigger className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3 ">
-                  <p className="font-[500] text-[14px] ">American Express</p>
-                  <div className="absolute right-8 top-4 flex items-center gap-2">
-                    <Image src={ammex} alt="card" />
-                    <p>4308</p>
-                  </div>
-                </AccordionTrigger>
-
-                <AccordionContent>
-                  <div className="flex items-center justify-between py-4">
-                    <div className="flex items-center gap-4">
-                      <Mastercard />
-                      <div>
-                        <p className="font-[500] text-[14px] ">
-                          Mastercard ending in 8480
-                        </p>
-                        <p className="font-[300] text-[12px] ">
-                          Expiry 04/2026
-                        </p>
-                      </div>
-                    </div>
-                    <span className="bg-[#27AE60] border-[#474747] border rounded-full w-4 h-4 "></span>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              <Accordion type="single" collapsible className="">
+                {paymentMethods?.data?.map((method, index: number) => (
+                  <PaymentAccordionItem
+                    key={method.id}
+                    method={method}
+                    index={index}
+                  />
+                ))}
+              </Accordion>
             </Accordion>
 
             <NubaInput

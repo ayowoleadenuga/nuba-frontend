@@ -12,6 +12,7 @@ import MakePayment from "./make-payment";
 import PaymentResponse from "./payment-response";
 import { useRouter } from "nextjs-toploader/app";
 import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 interface PaymentPageProps {
   setTab: React.Dispatch<
@@ -21,7 +22,8 @@ interface PaymentPageProps {
 const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
   const router = useRouter();
   const [makePayment, setMakePayment] = useState<"" | "start" | "complete">("");
-  const { data } = useGetPaymentMethodsQuery(undefined);
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
 
   return (
     <div className="py-6 ">
@@ -35,7 +37,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
           </button>
         ) : (
           <p className="font-[600] text-[12px] ">
-            Greenwood Apartments || 123 Main Street, London
+            Greenwood Apartments || {userProfile?.address1}, {userProfile?.city}
           </p>
         )}
         <div className="hidden md:flex items-center">
