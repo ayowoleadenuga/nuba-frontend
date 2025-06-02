@@ -13,6 +13,12 @@ import PaymentResponse from "./payment-response";
 import { useRouter } from "nextjs-toploader/app";
 import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import { formatDateToDDMMYYYY } from "@/utils";
 
 interface PaymentPageProps {
   setTab: React.Dispatch<
@@ -21,9 +27,21 @@ interface PaymentPageProps {
 }
 const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
   const router = useRouter();
+  const [autopayOn, setAutopayOn] = useState(false);
   const [makePayment, setMakePayment] = useState<"" | "start" | "complete">("");
+
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
+
+  const { data: rents } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
+
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
+
+  const toggleAutopay = () => setAutopayOn((prev) => !prev);
 
   return (
     <div className="py-6 ">
@@ -67,10 +85,14 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[12px] font-[600] ">Residential Rent</p>
-                  <p className="text-[#474747] text-[10px] ">01/05/2025</p>
+                  <p className="text-[#474747] text-[10px] ">
+                    {rentDetail?.endDate
+                      ? formatDateToDDMMYYYY(rentDetail.endDate)
+                      : "—"}
+                  </p>
                 </div>
                 <p className="font-[500] text-[14px] text-[#474747] ">
-                  £1,200.00
+                  £{rentDetail?.monthlyPrice}
                 </p>
               </div>
             </div>
@@ -92,8 +114,21 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </div>
             </div>
           </div>
-          <AutopayOn setTab={setTab} setMakePayment={setMakePayment} />
-          {/* <AutopayOff setMakePayment={setMakePayment} setTab={setTab} /> */}
+          <div>
+            {autopayOn ? (
+              <AutopayOn
+                setTab={setTab}
+                setMakePayment={setMakePayment}
+                toggleAutopay={toggleAutopay}
+              />
+            ) : (
+              <AutopayOff
+                setTab={setTab}
+                setMakePayment={setMakePayment}
+                toggleAutopay={toggleAutopay}
+              />
+            )}
+          </div>
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />

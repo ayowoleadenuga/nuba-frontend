@@ -53,17 +53,15 @@ const AccountTab: React.FC<AccountTabProps> = ({
             /> */}
 
             <Accordion type="single" collapsible className="mt-6">
-              <Accordion type="single" collapsible className="">
-                {paymentMethods?.data?.map((method, index: number) => (
-                  <PaymentAccordionItem
-                    key={method.id}
-                    method={method}
-                    index={index}
-                    isActive={method.id === activeMethodId}
-                    onSelect={() => setActiveMethodId(method.id)}
-                  />
-                ))}
-              </Accordion>
+              {paymentMethods?.data?.map((method, index: number) => (
+                <PaymentAccordionItem
+                  key={method.id}
+                  method={method}
+                  index={index}
+                  isActive={method.id === activeMethodId}
+                  onSelect={() => setActiveMethodId(method.id)}
+                />
+              ))}
             </Accordion>
 
             <NubaInput

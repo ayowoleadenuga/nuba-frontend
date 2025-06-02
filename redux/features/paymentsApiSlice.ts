@@ -17,7 +17,6 @@ export const paymentsApi = createApi({
         method: "POST",
         body: payload,
       }),
-
       invalidatesTags: ["Payments"],
     }),
   }),

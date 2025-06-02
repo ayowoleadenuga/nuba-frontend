@@ -1,22 +1,19 @@
 import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import { Button } from "@/components/ui/button";
+import { AutoPayOnProps } from "@/types";
 import React from "react";
 
-interface AutoPayOnProps {
-  setTab: React.Dispatch<
-    React.SetStateAction<"" | "autopay-setup" | "include-points">
-  >;
-  setMakePayment: React.Dispatch<
-    React.SetStateAction<"" | "start" | "complete">
-  >;
-}
-const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab, setMakePayment }) => {
+const AutopayOn: React.FC<AutoPayOnProps> = ({
+  setTab,
+  setMakePayment,
+  toggleAutopay,
+}) => {
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
         <div className="flex items-center justify-between border-b border-[#d9d9d9] pb-2">
-          <div>
+          <div onClick={() => toggleAutopay()} className="cursor-pointer">
             <div className="flex items-center gap-1">
               <CheckedIcon />
               <p className="text-[12px] font-[500] ">Autopay activated</p>

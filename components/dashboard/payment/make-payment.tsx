@@ -25,7 +25,11 @@ import {
 } from "@/redux/features/paymentsApiSlice";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 import { nubaApis } from "@/services/api-services";
-
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 interface MakePaymentProps {
   setMakePayment: React.Dispatch<
     React.SetStateAction<"" | "start" | "complete">
@@ -36,6 +40,16 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
   const dispatch = useDispatch();
   const [isOn, setIsOn] = useState(false);
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
+
+  const { data: paymentMethods } = useGetPaymentMethodsQuery();
+
+  const { data: rents } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
+
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
 
   const {
     country,
@@ -107,24 +121,20 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
     dispatch(resetNewPaymentForm());
   };
 
-  const { data: paymentMethods } = useGetPaymentMethodsQuery();
-
   return (
     <div className="flex md:flex-row flex-col items-start justify-between gap-10 ">
       <div className="border border-border rounded-[12px] p-3 w-full md:w-[60%] xl:w-[47%]  ">
         <p className="font-[600] text-[14px] mb-1 ">Payment Method</p>
         <Accordion type="single" collapsible className="mt-6">
-          <Accordion type="single" collapsible className="">
-            {paymentMethods?.data?.map((method, index: number) => (
-              <PaymentAccordionItem
-                key={method.id}
-                method={method}
-                index={index}
-                isActive={method.id === activeMethodId}
-                onSelect={() => setActiveMethodId(method.id)}
-              />
-            ))}
-          </Accordion>
+          {paymentMethods?.data?.map((method, index: number) => (
+            <PaymentAccordionItem
+              key={method.id}
+              method={method}
+              index={index}
+              isActive={method.id === activeMethodId}
+              onSelect={() => setActiveMethodId(method.id)}
+            />
+          ))}
         </Accordion>
 
         <Accordion type="single" collapsible>
@@ -283,7 +293,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
       <div className="w-full md:w-[60%] xl:w-[47%] ">
         <div className="bg-white border border-border px-4 py-6 flex items-center justify-between rounded-[4px] ">
           <p className="text-[14px] font-[500] ">Payment amount</p>
-          <p className="text-[14px] font-[600] ">£1,223.87</p>
+          <p className="text-[14px] font-[600] ">£{rentDetail?.monthlyPrice}</p>
         </div>
         <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
           <div className="flex items-center justify-between">
@@ -299,7 +309,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
         </div>
         <div className="bg-white border border-border px-4 py-6  mt-1 ">
           <Button onClick={() => setMakePayment("complete")} className="w-full">
-            Pay £1,223.87
+            Pay £{rentDetail?.monthlyPrice}
           </Button>
           <p className="text-[10px] mt-2 ">
             Submitting this page will charge your card and cannot be undone

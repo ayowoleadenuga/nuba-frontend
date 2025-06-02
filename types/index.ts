@@ -334,3 +334,23 @@ export interface PaymentMethod {
   lastDigits: string;
   created_at: string;
 }
+
+export interface AutoPayOffProps {
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
+  toggleAutopay: () => void;
+}
+
+export interface AutoPayOnProps {
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
+  toggleAutopay: () => void;
+}
