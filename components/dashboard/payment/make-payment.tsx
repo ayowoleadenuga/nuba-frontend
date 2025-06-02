@@ -6,10 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import ammex from "@/assets/svg/amex-card.svg";
 import { AddIcon } from "@/assets/svg/add-icon";
-import { Mastercard } from "@/assets/svg/mastercard";
-import Image from "next/image";
 import ToggleSwitch from "@/components/ui/toggle-switch";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils";
@@ -22,6 +19,12 @@ import {
   updatePaymentMethod,
 } from "@/redux/features/paymentSlice";
 import { paymentSchema } from "@/utils/validator";
+import {
+  useCreatePaymentMethodMutation,
+  useGetPaymentMethodsQuery,
+} from "@/redux/features/paymentsApiSlice";
+import PaymentAccordionItem from "../settings/payment-accordion-item";
+import { nubaApis } from "@/services/api-services";
 
 interface MakePaymentProps {
   setMakePayment: React.Dispatch<
@@ -29,11 +32,23 @@ interface MakePaymentProps {
   >;
 }
 const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
+  const [createPaymentMethodMutation] = useCreatePaymentMethodMutation();
   const dispatch = useDispatch();
   const [isOn, setIsOn] = useState(false);
-  const { cardName, cardNo, cvv } = useSelector(
-    (state: RootState) => state.payment.newPaymentMethod
-  );
+  const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
+
+  const {
+    country,
+    postcode,
+    city,
+    address,
+    address_2,
+    state,
+    cardName,
+    cardNumber,
+    cvc,
+    mmYY,
+  } = useSelector((state: RootState) => state.payment.newPaymentMethod);
 
   const [errors, setErrors] = useState<{
     [key in keyof paymentSliceType["newPaymentMethod"]]?: string;
@@ -46,23 +61,33 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
           e.target.value,
       } as paymentSliceType["newPaymentMethod"])
     );
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = paymentSchema.safeParse({
+    const payload = {
+      country,
+      postcode,
+      city,
+      address,
+      address_2,
+      state,
       cardName,
-      cvv,
-      cardNo,
-    });
+      cardNumber,
+      cvc,
+      mmYY,
+    };
+
+    const result = paymentSchema.safeParse(payload);
+
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -73,38 +98,33 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
     }
 
     setErrors({});
+
+    await nubaApis.createPaymentMethod.handleCreatePaymentMethod(
+      payload,
+      createPaymentMethodMutation
+    );
+
     dispatch(resetNewPaymentForm());
   };
+
+  const { data: paymentMethods } = useGetPaymentMethodsQuery();
 
   return (
     <div className="flex md:flex-row flex-col items-start justify-between gap-10 ">
       <div className="border border-border rounded-[12px] p-3 w-full md:w-[60%] xl:w-[47%]  ">
         <p className="font-[600] text-[14px] mb-1 ">Payment Method</p>
-        <Accordion type="single" collapsible className=" ">
-          <AccordionItem value="item-1">
-            <AccordionTrigger className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3 ">
-              <p className="font-[500] text-[14px] ">American Express</p>
-              <div className="absolute right-8 top-4 flex items-center gap-2">
-                <Image src={ammex} alt="card" />
-                <p>4308</p>
-              </div>
-            </AccordionTrigger>
-
-            <AccordionContent>
-              <div className="flex items-center justify-between py-4">
-                <div className="flex items-center gap-4">
-                  <Mastercard />
-                  <div>
-                    <p className="font-[500] text-[14px] ">
-                      Mastercard ending in 8480
-                    </p>
-                    <p className="font-[300] text-[12px] ">Expiry 04/2026</p>
-                  </div>
-                </div>
-                <span className="bg-[#27AE60] border-[#474747] border rounded-full w-4 h-4 "></span>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+        <Accordion type="single" collapsible className="mt-6">
+          <Accordion type="single" collapsible className="">
+            {paymentMethods?.data?.map((method, index: number) => (
+              <PaymentAccordionItem
+                key={method.id}
+                method={method}
+                index={index}
+                isActive={method.id === activeMethodId}
+                onSelect={() => setActiveMethodId(method.id)}
+              />
+            ))}
+          </Accordion>
         </Accordion>
 
         <Accordion type="single" collapsible>
@@ -124,9 +144,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
               <form onSubmit={handleSubmit} ref={formRef} className="w-full ">
                 <NubaInput
                   containerClass={"w-full mt-2"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
                   label="Card holder Name (as it appears on the card)"
-                  placeholder=""
                   value={cardName}
                   name="cardName"
                   onChange={handleChange}
@@ -134,37 +153,124 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
                 {errors.cardName && (
                   <p className="text-red-500 text-[12px]">{errors.cardName}</p>
                 )}
+
                 <NubaInput
                   containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
                   label="Card Number"
-                  placeholder=""
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  value={cardNo}
-                  name="cardNo"
+                  value={cardNumber}
+                  name="cardNumber"
                   onChange={handleChange}
                 />
-                {errors.cardNo && (
-                  <p className="text-red-500 text-[12px]">{errors.cardNo}</p>
+                {errors.cardNumber && (
+                  <p className="text-red-500 text-[12px]">
+                    {errors.cardNumber}
+                  </p>
                 )}
+
                 <NubaInput
                   containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
                   label="CVV/CVC Code (3 digits on back, 4 for Amex)"
-                  placeholder=""
-                  value={cvv}
-                  name="cvv"
+                  value={cvc}
+                  name="cvc"
                   onChange={handleChange}
                 />
-                {errors.cvv && (
-                  <p className="text-red-500 text-[12px]">{errors.cvv}</p>
+                {errors.cvc && (
+                  <p className="text-red-500 text-[12px]">{errors.cvc}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="Expiration Date (MM/YY)"
+                  placeholder="MM/YY"
+                  value={mmYY}
+                  name="mmYY"
+                  onChange={handleChange}
+                />
+                {errors.mmYY && (
+                  <p className="text-red-500 text-[12px]">{errors.mmYY}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="Country"
+                  value={country}
+                  name="country"
+                  onChange={handleChange}
+                />
+                {errors.country && (
+                  <p className="text-red-500 text-[12px]">{errors.country}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="State / Province"
+                  value={state}
+                  name="state"
+                  onChange={handleChange}
+                />
+                {errors.state && (
+                  <p className="text-red-500 text-[12px]">{errors.state}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="City"
+                  value={city}
+                  name="city"
+                  onChange={handleChange}
+                />
+                {errors.city && (
+                  <p className="text-red-500 text-[12px]">{errors.city}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="Postcode / ZIP"
+                  value={postcode}
+                  name="postcode"
+                  onChange={handleChange}
+                />
+                {errors.postcode && (
+                  <p className="text-red-500 text-[12px]">{errors.postcode}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="Address Line 1"
+                  value={address}
+                  name="address"
+                  onChange={handleChange}
+                />
+                {errors.address && (
+                  <p className="text-red-500 text-[12px]">{errors.address}</p>
+                )}
+
+                <NubaInput
+                  containerClass={"w-full mt-6 mb-6"}
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
+                  label="Address Line 2 (optional)"
+                  value={address_2}
+                  name="address_2"
+                  onChange={handleChange}
+                />
+                {errors.address_2 && (
+                  <p className="text-red-500 text-[12px]">{errors.address_2}</p>
                 )}
 
                 <button
                   type="submit"
                   className={cn(
-                    "w-full text-white h-[54px] mt-[50px] rounded-[4px] text-[14px] font-[700] bg-black "
+                    "w-full text-white h-[54px] mt-[30px] rounded-[4px] text-[14px] font-[700] bg-black"
                   )}
                 >
                   Add

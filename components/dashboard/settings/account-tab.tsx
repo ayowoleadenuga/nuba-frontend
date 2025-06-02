@@ -7,6 +7,7 @@ import { RootState } from "@/redux/store";
 import { SettingsState } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentAccordionItem from "./payment-accordion-item";
+import { useState } from "react";
 
 interface AccountTabProps {
   setRentDueDate: (Date: Date | null) => void;
@@ -23,9 +24,9 @@ const AccountTab: React.FC<AccountTabProps> = ({
   const handleChange = (field: keyof SettingsState, value: string) => {
     dispatch(setSettingsField({ field, value }));
   };
+  const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
 
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
-  console.log("Payment Methods:", paymentMethods);
 
   return (
     <div>
@@ -58,6 +59,8 @@ const AccountTab: React.FC<AccountTabProps> = ({
                     key={method.id}
                     method={method}
                     index={index}
+                    isActive={method.id === activeMethodId}
+                    onSelect={() => setActiveMethodId(method.id)}
                   />
                 ))}
               </Accordion>
