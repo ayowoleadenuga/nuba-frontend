@@ -8,11 +8,7 @@ import { AutoPayOffProps } from "@/types";
 import React, { useState } from "react";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 
-const AutopayOff: React.FC<AutoPayOffProps> = ({
-  setMakePayment,
-  setTab,
-  toggleAutopay,
-}) => {
+const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
 
@@ -20,7 +16,7 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
         <div className="flex items-center justify-between border-b border-[#d9d9d9] pb-2">
-          <div onClick={() => toggleAutopay()} className="cursor-pointer">
+          <div>
             <div className="flex items-center gap-1">
               <CheckedIcon fill="#999B9E" />
               <p className="text-[12px] font-[500] ">Autopay off</p>

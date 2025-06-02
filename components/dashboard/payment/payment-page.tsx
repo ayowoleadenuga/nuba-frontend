@@ -27,7 +27,6 @@ interface PaymentPageProps {
 }
 const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
   const router = useRouter();
-  const [autopayOn, setAutopayOn] = useState(false);
   const [makePayment, setMakePayment] = useState<"" | "start" | "complete">("");
 
   const { data: userProfileDetails } = useGetUserProfileQuery();
@@ -40,8 +39,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
-
-  const toggleAutopay = () => setAutopayOn((prev) => !prev);
 
   return (
     <div className="py-6 ">
@@ -114,21 +111,8 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </div>
             </div>
           </div>
-          <div>
-            {autopayOn ? (
-              <AutopayOn
-                setTab={setTab}
-                setMakePayment={setMakePayment}
-                toggleAutopay={toggleAutopay}
-              />
-            ) : (
-              <AutopayOff
-                setTab={setTab}
-                setMakePayment={setMakePayment}
-                toggleAutopay={toggleAutopay}
-              />
-            )}
-          </div>
+          {/* <AutopayOn setTab={setTab} setMakePayment={setMakePayment} /> */}
+          <AutopayOff setMakePayment={setMakePayment} setTab={setTab} />
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />

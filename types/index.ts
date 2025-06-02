@@ -342,7 +342,6 @@ export interface AutoPayOffProps {
   setTab: React.Dispatch<
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
-  toggleAutopay: () => void;
 }
 
 export interface AutoPayOnProps {
@@ -352,5 +351,4 @@ export interface AutoPayOnProps {
   setMakePayment: React.Dispatch<
     React.SetStateAction<"" | "start" | "complete">
   >;
-  toggleAutopay: () => void;
 }
