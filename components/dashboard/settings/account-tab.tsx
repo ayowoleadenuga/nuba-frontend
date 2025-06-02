@@ -51,7 +51,7 @@ const AccountTab: React.FC<AccountTabProps> = ({
               }
             /> */}
 
-            <Accordion type="single" collapsible className=" ">
+            <Accordion type="single" collapsible className="mt-6">
               <Accordion type="single" collapsible className="">
                 {paymentMethods?.data?.map((method, index: number) => (
                   <PaymentAccordionItem
