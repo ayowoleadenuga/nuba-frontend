@@ -103,7 +103,7 @@ export interface signUpResponse {
 }
 
 export interface loginResponseData {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -116,6 +116,18 @@ export interface loginResponseData {
     isOnboarded: boolean;
     step: number;
   };
+  statistics: {
+    rentPaidAmount: string;
+    totalRentPaid: number;
+    totalReferral: number;
+    unitsEarned: string;
+    mileStone: number;
+    unitBalance: number;
+  };
+  status: string;
+  referralCode: string | null;
+  referralLink: string;
+  joinedAt: string;
 }
 
 export interface sigUpPayload {
@@ -150,6 +162,7 @@ export interface tenancyDetailsResponse {
   created_at: string;
   updated_at: number;
 }
+
 export interface tenancyDetailsPayload {
   country: string;
   startDate: string;
@@ -248,4 +261,94 @@ export interface UserProfile {
 
 export interface UserProfileDetailsResponse {
   data: UserProfile;
+}
+
+export interface Transaction {
+  id: number;
+  orderId: number;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    address1: string;
+    address2: string;
+    city: string;
+    postcode: string;
+    onboarding: {
+      isOnboarded: boolean;
+      step: number;
+    };
+    statistics: {
+      rentPaidAmount: number;
+      totalRentPaid: number;
+      totalReferral: number;
+      unitsEarned: number;
+    };
+    status: string;
+    joinedAt: string;
+  };
+  subscription: string;
+  service: string;
+  paymentId: string;
+  transactionNumber: string;
+  amount: number;
+  status: string;
+  cardType: string;
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginationMeta {
+  total: number;
+  count: number;
+  per_page: number;
+  current_page: number;
+  total_pages: number;
+  links: {
+    first: string;
+    last: string;
+    prev: string;
+    next: string;
+  };
+}
+
+export interface GetUserTransactionsResponse {
+  success: boolean;
+  data: Transaction[];
+  meta: PaginationMeta;
+}
+
+export interface PaymentMethod {
+  id: string;
+  country: string;
+  postcode: string;
+  city: string;
+  address: string;
+  address_2?: null;
+  state: string;
+  mmYY: string;
+  cardName: string;
+  lastDigits: string;
+  created_at: string;
+}
+
+export interface AutoPayOffProps {
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
+}
+
+export interface AutoPayOnProps {
+  setTab: React.Dispatch<
+    React.SetStateAction<"" | "autopay-setup" | "include-points">
+  >;
+  setMakePayment: React.Dispatch<
+    React.SetStateAction<"" | "start" | "complete">
+  >;
 }

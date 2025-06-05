@@ -15,7 +15,7 @@ type BaseProps = {
   setErrors: React.Dispatch<React.SetStateAction<SettingsErrorState>>;
 };
 
-type SettingsSubmitProps =
+export type SettingsSubmitProps =
   | (BaseProps & {
       currentTab: "Security";
       oldPassword: string;
@@ -27,6 +27,9 @@ type SettingsSubmitProps =
       firstName: string;
       lastName: string;
       phoneNumber: string;
+    })
+  | (BaseProps & {
+      currentTab: "Account";
     });
 
 export const useSettingsSubmit = (props: SettingsSubmitProps) => {
@@ -39,7 +42,6 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
     if (props.currentTab === "Security") {
       const { oldPassword, newPassword, confirmPassword, setErrors } = props;
-      console.log("Submitting form for tab:", props.currentTab);
 
       const result = changePasswordSettingsSchema.safeParse({
         oldPassword,
@@ -67,9 +69,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
       );
       console.log("Password changed successfully");
       dispatch(resetSettingsForm());
-    }
-
-    if (props.currentTab === "Details") {
+    } else if (props.currentTab === "Details") {
       const { firstName, lastName, phoneNumber, setErrors } = props;
 
       const result = updateUserProfileSchema.safeParse({
@@ -96,6 +96,8 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
         },
         updateUserProfileMutation
       );
+    } else if (props.currentTab === "Account") {
+      console.log("Submitting form for tab:", props.currentTab);
     }
   };
 

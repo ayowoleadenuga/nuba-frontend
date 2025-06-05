@@ -14,7 +14,10 @@ import {
 import RentStatsSkeleton from "./skeletons/rent-stats-skeleton";
 import ErrorMessage from "./skeletons/error-message";
 import ReferralSkeleton from "./skeletons/referral-skeleton";
-import { useGetUserRentsDetailsQuery, useGetUserRentsQuery } from "@/redux/features/rentsApiSlice";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 const DashboardPage = () => {
@@ -50,9 +53,12 @@ const DashboardPage = () => {
   if (rentDetail?.startDate) {
     nextPaymentDate = getNextPaymentDate(rentDetail.startDate);
     if (nextPaymentDate) {
-      daysLeft = getDaysLeft(nextPaymentDate);
       formattedNextPayment = formatDateToDisplay(nextPaymentDate);
     }
+  }
+
+  if (rentDetail?.endDate) {
+    daysLeft = getDaysLeft(new Date(rentDetail.endDate));
   }
 
   return (

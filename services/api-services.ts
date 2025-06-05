@@ -226,11 +226,7 @@ export const nubaApis = {
 
   changePassword: {
     handleChangePassword: async (
-      payload: {
-        current_password: string;
-        new_password: string;
-        new_password_confirmation: string;
-      },
+      payload: ChangePasswordPayload,
       changePasswordMutation: ChangePasswordTrigger
     ) => {
       try {
@@ -244,7 +240,7 @@ export const nubaApis = {
 
   updateUserProfile: {
     handleUpdateUserProfile: async (
-      payload: { firstName: string; lastName: string; phone: string },
+      payload: UpdateUserProfilePayload,
       updateUserProfileMutation: UpdateUserProfileTrigger
     ) => {
       try {
@@ -253,6 +249,21 @@ export const nubaApis = {
         return res;
       } catch (error: any) {
         toast.error(error?.data?.message || "Failed to update profile");
+      }
+    },
+  },
+
+  createPaymentMethod: {
+    handleCreatePaymentMethod: async (
+      payload: newPaymentPayload,
+      createPaymentMethodMutation: newPaymentTrigger
+    ) => {
+      try {
+        await createPaymentMethodMutation(payload).unwrap();
+        toast.success("Payment method created successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to create payment method");
       }
     },
   },
