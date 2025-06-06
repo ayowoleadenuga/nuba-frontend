@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import NubaInput from "@/components/ui/nuba-input";
+import SupportFaqsContainer from "../support/support-faqs-container";
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(faqs);
@@ -71,18 +72,23 @@ const ReferralsRight = () => {
         <p className="text-[12px] font-[600] border-b border-b-border pb-5 ">
           Frequently Asked Questions
         </p>
-        {faqQuestions.map((faq, index) => {
+        {/* {faqQuestions.map((faq, index) => {
           return (
             <Accordion key={index} type="single" collapsible>
               <AccordionItem value={faq.answer}>
                 <AccordionTrigger className="font-[600] text-start ">
                   {faq.question}{" "}
                 </AccordionTrigger>
-                <AccordionContent>{faq.answer} </AccordionContent>
+                <AccordionContent>{faq.answer}</AccordionContent>
               </AccordionItem>
             </Accordion>
           );
-        })}
+        })} */}
+
+        <SupportFaqsContainer
+          faqQuestions={faqQuestions}
+          setFaqQuestions={setFaqQuestions}
+        />
       </div>
     </div>
   );

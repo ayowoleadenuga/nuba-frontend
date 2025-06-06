@@ -1,17 +1,26 @@
-"use client";
 import MinusIcon from "@/assets/svg/minus-icon";
 import PlusIcon from "@/assets/svg/plus-icon";
-import Faqs from "@/components/homepage/components/faqs";
-import { faqs } from "@/components/homepage/constants";
-import React, { useState } from "react";
-import SupportFaqsContainer from "./support-faqs-container";
+import React from "react";
 
-const SupportFaqs = () => {
-  const [faqQuestions, setFaqQuestions] = useState(faqs);
+interface FaqQuestion {
+  question: string;
+  answer: string;
+  expand: boolean;
+}
 
+interface SupportFaqsContainerProps {
+  faqQuestions: FaqQuestion[];
+  setFaqQuestions: React.Dispatch<React.SetStateAction<FaqQuestion[]>>;
+}
+
+const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
+  faqQuestions,
+  setFaqQuestions,
+}) => {
   return (
-    <div className="mt-10 w-full md:w-[70%] xl:w-[50%]">
-      {/* {faqQuestions.map((faq, index) => {
+    <>
+      {" "}
+      {faqQuestions.map((faq, index) => {
         return (
           <div
             onClick={() => {
@@ -171,14 +180,9 @@ const SupportFaqs = () => {
             )}
           </div>
         );
-      })} */}
-
-      <SupportFaqsContainer
-        faqQuestions={faqQuestions}
-        setFaqQuestions={setFaqQuestions}
-      />
-    </div>
+      })}
+    </>
   );
 };
 
-export default SupportFaqs;
+export default SupportFaqsContainer;
