@@ -1,17 +1,7 @@
 import MinusIcon from "@/assets/svg/minus-icon";
 import PlusIcon from "@/assets/svg/plus-icon";
+import { SupportFaqsContainerProps } from "@/types";
 import React from "react";
-
-interface FaqQuestion {
-  question: string;
-  answer: string;
-  expand: boolean;
-}
-
-interface SupportFaqsContainerProps {
-  faqQuestions: FaqQuestion[];
-  setFaqQuestions: React.Dispatch<React.SetStateAction<FaqQuestion[]>>;
-}
 
 const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
   faqQuestions,

@@ -356,3 +356,14 @@ export interface AutoPayOnProps {
     React.SetStateAction<"" | "start" | "complete">
   >;
 }
+
+interface FaqQuestion {
+  question: string;
+  answer: string;
+  expand: boolean;
+}
+
+export interface SupportFaqsContainerProps {
+  faqQuestions: FaqQuestion[];
+  setFaqQuestions: React.Dispatch<React.SetStateAction<FaqQuestion[]>>;
+}
