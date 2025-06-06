@@ -258,6 +258,8 @@ export interface UserProfile {
     totalRentPaid: number;
     totalReferral: number;
     unitsEarned: string;
+    unitBalance: number;
+    mileStone: number;
   };
 }
 

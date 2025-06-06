@@ -257,7 +257,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
 
                 <NubaInput
                   containerClass={"w-full mt-6"}
-                  label="Landlord Email Address"
+                  label="Landlord's Email Address"
                   placeholder=""
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
                   value={email ?? ""}

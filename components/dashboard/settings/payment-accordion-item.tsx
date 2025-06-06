@@ -26,7 +26,6 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
       value={`item-${index}`}
       key={method.id}
       className="cursor-pointer"
-      onClick={onSelect}
     >
       <AccordionTrigger className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3">
         <p className="font-[500] text-[14px]">{method.cardName}</p>
@@ -36,7 +35,7 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
         </div>
       </AccordionTrigger>
 
-      <AccordionContent>
+      <AccordionContent onClick={onSelect}>
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-4">
             <Mastercard />
