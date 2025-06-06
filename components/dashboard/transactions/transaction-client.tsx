@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointsIcon } from "@/assets/svg/points-icon";
 import TransactionTable from "./transaction-table";
@@ -10,6 +11,10 @@ import { useRouter } from "nextjs-toploader/app";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 import { useGetUserTransactionsQuery } from "@/redux/features/transactionsApiSlice";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
 
 const TransactionClient = () => {
   const router = useRouter();
@@ -19,6 +24,14 @@ const TransactionClient = () => {
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
+
+  const { data: rents } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
+
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
 
   const joinedYear = React.useMemo(() => {
     if (!userProfile?.joinedAt) return "";
@@ -56,11 +69,15 @@ const TransactionClient = () => {
         <div className="bg-[#FAFAFA] p-4 rounded-[4px] w-full md:w-[50%] ">
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-grayText ">Your Rent</p>
-            <p className="text-[12px] text-grayText ">£1,200.00</p>
+            <p className="text-[12px] text-grayText ">
+              £{rentDetail?.monthlyPrice}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Total Rent Paid</p>
-            <p className="text-[12px] text-grayText ">£1,200.00</p>
+            <p className="text-[12px] text-grayText ">
+              £{userProfile?.statistics.rentPaidAmount}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Discount Deductions</p>
