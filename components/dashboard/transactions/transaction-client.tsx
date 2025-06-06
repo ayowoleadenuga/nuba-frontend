@@ -18,8 +18,6 @@ import {
 
 const TransactionClient = () => {
   const router = useRouter();
-  const { data } = useGetUserTransactionsQuery(undefined);
-  console.log(data);
 
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
