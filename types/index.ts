@@ -212,7 +212,7 @@ export interface Rent {
   id: string;
   country: string;
   startDate: string;
-  endDate: string;
+  dueDate: string;
   rentFrequency: string;
   monthlyPrice: number;
   landlord: Landlord;
