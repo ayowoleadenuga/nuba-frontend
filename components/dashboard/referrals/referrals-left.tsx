@@ -1,20 +1,31 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import GradientProgressBar from "./progress-bar";
 import React from "react";
 import CopyButton from "@/components/ui/copy-button";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 const ReferralsLeft = () => {
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
   return (
     <div className="  w-full md:w-[49%] bg-white p-5 ">
       <p className="text-[12px] font-[600] ">My reward points</p>
-      <p className="font-[700] text-[32px] text-[#2A4152] ">30,256 pts</p>
+      <p className="font-[700] text-[32px] text-[#2A4152] ">
+        {userProfile?.statistics.unitsEarned} pts
+      </p>
       <p className="text-[12px] font-[600] mt-6 ">
         Earn Rent Discounts with Referrals
       </p>
       <div className="bg-[#FAFAFA] p-4 mt-5 rounded-[4px] ">
         <div className="flex items-center justify-between">
           <p className="text-[12px] text-grayText ">Your Referrals</p>
-          <p className="text-[12px] text-grayText ">4</p>
+          <p className="text-[12px] text-grayText ">
+            {" "}
+            {userProfile?.statistics.totalReferral}
+          </p>
         </div>
         <div className="flex items-center justify-between mt-5">
           <p className="text-[12px] text-grayText ">Paid Referrals</p>
@@ -22,7 +33,9 @@ const ReferralsLeft = () => {
         </div>
         <div className="flex items-center justify-between mt-5">
           <p className="text-[12px] text-grayText ">Points you have</p>
-          <p className="text-[12px] text-grayText ">30,256</p>
+          <p className="text-[12px] text-grayText ">
+            {userProfile?.statistics.unitsEarned}
+          </p>
         </div>
         <p className="text-[12px] text-grayText mt-5 ">
           Earn

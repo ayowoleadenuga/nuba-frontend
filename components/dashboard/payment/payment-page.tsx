@@ -112,7 +112,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
             </div>
           </div>
           {/* <AutopayOn setTab={setTab} setMakePayment={setMakePayment} /> */}
-          {/* <AutopayOff setMakePayment={setMakePayment} setTab={setTab} /> */}
+          <AutopayOff setMakePayment={setMakePayment} setTab={setTab} />
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />
