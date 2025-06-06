@@ -29,10 +29,10 @@ export interface SupportCenterState {
 export interface SettingsState {
   firstName: string;
   lastName: string;
-  email: string;
   phoneNumber: string;
   rentAddress: string;
   rentAmount: string;
+  email: string;
   leaseDuration: string;
   landlordName: string;
   landlordbankDetails: string;
@@ -172,6 +172,7 @@ export interface tenancyDetailsPayload {
 }
 
 export interface landlordDetailsPayload {
+  email: string;
   accountName: string;
   accountNumber: string;
   sortCode: string;
@@ -205,6 +206,7 @@ export interface UpdateUserProfilePayload {
 export interface Landlord {
   accountName: string | null;
   accountNumber: string | null;
+  email: string | null;
   sortCode: string | null;
 }
 
