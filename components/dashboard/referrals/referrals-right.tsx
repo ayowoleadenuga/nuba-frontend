@@ -1,21 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { ArrowDownIcon } from "@/assets/svg/arrow-dropdown-icon";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
-import MinusIcon from "@/assets/svg/minus-icon";
-import PlusIcon from "@/assets/svg/plus-icon";
-import { faqs } from "@/components/homepage/constants";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import NubaInput from "@/components/ui/nuba-input";
 import SupportFaqsContainer from "../support/support-faqs-container";
+import { supportFaqs } from "../support/constants";
 
 const ReferralsRight = () => {
-  const [faqQuestions, setFaqQuestions] = useState(faqs);
+  const [faqQuestions, setFaqQuestions] = useState(supportFaqs);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   return (
@@ -72,18 +63,6 @@ const ReferralsRight = () => {
         <p className="text-[12px] font-[600] border-b border-b-border pb-5 ">
           Frequently Asked Questions
         </p>
-        {/* {faqQuestions.map((faq, index) => {
-          return (
-            <Accordion key={index} type="single" collapsible>
-              <AccordionItem value={faq.answer}>
-                <AccordionTrigger className="font-[600] text-start ">
-                  {faq.question}{" "}
-                </AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          );
-        })} */}
 
         <SupportFaqsContainer
           faqQuestions={faqQuestions}
