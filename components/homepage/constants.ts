@@ -33,50 +33,29 @@ export const revolutioniseList = [
 
 export const faqs = [
   {
-    question: "What Are Nuba Points?",
-    answer: `Nuba Points are rewards you earn when someone you refer completes their first rent payment via Nuba. These points convert directly into rent discounts: 100 Nuba Points = £1 rent discount. Redeem at milestone levels - 30%, 60%, or 100% of your rent. Points have no expiration date until redeemed. After redemption, your points reset to zero
-    `,
-    expand: true,
-  },
-  {
-    question: "How Do I Earn Nuba Points?",
-    answer: `You earn points by referring people to use Nuba for their rent payments. When a referred person completes their first rent payment, you receive 399 Nuba Points for every £1,000 of that payment. Only one referral bonus is awarded per referred user, based on their first payment. \n Example: Refer a friend who completes their first £1,000 rent payment. You earn 399 points (£3•99 discount). No additional points are earned for subsequent payments by the same referral
-
-`,
-    expand: false,
-  },
-  {
-    question: "What If My Referral’s Rent Is Not £1,000?",
-    answer: `The points you earn are proportional to the referral’s first rent payment. You receive 0.399 points per £1 of their first payment. \n Examples: If their first payment is £500, you earn 199•5 points (rounded to 200, worth £2). If their first payment is £1,500, you earn 598•5 points (rounded to 599, worth £5•99). Only the first payment counts, regardless of the amount.
-`,
-    expand: false,
-  },
-  {
-    question: "How Can I Track My Nuba Points?",
-    answer: `You can view your points balance and referral activity directly in the Nuba app. Navigate to the “Nuba Points” section to see your current points, referral history, and progress toward milestones. Updates are reflected after each referral’s first rent payment is processed.`,
-    expand: false,
-  },
-  {
-    question: "What Are the Milestone Levels?",
-    answer: `Milestones are based on a percentage of your monthly rent. You can redeem points when you reach one of these levels.\n
-Milestone | Discount | Points Needed
-30% | £300 | 30,000
-60% | £600 | 60,000
-100% | £1,000 | 100,000 \n You can redeem at any milestone or save for a higher one. Points reset to zero after each redemption.`,
-    expand: false,
+    question: "What are the benefits of paying with Nuba",
+    answer: `Paying rent with Nuba comes with several benefits: Earn Rewards – Turn your biggest monthly expense into an opportunity to earn points with your card provider. More Flexibility – Enjoy the freedom and convenience of paying rent with your card, giving you greater financial control. Build Credit Faster – Strengthen your financial profile by using your card for rent payments, helping you boost your credit score. Seamless Convenience – Nuba makes rent payments quick, secure, and hassle-free, so you can pay in seconds with ease`,
   },
 
   {
-    question: "How Does It Work? An Example",
-    answer: `If you refer 10 people, each completing their first £1,000 rent payment: Each referral earns you 399 points. 10 referrals = 3,990 points (£39•90 discount). Refer more people to reach a milestone, like 30,000 points for a £300 discount on a £1,000 rent
-`,
-    expand: false,
+    question: "Can payments be made with AMEX?",
+    answer: `Yes, Nuba supports American Express (AMEX) payments, providing you with the flexibility to use your preferred payment method for added convenience and ease of transactions. Pay securely and conveniently with AMEX through Nuba`,
   },
 
   {
-    question: "How Do I Redeem Points?",
-    answer: `When you’ve earned enough points for a milestone: Open the Nuba app. Select your milestone (30%, 60%, or 100%). Redeem, and the discount is applied to your next rent payment. Points reset to zero after redemption \nExample: For a £1,000 rent, redeeming 30,000 points gives you a £300 discount, so you pay only £700 that month.
-`,
-    expand: false,
+    question: "Can the rewards earned on my card outweigh the Nuba fee?",
+    answer: `Businesses=> The Nuba fee for a business may be offset as an expense on your business’s end of year taxes. This means the Nuba fee is 100% tax deductible making paying your rent using Nuba an even more rewarding tool for your business. The exact benefit will depend on your business’s tax position. Please check with your tax advisor to see how this applies to you. \nAdd commentMore actions
+Individuals=> Users can benefit from Nuba if your card offers rewards, points, or cash back. With flexible payment methods Nuba users can better manage cashflow reducing the risk of late fees and rent arrears by having the added convenience and flexibility by paying by card on the Nuba platform. It is important to note that Nuba’s benefits can vary card by card`,
+  },
+
+  {
+    question: "Is Nuba safe and secure?",
+    answer: `At Nuba, safeguarding you and your finances is fundamental to our services. We employ rigorous measures to ensure the utmost safety of your card details, personal information, and transaction history. Our dedicated in-house security and compliance team works tirelessly to guarantee the security of all your transactions.Add commentMore actions
+Nuba employs industry-standard 3D-Secure protection, our proprietary anti-fraud protocols, and cutting-edge card verification technology, ensuring your safety and peace of mind at every step`,
+  },
+
+  {
+    question: "Do I need to inform my agent that I will be paying via Nuba?",
+    answer: `In regards to your agent, there’s no need to inform them as long as your payment reference is inputted correctly on the Nuba platform. The payment will be sent out by Payr using that same reference and once received by your agent, they will simply look out for the payment reference on the incoming payment so it will be marked as paid on their side!`,
   },
 ];
