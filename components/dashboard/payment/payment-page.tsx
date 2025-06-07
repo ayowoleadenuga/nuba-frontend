@@ -111,8 +111,14 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </div>
             </div>
           </div>
-          {/* <AutopayOn setTab={setTab} setMakePayment={setMakePayment} /> */}
-          <AutopayOff setMakePayment={setMakePayment} setTab={setTab} />
+
+          {userProfile?.autopay === true && (
+            <AutopayOn setTab={setTab} setMakePayment={setMakePayment} />
+          )}
+
+          {userProfile?.autopay === false && (
+            <AutopayOff setMakePayment={setMakePayment} setTab={setTab} />
+          )}
         </div>
       ) : makePayment === "start" ? (
         <MakePayment setMakePayment={setMakePayment} />
