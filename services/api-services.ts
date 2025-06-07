@@ -354,7 +354,7 @@ export const nubaApis = {
         await createSupportTicketMutation(payload).unwrap();
         toast.success("Support ticket created successfully");
       } catch (error: any) {
-        toast.error(error?.data?.message || "Failed to create support ticket");
+        toast.error(error?.data?.message);
       }
     },
   },
