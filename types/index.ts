@@ -367,3 +367,12 @@ export interface SupportFaqsContainerProps {
   faqQuestions: FaqQuestion[];
   setFaqQuestions: React.Dispatch<React.SetStateAction<FaqQuestion[]>>;
 }
+
+export interface GoogleOAuthUrlResponse {
+  message: string;
+  status: string;
+  statusCode: string;
+  data: {
+    url: string;
+  };
+}

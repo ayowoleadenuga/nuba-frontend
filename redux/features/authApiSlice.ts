@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { env } from "@/env";
 import {
+  GoogleOAuthUrlResponse,
   loginPayload,
   loginResponse,
   signUpResponse,
@@ -90,6 +91,18 @@ export const authApi = createApi({
         body: payload,
       }),
     }),
+
+    getGoogleLoginUrl: builder.query<GoogleOAuthUrlResponse, void>({
+      query: () => "/auth/oauth/google",
+    }),
+
+    loginWithGoogle: builder.mutation({
+      query: (payload) => ({
+        url: "/auth/google/login",
+        method: "POST",
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -103,4 +116,7 @@ export const {
   useUploadNewPaymentMethodMutation,
   useResendOTPMutation,
   useLogoutMutation,
+  useGetGoogleLoginUrlQuery,
+  useLoginWithGoogleMutation,
+  useLazyGetGoogleLoginUrlQuery,
 } = authApi;
