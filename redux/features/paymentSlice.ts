@@ -4,18 +4,32 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type paymentSliceType = {
   autoPay: boolean;
   newPaymentMethod: {
+    country: string;
+    postcode: string;
+    city: string;
+    address: string;
+    address_2: string;
+    state: string;
     cardName: string;
-    cardNo: string;
-    cvv: string;
+    cardNumber: string;
+    cvc: string;
+    mmYY: string;
   };
 };
 
 const initialState: paymentSliceType = {
   autoPay: false,
   newPaymentMethod: {
+    country: "",
+    postcode: "",
+    city: "",
+    address: "",
+    address_2: "",
+    state: "",
     cardName: "",
-    cardNo: "",
-    cvv: "",
+    cardNumber: "",
+    cvc: "",
+    mmYY: "",
   },
 };
 

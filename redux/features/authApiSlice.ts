@@ -10,7 +10,7 @@ import {
 } from "@/types";
 import { RootState } from "@/redux/store";
 
-const baseQueryWithAuth = fetchBaseQuery({
+export const baseQueryWithAuth = fetchBaseQuery({
   baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).signup.token;

@@ -103,9 +103,16 @@ export const changePasswordSettingsSchema = z
   });
 
 export const paymentSchema = z.object({
+  country: z.string().min(1, "Country is required"),
+  postcode: z.string().min(1, "Postcode is required"),
+  city: z.string().min(1, "City is required"),
+  address: z.string().min(1, "Address is required"),
+  address_2: z.string().optional(),
+  state: z.string().min(1, "State is required"),
   cardName: z.string().min(1, "Please enter card holder name"),
-  cvv: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
-  cardNo: z.string().min(11, "Minimum of 11 digits is required"),
+  cardNumber: z.string().min(11, "Minimum of 11 digits is required"),
+  cvc: z.string().regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits"),
+  mmYY: z.string().min(4, "Expiry date is required"),
 });
 
 export const updateUserProfileSchema = z.object({

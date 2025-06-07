@@ -1,25 +1,17 @@
 import { ArrowDownIcon } from "@/assets/svg/arrow-dropdown-icon";
 import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
-import { Mastercard } from "@/assets/svg/mastercard";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
+import { AutoPayOffProps } from "@/types";
+import React, { useState } from "react";
+import PaymentAccordionItem from "../settings/payment-accordion-item";
 
-interface AutoPayOffProps {
-  setMakePayment: React.Dispatch<
-    React.SetStateAction<"" | "start" | "complete">
-  >;
-  setTab: React.Dispatch<
-    React.SetStateAction<"" | "autopay-setup" | "include-points">
-  >;
-}
 const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
+  const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
+  const { data: paymentMethods } = useGetPaymentMethodsQuery();
+
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -48,26 +40,15 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
         </div>
 
         <Accordion type="single" collapsible className=" ">
-          <AccordionItem value="item-1">
-            <AccordionTrigger className="flex items-center gap-2">
-              <p className="font-[600] text-[12px] ">Payment Method</p>
-            </AccordionTrigger>
-
-            <AccordionContent>
-              <div className="flex items-center justify-between py-4">
-                <div className="flex items-center gap-4">
-                  <Mastercard />
-                  <div>
-                    <p className="font-[500] text-[14px] ">
-                      Mastercard ending in 8480
-                    </p>
-                    <p className="font-[300] text-[12px] ">Expiry 04/2026</p>
-                  </div>
-                </div>
-                <span className="bg-[#27AE60] border-[#474747] border rounded-full w-4 h-4 "></span>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+          {paymentMethods?.data?.map((method, index: number) => (
+            <PaymentAccordionItem
+              key={method.id}
+              method={method}
+              index={index}
+              isActive={method.id === activeMethodId}
+              onSelect={() => setActiveMethodId(method.id)}
+            />
+          ))}
         </Accordion>
       </div>
 

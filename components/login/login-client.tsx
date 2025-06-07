@@ -34,7 +34,7 @@ const LoginClient = () => {
       ...loginDetails,
       [event.target.name]: event.target.value,
     });
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [event.target.name]: "",
     }));
@@ -65,7 +65,7 @@ const LoginClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -75,7 +75,7 @@ const LoginClient = () => {
       return;
     }
     await onSubmit({
-      email: loginDetails.email,
+      email: loginDetails.email.toLowerCase(),
       password: loginDetails.password,
     });
 

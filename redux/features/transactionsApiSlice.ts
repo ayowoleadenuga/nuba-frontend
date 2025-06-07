@@ -1,23 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { env } from "@/env";
 import { RootState } from "@/redux/store";
-
-const baseQueryWithAuth = fetchBaseQuery({
-  baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).signup.token;
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
-});
+import { GetUserTransactionsResponse } from "@/types";
+import { baseQueryWithAuth } from "./authApiSlice";
 
 export const transactionsApi = createApi({
   reducerPath: "transactionsApi",
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
-    getUserTransactions: builder.query({
+    getUserTransactions: builder.query<GetUserTransactionsResponse, void>({
       query: () => "/user/transactions",
     }),
   }),

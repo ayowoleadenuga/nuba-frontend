@@ -14,7 +14,7 @@ import { CancelIcon } from "@/assets/svg/cancel-icon";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { SettingsErrorState } from "@/types";
-import { useSettingsSubmit } from "./use-settings-submit";
+import { SettingsSubmitProps, useSettingsSubmit } from "./use-settings-submit";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 
@@ -52,23 +52,34 @@ const SettingsClient = () => {
     return `${date.getFullYear().toString().slice(-2)}`;
   }, [userProfile?.joinedAt]);
 
-  const { handleSubmit } = useSettingsSubmit(
-    currentTab === "Security"
-      ? {
-          currentTab: "Security",
-          oldPassword,
-          newPassword,
-          confirmPassword,
-          setErrors,
-        }
-      : {
-          currentTab: "Details",
-          firstName,
-          lastName,
-          phoneNumber,
-          setErrors,
-        }
-  );
+  let config: SettingsSubmitProps | undefined;
+
+  if (currentTab === "Security") {
+    config = {
+      currentTab: "Security",
+      oldPassword,
+      newPassword,
+      confirmPassword,
+      setErrors,
+    };
+  } else if (currentTab === "Details") {
+    config = {
+      currentTab: "Details",
+      firstName,
+      lastName,
+      phoneNumber,
+      setErrors,
+    };
+  } else if (currentTab === "Account") {
+    config = {
+      currentTab: "Account",
+      setErrors,
+    };
+  }
+
+  const { handleSubmit } = config
+    ? useSettingsSubmit(config)
+    : { handleSubmit: () => {} };
 
   const showTab = (tab: string) => {
     switch (tab) {

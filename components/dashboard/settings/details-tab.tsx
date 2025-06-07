@@ -99,13 +99,13 @@ const DetailsTab: FC<DetailsTabProps> = ({
       dispatch(
         setSettingsField({
           field: "landlordName",
-          value: rentDetail.landlord.accountName || "Not provided",
+          value: rentDetail.landlord.accountName,
         })
       );
       dispatch(
         setSettingsField({
           field: "landlordbankDetails",
-          value: rentDetail.landlord.accountNumber || "Not provided",
+          value: rentDetail.landlord.accountNumber,
         })
       );
     }
