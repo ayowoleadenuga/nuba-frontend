@@ -13,6 +13,22 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
+  const nextMilestone = () => {
+    const milestone = userProfile?.statistics.mileStone;
+
+    if (milestone !== undefined) {
+      if (milestone < 30) {
+        return "30%";
+      } else if (milestone < 60) {
+        return "60%";
+      } else {
+        return "100%";
+      }
+    }
+
+    return "0%";
+  };
+
   return (
     <div className="w-full md:w-[60%] xl:w-[40%] ">
       {" "}
@@ -43,10 +59,10 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
             <span className="mr-1 text-brandCore-orange "> 167</span>
-            more points to reach the 30% milestone
+            more points to reach the {nextMilestone()} milestone
           </p>
         </div>
-        <GradientProgressBar percentage={40} />
+        <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />
         <div className="p-2 bg-[#fafafa] mt-5 ">
           <p className="text-[10px] ">
             Refer friends to earn points. Once you reach a milestone, you can

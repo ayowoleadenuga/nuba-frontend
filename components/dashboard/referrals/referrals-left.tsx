@@ -43,7 +43,7 @@ const ReferralsLeft = () => {
           more points to reach the 30% milestone
         </p>
       </div>
-      <GradientProgressBar percentage={70} />
+      <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />
       <div className="p-2 bg-[#fafafa] mt-5 ">
         <p className="text-[10px] ">
           Refer friends to earn points. Once you reach a milestone, you can

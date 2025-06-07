@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 interface GradientProgressBarProps {
-  percentage: number;
+  percentage: number | undefined;
 }
 
 const GradientProgressBar: React.FC<GradientProgressBarProps> = ({

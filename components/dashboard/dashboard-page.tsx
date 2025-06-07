@@ -50,8 +50,8 @@ const DashboardPage = () => {
   let formattedNextPayment;
   let daysLeft: number | undefined;
 
-  if (rentDetail?.startDate) {
-    nextPaymentDate = getNextPaymentDate(rentDetail.startDate);
+  if (rentDetail?.dueDate) {
+    nextPaymentDate = getNextPaymentDate(rentDetail.dueDate);
     if (nextPaymentDate) {
       formattedNextPayment = formatDateToDisplay(nextPaymentDate);
     }

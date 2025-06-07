@@ -4,9 +4,8 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import Image from "next/image";
-import { Mastercard } from "@/assets/svg/mastercard";
-import ammex from "@/assets/svg/amex-card.svg";
 import { PaymentMethod } from "@/types";
+import paymentCard from "@/assets/png/payment-card.png";
 
 interface PaymentAccordionItemProps {
   method: PaymentMethod;
@@ -30,7 +29,7 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
       <AccordionTrigger className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3">
         <p className="font-[500] text-[14px]">{method.cardName}</p>
         <div className="absolute right-8 top-4 flex items-center gap-2">
-          <Image src={ammex} alt="card" />
+          <Image src={paymentCard} alt="card" className="w-7 h-5 " />
           <p>{method.lastDigits}</p>
         </div>
       </AccordionTrigger>
@@ -38,7 +37,7 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
       <AccordionContent onClick={onSelect}>
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-4">
-            <Mastercard />
+            <Image src={paymentCard} alt="card" className="w-7 h-5 " />
             <div>
               <p className="font-[500] text-[14px]">
                 {method.cardName} ending in {method.lastDigits}
