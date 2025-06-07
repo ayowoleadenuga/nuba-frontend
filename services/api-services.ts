@@ -279,11 +279,6 @@ export const nubaApis = {
     ) => {
       try {
         const res = await triggerGoogleLoginUrl();
-        if ("error" in res && res.error) {
-          console.error("Google login API error:", res.error);
-          toast.error(res.error?.data?.message || "Google login failed");
-          return;
-        }
 
         const redirectUrl = res?.data?.data?.url;
 
