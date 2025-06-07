@@ -8,10 +8,11 @@ import {
 import { nubaApis } from "@/services/api-services";
 import { FormLoginValue, loginPayload } from "@/types";
 import { loginFormSchema } from "@/utils/validator";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "nextjs-toploader/app";
 import { useSearchParams } from "next/navigation";
+import { RootState } from "@/redux/store";
 
 const LoginClient = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const LoginClient = () => {
       ...loginDetails,
       [event.target.name]: event.target.value,
     });
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [event.target.name]: "",
     }));
@@ -65,7 +66,7 @@ const LoginClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -81,6 +82,13 @@ const LoginClient = () => {
 
     setErrors({});
   };
+
+  // const user = useSelector((state: RootState) => state.signup.user);
+  // const userAll = useSelector((state: RootState) => state.signup);
+
+  // console.log("user is onboarded is", user);
+  // console.log("user token is", userAll?.token);
+
   return (
     <div className="w-full flex items-center justify-center h-full flex-col">
       <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">

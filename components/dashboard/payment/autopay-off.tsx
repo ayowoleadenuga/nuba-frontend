@@ -21,9 +21,9 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
               <CheckedIcon fill="#999B9E" />
               <p className="text-[12px] font-[500] ">Autopay off</p>
             </div>
-            <p className="text-[12px] text-[#999B9E] mt-1 ">
+            {/* <p className="text-[12px] text-[#999B9E] mt-1 ">
               Your payment of 1,223.88 is processing today
-            </p>
+            </p> */}
           </div>
           <button onClick={() => setTab("autopay-setup")}>
             <ArrowRightIcon />

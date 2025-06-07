@@ -29,11 +29,10 @@ const DetailsTab: FC<DetailsTabProps> = ({
   const {
     firstName,
     lastName,
-    // email,
+    email,
     phoneNumber,
     rentAddress,
     rentAmount,
-    leaseDuration,
     landlordName,
     landlordbankDetails,
   } = useSelector((state: RootState) => state.settings);
@@ -94,7 +93,10 @@ const DetailsTab: FC<DetailsTabProps> = ({
         })
       );
       dispatch(
-        setSettingsField({ field: "leaseDuration", value: rentDetail.endDate })
+        setSettingsField({
+          field: "email",
+          value: rentDetail.landlord.email,
+        })
       );
       dispatch(
         setSettingsField({
@@ -242,15 +244,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   readOnly
                   // onChange={(e) => handleChange("rentAmount", e.target.value)}
                 />
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  label="Lease Duration"
-                  placeholder=""
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
-                  value={leaseDuration ?? ""}
-                  readOnly
-                  // onChange={(e) => handleChange("leaseDuration", e.target.value)}
-                />
+
                 <NubaInput
                   containerClass={"w-full mt-6"}
                   label="Landlord's Name"
@@ -259,6 +253,16 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   value={landlordName ?? ""}
                   readOnly
                   // onChange={(e) => handleChange("landlordName", e.target.value)}
+                />
+
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  label="Landlord's Email Address"
+                  placeholder=""
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+                  value={email ?? ""}
+                  readOnly
+                  // onChange={(e) => handleChange("leaseDuration", e.target.value)}
                 />
                 <NubaInput
                   containerClass={"w-full mt-6"}

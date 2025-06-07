@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
 import GradientProgressBar from "@/components/dashboard/referrals/progress-bar";
 import { Button } from "@/components/ui/button";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import React from "react";
 
 interface IncludePointsProps {
@@ -9,6 +10,25 @@ interface IncludePointsProps {
   >;
 }
 const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
+  const nextMilestone = () => {
+    const milestone = userProfile?.statistics.mileStone;
+
+    if (milestone !== undefined) {
+      if (milestone < 30) {
+        return "30%";
+      } else if (milestone < 60) {
+        return "60%";
+      } else {
+        return "100%";
+      }
+    }
+
+    return "0%";
+  };
+
   return (
     <div className="w-full md:w-[60%] xl:w-[40%] ">
       {" "}
@@ -22,7 +42,9 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
         <div className="bg-[#FAFAFA] p-4 mt-5 rounded-[4px] ">
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-grayText ">Your Referrals</p>
-            <p className="text-[12px] text-grayText ">4</p>
+            <p className="text-[12px] text-grayText ">
+              {userProfile?.statistics.totalReferral}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Paid Referrals</p>
@@ -30,15 +52,17 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Points you have</p>
-            <p className="text-[12px] text-grayText ">30,256</p>
+            <p className="text-[12px] text-grayText ">
+              {userProfile?.statistics.unitBalance}
+            </p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
             <span className="mr-1 text-brandCore-orange "> 167</span>
-            more points to reach the 30% milestone
+            more points to reach the {nextMilestone()} milestone
           </p>
         </div>
-        <GradientProgressBar percentage={40} />
+        <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />
         <div className="p-2 bg-[#fafafa] mt-5 ">
           <p className="text-[10px] ">
             Refer friends to earn points. Once you reach a milestone, you can

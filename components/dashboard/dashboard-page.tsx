@@ -50,15 +50,15 @@ const DashboardPage = () => {
   let formattedNextPayment;
   let daysLeft: number | undefined;
 
-  if (rentDetail?.startDate) {
-    nextPaymentDate = getNextPaymentDate(rentDetail.startDate);
+  if (rentDetail?.dueDate) {
+    nextPaymentDate = getNextPaymentDate(rentDetail.dueDate);
     if (nextPaymentDate) {
       formattedNextPayment = formatDateToDisplay(nextPaymentDate);
     }
   }
 
-  if (rentDetail?.endDate) {
-    daysLeft = getDaysLeft(new Date(rentDetail.endDate));
+  if (rentDetail?.dueDate) {
+    daysLeft = getDaysLeft(new Date(rentDetail.dueDate));
   }
 
   return (
@@ -85,12 +85,14 @@ const DashboardPage = () => {
               £{rentDetail?.monthlyPrice}
             </p>
             <div className="mt-6">
-              <p className="font-[700] text-[10px]"> Property Name </p>
-              <p className="font-[700] text-[12px]">Greenwood Apartments</p>
+              <p className="font-[700] text-[10px]"> Rent Frequency </p>
+              <p className="font-[700] text-[12px]">
+                {rentDetail?.rentFrequency}
+              </p>
             </div>
             <div className="mt-6">
               <p className="font-[700] text-[10px]"> Address </p>
-              <p className="font-[700] text-[12px]">{userProfile?.address1}</p>
+              <p className="font-[700] text-[12px]">{rentDetail?.country}</p>
             </div>
             <button
               onClick={() => router.push("/payment")}
