@@ -52,7 +52,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
           </button>
         ) : (
           <p className="font-[600] text-[12px] ">
-            Greenwood Apartments || {userProfile?.address1}, {userProfile?.city}
+            {userProfile?.address1} || {userProfile?.city}
           </p>
         )}
         <div className="hidden md:flex items-center">
@@ -83,8 +83,8 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                 <div>
                   <p className="text-[12px] font-[600] ">Residential Rent</p>
                   <p className="text-[#474747] text-[10px] ">
-                    {rentDetail?.endDate
-                      ? formatDateToDDMMYYYY(rentDetail.endDate)
+                    {rentDetail?.dueDate
+                      ? formatDateToDDMMYYYY(rentDetail.dueDate)
                       : "—"}
                   </p>
                 </div>

@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
 import GradientProgressBar from "@/components/dashboard/referrals/progress-bar";
 import { Button } from "@/components/ui/button";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import React from "react";
 
 interface IncludePointsProps {
@@ -9,6 +10,9 @@ interface IncludePointsProps {
   >;
 }
 const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
   return (
     <div className="w-full md:w-[60%] xl:w-[40%] ">
       {" "}
@@ -22,7 +26,9 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
         <div className="bg-[#FAFAFA] p-4 mt-5 rounded-[4px] ">
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-grayText ">Your Referrals</p>
-            <p className="text-[12px] text-grayText ">4</p>
+            <p className="text-[12px] text-grayText ">
+              {userProfile?.statistics.totalReferral}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Paid Referrals</p>
@@ -30,7 +36,9 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Points you have</p>
-            <p className="text-[12px] text-grayText ">30,256</p>
+            <p className="text-[12px] text-grayText ">
+              {userProfile?.statistics.unitBalance}
+            </p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
