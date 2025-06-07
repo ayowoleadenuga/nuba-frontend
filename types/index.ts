@@ -21,9 +21,10 @@ export interface ContactState {
   success: boolean;
 }
 export interface SupportCenterState {
-  fullName: string;
+  subject: string;
+  message: string;
+  name: string;
   email: string;
-  issue: string;
 }
 
 export interface SettingsState {
@@ -249,6 +250,8 @@ export interface UserProfile {
   referralCode: string | null;
   referralLink: string;
   status: "active" | "inactive";
+  autopay: boolean;
+  autopayEnabledAt: string;
   onboarding: {
     isOnboarded: boolean;
     step: number;
@@ -366,4 +369,20 @@ interface FaqQuestion {
 export interface SupportFaqsContainerProps {
   faqQuestions: FaqQuestion[];
   setFaqQuestions: React.Dispatch<React.SetStateAction<FaqQuestion[]>>;
+}
+
+export interface GoogleOAuthUrlResponse {
+  message: string;
+  status: string;
+  statusCode: string;
+  data: {
+    url: string;
+  };
+}
+
+export interface CreateSupportTicket {
+  subject: string;
+  message: string;
+  name: string;
+  email: string;
 }

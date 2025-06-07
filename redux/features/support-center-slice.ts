@@ -2,9 +2,10 @@ import { SupportCenterState } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: SupportCenterState = {
-  fullName: "",
+  subject: "",
+  message: "",
+  name: "",
   email: "",
-  issue: "",
 };
 
 export const supportCenterSlice = createSlice({
@@ -17,9 +18,9 @@ export const supportCenterSlice = createSlice({
     ) => {
       state[action.payload.field] = action.payload.value;
     },
-    resetForm: () => initialState,
+    resetSupportForm: () => initialState,
   },
 });
 
-export const { setField, resetForm } = supportCenterSlice.actions;
+export const { setField, resetSupportForm } = supportCenterSlice.actions;
 export default supportCenterSlice.reducer;

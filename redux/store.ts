@@ -20,6 +20,7 @@ import { userApi } from "@/redux/features/userApiSlice";
 import { rentsApi } from "@/redux/features/rentsApiSlice";
 import { paymentsApi } from "./features/paymentsApiSlice";
 import { transactionsApi } from "./features/transactionsApiSlice";
+import { supportApi } from "./features/supportApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   [rentsApi.reducerPath]: rentsApi.reducer,
   [paymentsApi.reducerPath]: paymentsApi.reducer,
   [transactionsApi.reducerPath]: transactionsApi.reducer,
+  [supportApi.reducerPath]: supportApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

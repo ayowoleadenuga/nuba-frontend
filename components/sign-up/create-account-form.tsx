@@ -13,8 +13,13 @@ import { RootState } from "@/redux/store";
 import { CreateAccountState, sigUpPayload } from "@/types";
 import { signUpFormSchema } from "@/utils/validator";
 import { GoogleIcon } from "@/assets/svg/google-icon";
-import { useRegisterUserMutation } from "@/redux/features/authApiSlice";
+import {
+  useGetGoogleLoginUrlQuery,
+  useLazyGetGoogleLoginUrlQuery,
+  useRegisterUserMutation,
+} from "@/redux/features/authApiSlice";
 import { nubaApis } from "@/services/api-services";
+import { toast } from "sonner";
 
 const CreateAccountForm = () => {
   const dispatch = useDispatch();
@@ -28,7 +33,7 @@ const CreateAccountForm = () => {
   console.log("the user is", user);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -56,7 +61,7 @@ const CreateAccountForm = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -86,6 +91,14 @@ const CreateAccountForm = () => {
   };
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [triggerGoogleLoginUrl] = useLazyGetGoogleLoginUrlQuery();
+
+  const handleGoogleLogin = async () => {
+    await nubaApis.getGoogleLoginUrl.handleGetGoogleLoginUrl(
+      triggerGoogleLoginUrl
+    );
+  };
+
   return (
     <form onSubmit={handleContinue} className="h-full">
       <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">
@@ -250,6 +263,7 @@ const CreateAccountForm = () => {
       <p className="text-[#004790] text-[14px] font-[700] text-center ">OR</p>
       <Button
         type="button"
+        onClick={handleGoogleLogin}
         className="w-full mt-2 text-[#004790] text-[14px] font-[700] bg-[#e5ecf3] "
       >
         <GoogleIcon />

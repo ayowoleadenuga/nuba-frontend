@@ -83,9 +83,10 @@ export const newPaymentSchema = z
   });
 
 export const supportClientFormSchema = z.object({
-  fullName: z.string().min(1, "Full name is required"),
+  name: z.string().min(1, "Full name is required"),
+  subject: z.string().min(1, "Subject is required"),
   email: z.string().email("Please provide a valid email address"),
-  issue: z.string().min(1, "Please describe your issue"),
+  message: z.string().min(1, "Please describe your issue"),
 });
 
 export const changePasswordSettingsSchema = z
