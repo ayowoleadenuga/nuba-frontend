@@ -8,6 +8,7 @@ import {
 import { AppDispatch } from "@/redux/store";
 import {
   ChangePasswordPayload,
+  CreateSupportTicket,
   landlordDetailsPayload,
   loginPayload,
   loginResponse,
@@ -60,6 +61,10 @@ export type ChangePasswordTrigger = (payload: ChangePasswordPayload) => {
 };
 
 export type UpdateUserProfileTrigger = (payload: UpdateUserProfilePayload) => {
+  unwrap: () => Promise<any>;
+};
+
+export type CreateSupportTicketTrigger = (payload: CreateSupportTicket) => {
   unwrap: () => Promise<any>;
 };
 
@@ -268,78 +273,95 @@ export const nubaApis = {
     },
   },
 
-  handleGetGoogleLoginUrl: async (
-    triggerGoogleLoginUrl: () => Promise<any>
-  ) => {
-    try {
-      const res = await triggerGoogleLoginUrl();
+  getGoogleLoginUrl: {
+    handleGetGoogleLoginUrl: async (
+      triggerGoogleLoginUrl: () => Promise<any>
+    ) => {
+      try {
+        const res = await triggerGoogleLoginUrl();
+        if ("error" in res && res.error) {
+          console.error("Google login API error:", res.error);
+          toast.error(res.error?.data?.message || "Google login failed");
+          return;
+        }
 
-      if ("error" in res && res.error) {
-        console.error("Google login API error:", res.error);
-        toast.error(res.error?.data?.message || "Google login failed");
-        return;
+        const redirectUrl = res?.data?.data?.url;
+
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          toast.error("Google login URL not found");
+        }
+      } catch (error: any) {
+        console.error("Google login failed:", error);
+        toast.error(
+          error?.data?.message || error?.message || "Google login failed"
+        );
       }
-
-      const redirectUrl = res?.data?.data?.url;
-
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
-      } else {
-        toast.error("Google login URL not found");
-      }
-    } catch (error: any) {
-      console.error("Google login failed:", error);
-      toast.error(
-        error?.data?.message || error?.message || "Google login failed"
-      );
-    }
+    },
   },
 
-  handleLoginWithGoogle: async (
-    payload: { code: string },
-    loginWithGoogle: (payload: { code: string }) => {
-      unwrap: () => Promise<loginResponse>;
-    },
-    dispatch: AppDispatch,
-    onSuccessRoute: () => void,
-    onOnboardingRoute: () => void
-  ) => {
-    try {
-      const response = await loginWithGoogle(payload).unwrap();
+  loginWithGoogle: {
+    handleLoginWithGoogle: async (
+      payload: { code: string },
+      loginWithGoogle: (payload: { code: string }) => {
+        unwrap: () => Promise<loginResponse>;
+      },
+      dispatch: AppDispatch,
+      onSuccessRoute: () => void,
+      onOnboardingRoute: () => void
+    ) => {
+      try {
+        const response = await loginWithGoogle(payload).unwrap();
 
-      dispatch(
-        setAuthData({
-          token: response.accessToken,
-          user: response.data,
-        })
-      );
-      toast.success("Login with Google successful");
-      onSuccessRoute();
+        dispatch(
+          setAuthData({
+            token: response.accessToken,
+            user: response.data,
+          })
+        );
+        toast.success("Login with Google successful");
+        onSuccessRoute();
 
-      if (response?.data?.onboarding?.isOnboarded === false) {
-        onOnboardingRoute();
+        if (response?.data?.onboarding?.isOnboarded === false) {
+          onOnboardingRoute();
 
-        switch (response?.data?.onboarding?.step) {
-          case 0:
-            dispatch(setStep(SignUpStep.TENANCY_DETAILS));
-            break;
-          case 1:
-            dispatch(setStep(SignUpStep.TENANCY_AGREEMENT));
-            break;
-          case 2:
-            dispatch(setStep(SignUpStep.AGENT_DETAILS));
-            break;
-          case 3:
-            dispatch(setStep(SignUpStep.NEW_PAYMENT_METHOD));
-            break;
-          default:
-            break;
+          switch (response?.data?.onboarding?.step) {
+            case 0:
+              dispatch(setStep(SignUpStep.TENANCY_DETAILS));
+              break;
+            case 1:
+              dispatch(setStep(SignUpStep.TENANCY_AGREEMENT));
+              break;
+            case 2:
+              dispatch(setStep(SignUpStep.AGENT_DETAILS));
+              break;
+            case 3:
+              dispatch(setStep(SignUpStep.NEW_PAYMENT_METHOD));
+              break;
+            default:
+              break;
+          }
         }
+      } catch (error: any) {
+        console.error("Google login failed", error);
+        toast.error(error?.data?.message || "Google login failed");
       }
-    } catch (error: any) {
-      console.error("Google login failed", error);
-      toast.error(error?.data?.message || "Google login failed");
-    }
+    },
+  },
+
+  createSupportTicket: {
+    handleCreateSupportTicket: async (
+      payload: CreateSupportTicket,
+      createSupportTicketMutation: CreateSupportTicketTrigger
+    ) => {
+      try {
+        await createSupportTicketMutation(payload).unwrap();
+        toast.success("Support ticket created successfully");
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to create support ticket");
+      }
+    },
   },
 
   admin: {},

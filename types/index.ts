@@ -21,9 +21,10 @@ export interface ContactState {
   success: boolean;
 }
 export interface SupportCenterState {
-  fullName: string;
+  subject: string;
+  message: string;
+  name: string;
   email: string;
-  issue: string;
 }
 
 export interface SettingsState {
@@ -375,4 +376,11 @@ export interface GoogleOAuthUrlResponse {
   data: {
     url: string;
   };
+}
+
+export interface CreateSupportTicket {
+  subject: string;
+  message: string;
+  name: string;
+  email: string;
 }

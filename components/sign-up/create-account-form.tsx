@@ -94,7 +94,9 @@ const CreateAccountForm = () => {
   const [triggerGoogleLoginUrl] = useLazyGetGoogleLoginUrlQuery();
 
   const handleGoogleLogin = async () => {
-    await nubaApis.handleGetGoogleLoginUrl(triggerGoogleLoginUrl);
+    await nubaApis.getGoogleLoginUrl.handleGetGoogleLoginUrl(
+      triggerGoogleLoginUrl
+    );
   };
 
   return (

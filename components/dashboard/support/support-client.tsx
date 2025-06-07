@@ -1,18 +1,22 @@
 "use client";
-import { OptionsIcon } from "@/assets/svg/options-icon";
+
 import { PointsIcon } from "@/assets/svg/points-icon";
 import SupportFaqs from "@/components/dashboard/support/support-faqs";
 import { Button } from "@/components/ui/button";
-import { IconButton } from "@mui/material";
 import React, { useRef } from "react";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setField } from "@/redux/features/support-center-slice";
+import {
+  resetSupportForm,
+  setField,
+} from "@/redux/features/support-center-slice";
 import { SupportCenterState } from "@/types";
 import { supportClientFormSchema } from "@/utils/validator";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
+import { nubaApis } from "@/services/api-services";
+import { useCreateSupportTicketMutation } from "@/redux/features/supportApiSlice";
 
 const SupportClient = () => {
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
@@ -25,7 +29,7 @@ const SupportClient = () => {
     return `${date.getFullYear().toString().slice(-2)}`;
   }, [userProfile?.joinedAt]);
 
-  const { issue, email, fullName } = useSelector(
+  const { message, email, name, subject } = useSelector(
     (state: RootState) => state.supportCenter
   );
 
@@ -47,13 +51,16 @@ const SupportClient = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [createSupportTicketMutation] = useCreateSupportTicketMutation();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const result = supportClientFormSchema.safeParse({
-      fullName,
+      name,
       email,
-      issue,
+      message,
+      subject,
     });
 
     const errorMessages: { [key: string]: string } = {};
@@ -70,6 +77,18 @@ const SupportClient = () => {
     }
 
     setErrors({});
+
+    await nubaApis.createSupportTicket.handleCreateSupportTicket(
+      {
+        subject: subject,
+        message: message,
+        name: name,
+        email: email,
+      },
+      createSupportTicketMutation
+    );
+    console.log("Password changed successfully");
+    dispatch(resetSupportForm());
   };
 
   return (
@@ -126,13 +145,13 @@ const SupportClient = () => {
               containerClass={"w-full mt-6"}
               label="Full Name"
               placeholder=""
-              name="full_name"
+              name="name"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
-              value={fullName}
-              onChange={(e) => handleChange("fullName", e.target.value)}
+              value={name}
+              onChange={(e) => handleChange("name", e.target.value)}
             />
-            {errors.fullName && (
-              <p className="text-red-500 text-[12px]">{errors.fullName}</p>
+            {errors.name && (
+              <p className="text-red-500 text-[12px]">{errors.name}</p>
             )}
 
             <NubaInput
@@ -149,15 +168,27 @@ const SupportClient = () => {
             )}
             <NubaInput
               containerClass={"w-full mt-6"}
+              label="Subject"
+              placeholder=""
+              name="subject"
+              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
+              value={subject}
+              onChange={(e) => handleChange("subject", e.target.value)}
+            />
+            {errors.subject && (
+              <p className="text-red-500 text-[12px]">{errors.subject}</p>
+            )}
+            <NubaInput
+              containerClass={"w-full mt-6"}
               label="Describe your issue"
               placeholder=""
               name="message"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
-              value={issue}
-              onChange={(e) => handleChange("issue", e.target.value)}
+              value={message}
+              onChange={(e) => handleChange("message", e.target.value)}
             />
-            {errors.issue && (
-              <p className="text-red-500 text-[12px]">{errors.issue}</p>
+            {errors.message && (
+              <p className="text-red-500 text-[12px]">{errors.message}</p>
             )}
           </div>
           <div className="w-full flex items-center justify-center mt-4">

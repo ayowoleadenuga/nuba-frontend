@@ -18,7 +18,7 @@ const GoogleOAuthClient = () => {
     const code = searchParams.get("code");
 
     if (code) {
-      nubaApis.handleLoginWithGoogle(
+      nubaApis.loginWithGoogle.handleLoginWithGoogle(
         { code },
         loginWithGoogle,
         dispatch,
