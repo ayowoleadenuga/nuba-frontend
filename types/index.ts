@@ -250,6 +250,8 @@ export interface UserProfile {
   referralCode: string | null;
   referralLink: string;
   status: "active" | "inactive";
+  autopay: boolean;
+  autopayEnabledAt: string;
   onboarding: {
     isOnboarded: boolean;
     step: number;
