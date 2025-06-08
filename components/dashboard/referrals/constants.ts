@@ -46,4 +46,25 @@ Milestone | Discount | Points Needed
 `,
     expand: false,
   },
+  {
+    question: "Do Nuba Points Expire?",
+    answer: `No, points do not expire until you redeem them. You can save for as long as needed to reach your desired milestone.`,
+    expand: false,
+  },
+  {
+    question: "Is Redeeming at 30% Mandatory?",
+    answer: `No, you can choose to redeem at 30%, 60%, or 100% based on your preference. Save for a larger discount if it suits your goals.`,
+    expand: false,
+  },
+  {
+    question: "Who Can I Refer?",
+    answer: `Anyone in the UK who pays rent can be referred—friends, family, colleagues, or housemates. You earn points when they complete their first rent payment through Nuba.`,
+    expand: false,
+  },
+  {
+    question: "Key Points to Remember",
+    answer: `Earn 399 points per £1,000 of a referral’s first rent payment (0•399 points per £1). Only one referral bonus per referred user. 100 points = £1 discount. Redeem at 30%, 60%, or 100% of your rent. Points reset after redemption. No expiration until redeemed \n For more details or assistance, visit the Nuba app or contact our support team. Start referring and save on your rent today!
+`,
+    expand: false,
+  },
 ];

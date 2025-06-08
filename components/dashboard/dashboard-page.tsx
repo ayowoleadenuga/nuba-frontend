@@ -3,7 +3,8 @@ import CopyButton from "@/components/ui/copy-button";
 import { RootState } from "@/redux/store";
 import { useRouter } from "nextjs-toploader/app";
 import React from "react";
-import { skipToken } from "@reduxjs/toolkit/query/react";
+import { skipToken } from "@reduxjs/toolkit/query";
+
 import RentCardSkeleton from "./skeletons/rent-card-skeleton";
 import {
   formatDateToDisplay,

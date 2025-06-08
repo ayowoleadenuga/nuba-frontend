@@ -8,6 +8,13 @@ import { SettingsState } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentAccordionItem from "./payment-accordion-item";
 import { useState } from "react";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { formatDate } from "@/utils";
 
 interface AccountTabProps {
   setRentDueDate: (Date: Date | null) => void;
@@ -28,6 +35,16 @@ const AccountTab: React.FC<AccountTabProps> = ({
 
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
 
+  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+    useGetUserProfileQuery();
+  const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
+
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
+
   return (
     <div>
       <div className="w-full mb-10  ">
@@ -39,19 +56,6 @@ const AccountTab: React.FC<AccountTabProps> = ({
         </div>
         <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
           <div className="w-full md:w-[70%] xl:w-[50%] ">
-            {/* <NubaInput
-              containerClass={"w-full mt-6"}
-              label="Preferred Payment Method"
-              placeholder=""
-              inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
-              dropdown
-              dropdownItems={["Ammex", "Mastercard"]}
-              value={preferredPaymnetMethod}
-              onChange={(e) =>
-                handleChange("preferredPaymnetMethod", e.target.value)
-              }
-            /> */}
-
             <Accordion type="single" collapsible className="mt-6">
               {paymentMethods?.data?.map((method, index: number) => (
                 <PaymentAccordionItem
@@ -71,7 +75,7 @@ const AccountTab: React.FC<AccountTabProps> = ({
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               dropdownIcon
               setSelectedDate={setRentDueDate}
-              value={rentDueDate ? rentDueDate.toLocaleDateString() : ""}
+              value={rentDetail?.dueDate ? formatDate(rentDetail.dueDate) : "—"}
               onChange={() => {}}
               calendarType="future"
             />
