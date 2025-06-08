@@ -5,7 +5,7 @@ import HomeIcon from "@/assets/svg/home-icon";
 const Features = () => {
   return (
     <div className="overflow-hidden h-[100vh] relative  ">
-      <p className="text-[40px] md:text-[60px] xl:text-[96px] font-[600] pt-[90px] md:pt-[70px] xl:pt-[56px] md:text-start text-center  ">
+      <p className="text-[40px] md:text-[60px] xl:text-[85px] font-[600] pt-[90px] md:pt-[70px] xl:pt-[64px] md:text-start text-center  ">
         Benefit from your rent payments.
       </p>
       <div className="absolute bottom-[-50px] w-full left-1/2 transform -translate-x-1/2">

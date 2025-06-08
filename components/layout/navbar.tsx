@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface NavigationProps {
   hasBg?: boolean;
@@ -15,6 +17,7 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const userAll = useSelector((state: RootState) => state.signup);
 
   return (
     <header className="h-[80px] z-[1000] absolute top-0 w-[calc(100%-48px)]   md:w-[calc(100%-120px)] lg:w-[calc(100%-240px)] ">
@@ -44,25 +47,36 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
           </ul>
         </div>
 
-        <div className="flex items-center gap-5">
-          {/* <GetStartedButton className="bg-white text-black hidden md:block " /> */}
-          <button
-            onClick={() => router.push("/login")}
-            className={cn(
-              "font-[700] md:block hidden cursor-pointer px-3 h-8",
-              hasBg ? "text-white" : "text-black"
-            )}
-          >
-            Login
-          </button>
+        {userAll?.token ? (
+          <div className="flex items-center gap-5">
+            <button
+              onClick={() => router.push("/dashboard")}
+              className={cn(
+                "font-[700] md:block hidden cursor-pointer rounded-[16px] px-7 h-8",
+                hasBg ? "text-white bg-black" : "text-black bg-white"
+              )}
+            >
+              Profile
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-5">
+            {/* <GetStartedButton className="bg-white text-black hidden md:block " /> */}
+            <button
+              onClick={() => router.push("/login")}
+              className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 "
+            >
+              Login
+            </button>
 
-          <button
-            onClick={() => router.push("/sign-up")}
-            className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 "
-          >
-            Register
-          </button>
-        </div>
+            <button
+              onClick={() => router.push("/sign-up")}
+              className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 "
+            >
+              Register
+            </button>
+          </div>
+        )}
 
         <div className="md:hidden">
           <button onClick={() => setIsOpen(true)}>

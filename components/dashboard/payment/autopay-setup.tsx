@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
-import ammexCard from "@/assets/svg/amex-card.svg";
 import Image from "next/image";
-import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
+import {
+  useGetPaymentMethodsQuery,
+  useToggleAutoPayMutation,
+} from "@/redux/features/paymentsApiSlice";
 import { Accordion } from "@/components/ui/accordion";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { formatDate } from "@/utils";
+import paymentCard from "@/assets/png/payment-card.png";
+import { nubaApis } from "@/services/api-services";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 interface AutoPayProps {
   setTab: React.Dispatch<
@@ -17,23 +28,36 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   const [showAllMethods, setShowAllMethods] = useState(false);
 
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
+  const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
 
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
   const selectedMethod =
-    paymentMethods?.data?.find((method) => method.id === activeMethodId) ||
+    paymentMethods?.data?.find(method => method.id === activeMethodId) ||
     paymentMethods?.data?.[0];
 
-  const dayOptions = Array.from({ length: 31 }, (_, i) => {
-    const day = i + 1;
-    const suffix =
-      day === 1 || day === 21 || day === 31
-        ? "st"
-        : day === 2 || day === 22
-        ? "nd"
-        : day === 3 || day === 23
-        ? "rd"
-        : "th";
-    return `${day}${suffix}`;
-  });
+  const {
+    data: userProfileDetails,
+    isLoading: userProfileLoading,
+    refetch,
+  } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
+
+  const [toggleAutoPay, { isLoading: togglingAutopay }] =
+    useToggleAutoPayMutation();
+
+  const handleToggleAutopay = async () => {
+    if (userProfile) {
+      await nubaApis.createPaymentMethod.handleToggleAutopay(
+        toggleAutoPay,
+        userProfile?.autopay
+      );
+      refetch();
+    }
+  };
 
   return (
     <div className="w-full md:w-[60%] xl:w-[40%] min-h-[70vh]">
@@ -48,7 +72,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
           <div className="flex items-center justify-between w-full mb-2">
             <p className="text-[14px] font-[600]">Payment Method</p>
             <button
-              onClick={() => setShowAllMethods((prev) => !prev)}
+              onClick={() => setShowAllMethods(prev => !prev)}
               className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500]"
             >
               Change
@@ -66,11 +90,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
                 </p>
               </div>
               <div className="flex items-center">
-                <Image
-                  src={ammexCard}
-                  alt="Selected Card"
-                  className="h-6 mr-2"
-                />
+                <Image src={paymentCard} alt="card" className="w-7 h-5 " />
                 <p className="text-sm text-gray-700">
                   {selectedMethod.lastDigits}
                 </p>
@@ -98,27 +118,32 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
 
         <div className="pb-4 border-b border-border flex items-center justify-between">
           <p className="text-[12px] font-[600]">Payment date</p>
-          <div className="flex items-center">
-            <select className="mt-1 cursor-pointer w-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-[12px]">
-              {dayOptions.map((day) => (
-                <option className="text-[10px] md:text-[12px]" key={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-            <p className="ml-2 text-[12px] font-[600]">of the month</p>
-          </div>
+          <p className="ml-2 text-[12px] font-[600]">
+            {isRentsLoading
+              ? "Loading..."
+              : rentDetail?.dueDate
+              ? formatDate(rentDetail.dueDate)
+              : "—"}
+          </p>
         </div>
 
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm font-semibold mt-3">
             <p>Payment Amount</p>
-            <span>£1,223.88</span>
+            <span>£{rentDetail?.monthlyPrice}</span>
           </div>
         </div>
 
-        <button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
-          Turn off autopay
+        <button
+          disabled={userProfileLoading || togglingAutopay}
+          onClick={handleToggleAutopay}
+          className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50"
+        >
+          {togglingAutopay
+            ? "Toggling..."
+            : userProfile?.autopay
+            ? "Turn off Autopay"
+            : "Turn on Autopay"}
         </button>
       </div>
     </div>

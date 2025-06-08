@@ -1,4 +1,3 @@
-import { ContactState } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type paymentSliceType = {
@@ -15,6 +14,7 @@ export type paymentSliceType = {
     cvc: string;
     mmYY: string;
   };
+  makePayment: "" | "start" | "complete"
 };
 
 const initialState: paymentSliceType = {
@@ -31,6 +31,7 @@ const initialState: paymentSliceType = {
     cvc: "",
     mmYY: "",
   },
+  makePayment: "",
 };
 
 export const paymentSlice = createSlice({
@@ -47,9 +48,12 @@ export const paymentSlice = createSlice({
       state.newPaymentMethod = { ...state.newPaymentMethod, ...action.payload };
     },
     resetNewPaymentForm: () => initialState,
+    setMakePayment: (state, action: PayloadAction<"" | "start" | "complete">) => {
+      state.makePayment = action.payload;
+    },
   },
 });
 
-export const { setAutoPay, updatePaymentMethod, resetNewPaymentForm } =
+export const { setAutoPay, updatePaymentMethod, resetNewPaymentForm,setMakePayment} =
   paymentSlice.actions;
 export default paymentSlice.reducer;

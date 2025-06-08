@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
 const OverallSalesChart = () => {
-  //   console.log("chart session count", sessionsCount);
   const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {

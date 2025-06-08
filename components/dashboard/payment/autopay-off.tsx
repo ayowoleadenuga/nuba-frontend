@@ -7,11 +7,25 @@ import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import { AutoPayOffProps } from "@/types";
 import React, { useState } from "react";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
+import { setMakePayment } from "@/redux/features/paymentSlice";
+import { useDispatch } from "react-redux";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query";
 
-const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
+const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
+  const dispatch = useDispatch();
+  const { data: rents } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
 
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    firstRentId ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -21,9 +35,6 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
               <CheckedIcon fill="#999B9E" />
               <p className="text-[12px] font-[500] ">Autopay off</p>
             </div>
-            {/* <p className="text-[12px] text-[#999B9E] mt-1 ">
-              Your payment of 1,223.88 is processing today
-            </p> */}
           </div>
           <button onClick={() => setTab("autopay-setup")}>
             <ArrowRightIcon />
@@ -55,10 +66,13 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setMakePayment, setTab }) => {
       <div className="mt-2 bg-white p-4">
         <div className="flex items-center justify-between text-[#999B9E] ">
           <p className="font-[600] text-[12px] ">Total balance</p>
-          <p className="text-[10px]">£1,223.88</p>
+          <p className="text-[10px]">
+            {" "}
+            £{rentDetail && rentDetail?.monthlyPrice + 23.88}
+          </p>
         </div>
         <Button
-          onClick={() => setMakePayment("start")}
+          onClick={() => dispatch(setMakePayment("start"))}
           className=" flex items-center justify-center w-full mt-2 "
         >
           Make Payment

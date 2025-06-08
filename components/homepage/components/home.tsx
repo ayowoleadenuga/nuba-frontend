@@ -8,7 +8,7 @@ const Home = () => {
     <div className="px-6 md:px-[60px] lg:px-[120px]  text-white relative w-full h-full ">
       <Navbar />
       <div className=" w-[calc(100%-48px)] md:w-[70%] lg:w-[60%] xl:w-[50%] absolute mt-[50%] bottom-[20%] md:bottom-[30%] text-center md:text-start ">
-        <h2 className="text-[40px] md:text-[60px] lg:text-[85px] lg:leading-[90px] font-[600]  ">
+        <h2 className="text-[40px] md:text-[60px] lg:text-[80px] lg:leading-[70px] font-[600]  ">
           Rewards from your rent.
         </h2>
         <p className="text-[24px] w-full md:w-[75%] lg:w-[55%] xl:w-[64%] mt-8 font-[500] leading-[110%] ">

@@ -15,6 +15,7 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
+import { useGetDiscountQuery } from "@/redux/features/paymentsApiSlice";
 
 const TransactionClient = () => {
   const router = useRouter();
@@ -37,6 +38,22 @@ const TransactionClient = () => {
     return `${date.getFullYear().toString().slice(-2)}`;
   }, [userProfile?.joinedAt]);
 
+  const { data: discount, isLoading: discountLoading } = useGetDiscountQuery();
+  const nextMilestone = () => {
+    const milestone = userProfile?.statistics.mileStone;
+
+    if (milestone !== undefined) {
+      if (milestone < 30) {
+        return "30%";
+      } else if (milestone < 60) {
+        return "60%";
+      } else {
+        return "100%";
+      }
+    }
+
+    return "0%";
+  };
   return (
     <div className="w-full p-5 ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
@@ -79,12 +96,14 @@ const TransactionClient = () => {
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Discount Deductions</p>
-            <p className="text-[12px] text-grayText ">£0</p>
+            <p className="text-[12px] text-grayText ">
+              {discountLoading ? "Loading..." : ` £${discount?.data?.discount}`}
+            </p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
             <span className="mr-1 text-brandCore-orange "> 167</span>
-            more points to reach the 30% milestone
+            more points to reach the {nextMilestone()} milestone
           </p>
         </div>
 

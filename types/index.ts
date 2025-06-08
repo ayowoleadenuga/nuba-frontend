@@ -128,6 +128,8 @@ export interface loginResponseData {
   status: string;
   referralCode: string | null;
   referralLink: string;
+  autopay: boolean;
+  autopayEnabledAt: Date | string;
   joinedAt: string;
 }
 
@@ -343,9 +345,9 @@ export interface PaymentMethod {
 }
 
 export interface AutoPayOffProps {
-  setMakePayment: React.Dispatch<
-    React.SetStateAction<"" | "start" | "complete">
-  >;
+  // setMakePayment: React.Dispatch<
+  //   React.SetStateAction<"" | "start" | "complete">
+  // >;
   setTab: React.Dispatch<
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
@@ -355,9 +357,9 @@ export interface AutoPayOnProps {
   setTab: React.Dispatch<
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
-  setMakePayment: React.Dispatch<
-    React.SetStateAction<"" | "start" | "complete">
-  >;
+  // setMakePayment: React.Dispatch<
+  //   React.SetStateAction<"" | "start" | "complete">
+  // >;
 }
 
 interface FaqQuestion {
@@ -385,4 +387,59 @@ export interface CreateSupportTicket {
   message: string;
   name: string;
   email: string;
+}
+export interface paymentResponse {
+  status: boolean;
+  message: string;
+  data: {
+    token: string;
+    reference: string;
+    provider: string;
+    authorizationUrl: string;
+  };
+}
+
+export interface upcomingRentPayment {
+  id: string;
+  rentId: string;
+  userId: string;
+  amount: number;
+  dueDate: string;
+  paidDate?: null;
+  status: string;
+  paymentMethod?: null;
+  transactionId?: null;
+  notes?: null;
+  reminderSent: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface upcomingRentResponse {
+  status: string;
+  statusCode: number;
+  data: upcomingRentPayment;
+}
+export interface paymentInitiationPayload {
+  usePoints: boolean;
+  callbackUrl: string;
+  milestone: number | undefined;
+}
+
+export interface discountResponse {
+  status: string;
+  statusCode: number;
+  data: {
+    point: string;
+    discount: number;
+    conversionRate: number;
+    currency: string;
+  };
+}
+
+export interface autoPayToggleResponse {
+  message: string;
+  status: string;
+  statusCode: string;
+  data: loginResponseData;
 }

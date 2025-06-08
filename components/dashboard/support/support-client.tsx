@@ -45,13 +45,14 @@ const SupportClient = () => {
     value: string
   ) => {
     dispatch(setField({ field, value }));
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [field]: "",
     }));
   };
 
-  const [createSupportTicketMutation] = useCreateSupportTicketMutation();
+  const [createSupportTicketMutation, { isLoading: supportRequestPending }] =
+    useCreateSupportTicketMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,7 +67,7 @@ const SupportClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -80,14 +81,13 @@ const SupportClient = () => {
 
     await nubaApis.createSupportTicket.handleCreateSupportTicket(
       {
-        subject: subject,
-        message: message,
-        name: name,
-        email: email,
+        subject,
+        message,
+        name,
+        email,
       },
       createSupportTicketMutation
     );
-    console.log("Password changed successfully");
     dispatch(resetSupportForm());
   };
 
@@ -111,9 +111,6 @@ const SupportClient = () => {
               </p>
             </div>
           )}
-          {/* <IconButton>
-            <OptionsIcon />
-          </IconButton> */}
         </div>
       </div>
       <div className="w-full md:w-[70%] xl:w-[50%] ">
@@ -148,7 +145,7 @@ const SupportClient = () => {
               name="name"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={name}
-              onChange={(e) => handleChange("name", e.target.value)}
+              onChange={e => handleChange("name", e.target.value)}
             />
             {errors.name && (
               <p className="text-red-500 text-[12px]">{errors.name}</p>
@@ -161,7 +158,7 @@ const SupportClient = () => {
               name="email"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              onChange={e => handleChange("email", e.target.value)}
             />
             {errors.email && (
               <p className="text-red-500 text-[12px]">{errors.email}</p>
@@ -173,7 +170,7 @@ const SupportClient = () => {
               name="subject"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={subject}
-              onChange={(e) => handleChange("subject", e.target.value)}
+              onChange={e => handleChange("subject", e.target.value)}
             />
             {errors.subject && (
               <p className="text-red-500 text-[12px]">{errors.subject}</p>
@@ -185,23 +182,15 @@ const SupportClient = () => {
               name="message"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
               value={message}
-              onChange={(e) => handleChange("message", e.target.value)}
+              onChange={e => handleChange("message", e.target.value)}
             />
             {errors.message && (
               <p className="text-red-500 text-[12px]">{errors.message}</p>
             )}
           </div>
           <div className="w-full flex items-center justify-center mt-4">
-            <Button
-              // disabled={pending}
-              type="submit"
-              // className={cn(
-              //   pending ? "bg-gray-300" : "bg-black",
-              //   "w-full text-white h-[54px] mt-[50px] rounded-[4px] text-[14px] font-[700] "
-              // )}
-            >
-              Submit
-              {/* {pending ? "SUBMITTING..." : "SUBMIT"} */}
+            <Button type="submit">
+              {supportRequestPending ? "SUBMITTING..." : "SUBMIT"}
             </Button>
           </div>
         </form>

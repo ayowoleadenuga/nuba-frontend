@@ -51,7 +51,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
       if (!result.success) {
         const errorMessages: Record<string, string> = {};
-        result.error.errors.forEach((err) => {
+        result.error.errors.forEach(err => {
           errorMessages[err.path[0] as string] = err.message;
         });
         setErrors(errorMessages);
@@ -67,7 +67,6 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
         },
         changePasswordMutation
       );
-      console.log("Password changed successfully");
       dispatch(resetSettingsForm());
     } else if (props.currentTab === "Details") {
       const { firstName, lastName, phoneNumber, setErrors } = props;
@@ -80,7 +79,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
       if (!result.success) {
         const errorMessages: Record<string, string> = {};
-        result.error.errors.forEach((err) => {
+        result.error.errors.forEach(err => {
           errorMessages[err.path[0] as string] = err.message;
         });
         setErrors(errorMessages);
@@ -97,7 +96,6 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
         updateUserProfileMutation
       );
     } else if (props.currentTab === "Account") {
-      console.log("Submitting form for tab:", props.currentTab);
     }
   };
 

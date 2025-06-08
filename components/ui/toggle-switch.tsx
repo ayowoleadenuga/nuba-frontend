@@ -1,10 +1,16 @@
 interface ToggleSwitchProp {
   isOn: boolean;
   setIsOn: React.Dispatch<React.SetStateAction<boolean>>;
+  discount: number | undefined;
 }
-const ToggleSwitch: React.FC<ToggleSwitchProp> = ({ isOn, setIsOn }) => {
+const ToggleSwitch: React.FC<ToggleSwitchProp> = ({
+  isOn,
+  setIsOn,
+  discount,
+}) => {
   return (
-    <div
+    <button
+      disabled={discount !== undefined && discount < 1}
       className={`w-10 h-[28px] flex items-center rounded-full p-1 cursor-pointer transition duration-300 ${
         isOn ? "bg-[#000000] " : "bg-gray-300"
       }`}
@@ -15,7 +21,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProp> = ({ isOn, setIsOn }) => {
           isOn ? "translate-x-4" : "translate-x-0"
         }`}
       ></div>
-    </div>
+    </button>
   );
 };
 

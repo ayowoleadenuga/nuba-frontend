@@ -30,10 +30,9 @@ const CreateAccountForm = () => {
   }>({});
 
   const user = useSelector((state: RootState) => state.signup.user);
-  console.log("the user is", user);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -61,7 +60,7 @@ const CreateAccountForm = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }

@@ -13,6 +13,7 @@ import {
   loginPayload,
   loginResponse,
   newPaymentPayload,
+  paymentInitiationPayload,
   signUpResponse,
   sigUpPayload,
   tenancyDetailsPayload,
@@ -44,6 +45,17 @@ export type newPaymentTrigger = (payload: newPaymentPayload) => {
   unwrap: () => Promise<any>;
 };
 
+export type validatePaymentTrigger = (payload: string) => {
+  unwrap: () => Promise<any>;
+};
+
+export type makePaymentTrigger = (params: {
+  paymentId: string;
+  payload: paymentInitiationPayload;
+}) => {
+  unwrap: () => Promise<any>;
+};
+
 export type SendOTPTrigger = (payload: { token: string }) => {
   unwrap: () => Promise<{
     message: string;
@@ -65,6 +77,9 @@ export type UpdateUserProfileTrigger = (payload: UpdateUserProfilePayload) => {
 };
 
 export type CreateSupportTicketTrigger = (payload: CreateSupportTicket) => {
+  unwrap: () => Promise<any>;
+};
+export type autopayToggleTrigger = (autoPayStatus: boolean) => {
   unwrap: () => Promise<any>;
 };
 
@@ -89,7 +104,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          (error) => {
+          error => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -119,7 +134,6 @@ export const nubaApis = {
       try {
         const response: any = await sendOTP(payload).unwrap();
         dispatch(nextStep());
-        console.log("the email verify response is", response);
         toast.success("Email verified");
         dispatch(
           setAuthData({
@@ -271,6 +285,45 @@ export const nubaApis = {
         toast.error(error?.data?.message || "Failed to create payment method");
       }
     },
+    handlePay: async (
+      makePayment: makePaymentTrigger,
+      paymentId: string,
+      payload: paymentInitiationPayload
+    ) => {
+      try {
+        await makePayment({ paymentId, payload }).unwrap();
+        toast.success("Payment initiated successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to initiate payment");
+      }
+    },
+    handleValidatePayment: async (
+      paymentId: string,
+      validatePayment: validatePaymentTrigger
+    ) => {
+      try {
+        await validatePayment(paymentId).unwrap();
+        toast.success("Payment validated successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to validate payment");
+      }
+    },
+    handleToggleAutopay: async (
+      toggleAutopay: autopayToggleTrigger,
+      autoPayStatus: boolean
+    ) => {
+      try {
+        await toggleAutopay(autoPayStatus).unwrap();
+        toast.success(
+          `Autopay turned ${autoPayStatus ? "off" : "on"} successfully`
+        );
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to turn off autopay");
+      }
+    },
   },
 
   getGoogleLoginUrl: {
@@ -349,7 +402,7 @@ export const nubaApis = {
     handleCreateSupportTicket: async (
       payload: CreateSupportTicket,
       createSupportTicketMutation: CreateSupportTicketTrigger
-    ) => {
+    ): Promise<loginResponse | void> => {
       try {
         await createSupportTicketMutation(payload).unwrap();
         toast.success("Support ticket created successfully");

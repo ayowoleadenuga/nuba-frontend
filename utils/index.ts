@@ -100,3 +100,16 @@ export const formatDateToDDMMYYYY = (dateStr: string): string => {
   const date = parseISO(dateStr);
   return format(date, "dd/MM/yyyy");
 };
+
+export const dayOptions = Array.from({ length: 31 }, (_, i) => {
+  const day = i + 1;
+  const suffix =
+    day === 1 || day === 21 || day === 31
+      ? "st"
+      : day === 2 || day === 22
+      ? "nd"
+      : day === 3 || day === 23
+      ? "rd"
+      : "th";
+  return `${day}${suffix}`;
+});

@@ -16,12 +16,15 @@ import { RootState } from "@/redux/store";
 import {
   paymentSliceType,
   resetNewPaymentForm,
+  setMakePayment,
   updatePaymentMethod,
 } from "@/redux/features/paymentSlice";
 import { paymentSchema } from "@/utils/validator";
 import {
   useCreatePaymentMethodMutation,
+  useGetDiscountQuery,
   useGetPaymentMethodsQuery,
+  useMakePaymentMutation,
 } from "@/redux/features/paymentsApiSlice";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 import { nubaApis } from "@/services/api-services";
@@ -30,12 +33,12 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query/react";
-interface MakePaymentProps {
-  setMakePayment: React.Dispatch<
-    React.SetStateAction<"" | "start" | "complete">
-  >;
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+
+export interface MakePaymentProps {
+  paymentId: string | undefined;
 }
-const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
+const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
   const [createPaymentMethodMutation] = useCreatePaymentMethodMutation();
   const dispatch = useDispatch();
   const [isOn, setIsOn] = useState(false);
@@ -50,7 +53,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
-
+  const [makePayment, { data, isLoading, isSuccess }] =
+    useMakePaymentMutation();
   const {
     country,
     postcode,
@@ -75,11 +79,14 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
           e.target.value,
       } as paymentSliceType["newPaymentMethod"])
     );
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
   };
+  const { data: discount, isLoading: discountLoading } = useGetDiscountQuery();
+  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -101,7 +108,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -119,6 +126,20 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
     );
 
     dispatch(resetNewPaymentForm());
+  };
+
+  const handleMakePayment = async () => {
+    if (paymentId) {
+      await nubaApis.createPaymentMethod.handlePay(makePayment, paymentId, {
+        usePoints: isOn,
+        callbackUrl: "http://localhost:3001/payment",
+        milestone: userProfile?.statistics?.mileStone,
+      });
+      if (isSuccess) {
+        window.location.href === data?.data?.authorizationUrl;
+        dispatch(setMakePayment("complete"));
+      }
+    }
   };
 
   return (
@@ -297,19 +318,38 @@ const MakePayment: React.FC<MakePaymentProps> = ({ setMakePayment }) => {
         </div>
         <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
           <div className="flex items-center justify-between">
-            <p className="text-[14px] font-[500] ">
-              Save up to £156.12 on this payment
-            </p>
+            {discountLoading ? (
+              "Loading..."
+            ) : (
+              <p className="text-[14px] font-[500] ">
+                Save up to £{discount?.data?.discount} on this payment
+              </p>
+            )}
             {/* <ArrowRightIcon /> */}
           </div>
           <div className="flex items-center justify-between pt-5">
             <p className="text-[12px]  ">Pay with points to reduce paymment</p>
-            <ToggleSwitch isOn={isOn} setIsOn={setIsOn} />
+            <ToggleSwitch
+              isOn={isOn}
+              setIsOn={setIsOn}
+              discount={userProfile?.statistics?.mileStone}
+            />
           </div>
         </div>
         <div className="bg-white border border-border px-4 py-6  mt-1 ">
-          <Button onClick={() => setMakePayment("complete")} className="w-full">
-            Pay £{rentDetail?.monthlyPrice}
+          <Button
+            disabled={isLoading || discountLoading}
+            onClick={handleMakePayment}
+            className="w-full"
+          >
+            {isLoading
+              ? "Processing"
+              : ` Pay £
+            ${
+              isOn && rentDetail?.monthlyPrice && discount?.data?.discount
+                ? rentDetail?.monthlyPrice + discount?.data?.discount
+                : rentDetail?.monthlyPrice
+            }`}
           </Button>
           <p className="text-[10px] mt-2 ">
             Submitting this page will charge your card and cannot be undone
