@@ -104,7 +104,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -402,7 +402,7 @@ export const nubaApis = {
     handleCreateSupportTicket: async (
       payload: CreateSupportTicket,
       createSupportTicketMutation: CreateSupportTicketTrigger
-    ): Promise<loginResponse | void> => {
+    ) => {
       try {
         await createSupportTicketMutation(payload).unwrap();
         toast.success("Support ticket created successfully");
