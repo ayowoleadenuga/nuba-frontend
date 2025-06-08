@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { skipToken } from "@reduxjs/toolkit/query/react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointsIcon } from "@/assets/svg/points-icon";
 import TransactionTable from "./transaction-table";

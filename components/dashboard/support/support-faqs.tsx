@@ -9,10 +9,14 @@ const SupportFaqs: FC<SupportFaqsProps> = ({
 }) => {
   return (
     <div className="mt-10 w-full md:w-[70%] xl:w-[50%]">
-      <SupportFaqsContainer
-        faqQuestions={faqQuestions}
-        setFaqQuestions={setFaqQuestions}
-      />
+      {faqQuestions.length === 0 ? (
+        <p className="text-[#4B525A]">No FAQs found for your search.</p>
+      ) : (
+        <SupportFaqsContainer
+          faqQuestions={faqQuestions}
+          setFaqQuestions={setFaqQuestions}
+        />
+      )}
     </div>
   );
 };

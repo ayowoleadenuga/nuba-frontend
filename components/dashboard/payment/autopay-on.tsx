@@ -6,6 +6,7 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { AutoPayOnProps } from "@/types";
 import { skipToken } from "@reduxjs/toolkit/query";
 import React from "react";
@@ -20,6 +21,8 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
+  // const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
+  // useGetUserProfileQuery();
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -30,7 +33,10 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
               <p className="text-[12px] font-[500] ">Autopay activated</p>
             </div>
             <p className="text-[12px] text-[#999B9E] mt-1 ">
-              Your payment of 1,223.88 is processing today
+              Your payment of £
+              {rentDetail &&
+                (rentDetail?.monthlyPrice + 23.88).toLocaleString()}{" "}
+              is processing today
             </p>
           </div>
           <button onClick={() => setTab("autopay-setup")}>

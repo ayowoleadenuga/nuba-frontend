@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from "react";
-import { skipToken } from "@reduxjs/toolkit/query/react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import NubaInput from "@/components/ui/nuba-input";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
@@ -148,7 +148,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   placeholder=""
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
                   value={firstName}
-                  onChange={e => handleChange("firstName", e.target.value)}
+                  onChange={(e) => handleChange("firstName", e.target.value)}
                 />
                 {errors.firstName && (
                   <p className="text-red-500 text-[12px]">{errors.firstName}</p>
@@ -159,7 +159,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   placeholder=""
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
                   value={lastName}
-                  onChange={e => handleChange("lastName", e.target.value)}
+                  onChange={(e) => handleChange("lastName", e.target.value)}
                 />
                 {errors.lastName && (
                   <p className="text-red-500 text-[12px]">{errors.lastName}</p>
@@ -183,7 +183,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   inputMode="numeric"
                   pattern="[0-9]*"
                   value={phoneNumber}
-                  onChange={e => handleChange("phoneNumber", e.target.value)}
+                  onChange={(e) => handleChange("phoneNumber", e.target.value)}
                 />
 
                 {errors.phoneNumber && (

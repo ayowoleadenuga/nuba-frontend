@@ -3,7 +3,7 @@
 import { PointsIcon } from "@/assets/svg/points-icon";
 import SupportFaqs from "@/components/dashboard/support/support-faqs";
 import { Button } from "@/components/ui/button";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -17,10 +17,11 @@ import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 import { nubaApis } from "@/services/api-services";
 import { useCreateSupportTicketMutation } from "@/redux/features/supportApiSlice";
-import { faqs } from "@/components/homepage/constants";
+import { supportFaqs } from "./constants";
+import Search from "@/assets/svg/Search";
 
 const SupportClient = () => {
-  const [faqQuestions, setFaqQuestions] = useState(faqs);
+  const [faqQuestions, setFaqQuestions] = useState(supportFaqs);
   const [searchTerm, setSearchTerm] = useState("");
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
@@ -48,7 +49,7 @@ const SupportClient = () => {
     value: string
   ) => {
     dispatch(setField({ field, value }));
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [field]: "",
     }));
@@ -70,7 +71,7 @@ const SupportClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -94,16 +95,16 @@ const SupportClient = () => {
     dispatch(resetSupportForm());
   };
 
-  const handleFaqSearch = () => {
+  useEffect(() => {
     if (searchTerm.trim() === "") {
-      setFaqQuestions(faqs);
+      setFaqQuestions(supportFaqs);
     } else {
-      const filtered = faqs.filter((faq) =>
+      const filtered = supportFaqs.filter(faq =>
         faq.question.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFaqQuestions(filtered);
     }
-  };
+  }, [searchTerm, supportFaqs]);
 
   return (
     <div className="w-full p-5">
@@ -128,16 +129,16 @@ const SupportClient = () => {
         </div>
       </div>
       <div className="w-full md:w-[70%] xl:w-[50%] ">
-        <div className="w-full flex items-center justify-between mt-10 gap-2">
+        <div className="relative w-full flex items-center justify-between mt-10 gap-2">
           <input
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-[80%] h-[44px] px-4 border border-border rounded-[10px] outline-none text-[14px] "
+            onChange={e => setSearchTerm(e.target.value)}
+            className="w-[80%] h-[44px] pl-9 pr-4 border border-border rounded-[10px] outline-none text-[14px] "
             placeholder="Search Frequently Asked Questions"
           />
-          <Button onClick={handleFaqSearch} className="w-[20%] ">
-            Search
-          </Button>
+          <span className="absolute pl-4">
+            <Search />
+          </span>
         </div>
       </div>
       <SupportFaqs
@@ -167,7 +168,7 @@ const SupportClient = () => {
               name="name"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={name}
-              onChange={(e) => handleChange("name", e.target.value)}
+              onChange={e => handleChange("name", e.target.value)}
             />
             {errors.name && (
               <p className="text-red-500 text-[12px]">{errors.name}</p>
@@ -180,7 +181,7 @@ const SupportClient = () => {
               name="email"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={email}
-              onChange={(e) => handleChange("email", e.target.value)}
+              onChange={e => handleChange("email", e.target.value)}
             />
             {errors.email && (
               <p className="text-red-500 text-[12px]">{errors.email}</p>
@@ -192,7 +193,7 @@ const SupportClient = () => {
               name="subject"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={subject}
-              onChange={(e) => handleChange("subject", e.target.value)}
+              onChange={e => handleChange("subject", e.target.value)}
             />
             {errors.subject && (
               <p className="text-red-500 text-[12px]">{errors.subject}</p>
@@ -204,13 +205,13 @@ const SupportClient = () => {
               name="message"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
               value={message}
-              onChange={(e) => handleChange("message", e.target.value)}
+              onChange={e => handleChange("message", e.target.value)}
             />
             {errors.message && (
               <p className="text-red-500 text-[12px]">{errors.message}</p>
             )}
           </div>
-          <div className="w-full flex items-center justify-center mt-4">
+          <div className="w-full flex items-center justify-start mt-4">
             <Button type="submit">
               {supportRequestPending ? "SUBMITTING..." : "SUBMIT"}
             </Button>
