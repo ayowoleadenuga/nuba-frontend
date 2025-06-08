@@ -17,6 +17,7 @@ interface RequestProps extends React.InputHTMLAttributes<HTMLInputElement> {
   dropdownItems?: string[];
   inputClass?: string;
   dropdownButtonStyle?: string;
+  calendarType?: string;
 }
 
 const NubaInput: React.FC<RequestProps> = ({
@@ -34,6 +35,7 @@ const NubaInput: React.FC<RequestProps> = ({
   value,
   name,
   dropdownButtonStyle,
+  calendarType,
   ...props
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -154,6 +156,7 @@ const NubaInput: React.FC<RequestProps> = ({
               setShowCalendar={setShowCalendar}
               setSelectedDate={setSelectedDate}
               setDateIsSelected={setDateIsSelected}
+              calendarType={calendarType}
             />
           </div>
         )}

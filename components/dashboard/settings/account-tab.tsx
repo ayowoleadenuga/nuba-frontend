@@ -73,6 +73,7 @@ const AccountTab: React.FC<AccountTabProps> = ({
               setSelectedDate={setRentDueDate}
               value={rentDueDate ? rentDueDate.toLocaleDateString() : ""}
               onChange={() => {}}
+              calendarType="future"
             />
           </div>
         </div>

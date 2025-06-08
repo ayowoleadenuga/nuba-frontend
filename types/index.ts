@@ -145,6 +145,7 @@ export interface sigUpPayload {
   email: string;
   password: string;
   password_confirmation: string;
+  referralCode: string;
 }
 
 export interface loginPayload {
@@ -442,4 +443,15 @@ export interface autoPayToggleResponse {
   status: string;
   statusCode: string;
   data: loginResponseData;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+  expand: boolean;
+}
+
+export interface SupportFaqsProps {
+  faqQuestions: FAQItem[];
+  setFaqQuestions: React.Dispatch<React.SetStateAction<FAQItem[]>>;
 }

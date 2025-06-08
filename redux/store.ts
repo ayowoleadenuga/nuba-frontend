@@ -58,7 +58,8 @@ export const store = configureStore({
       userApi.middleware,
       rentsApi.middleware,
       paymentsApi.middleware,
-      transactionsApi.middleware
+      transactionsApi.middleware,
+      supportApi.middleware
     ),
 });
 

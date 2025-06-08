@@ -85,7 +85,7 @@ const TransactionClient = () => {
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-grayText ">Your Rent</p>
             <p className="text-[12px] text-grayText ">
-              £{rentDetail?.monthlyPrice}
+              £{(rentDetail?.monthlyPrice ?? 0)?.toLocaleString()}
             </p>
           </div>
           <div className="flex items-center justify-between mt-5">

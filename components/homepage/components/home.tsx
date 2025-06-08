@@ -11,7 +11,7 @@ const Home = () => {
         <h2 className="text-[40px] md:text-[60px] lg:text-[80px] lg:leading-[70px] font-[600]  ">
           Rewards from your rent.
         </h2>
-        <p className="text-[24px] w-full md:w-[75%] lg:w-[55%] xl:w-[64%] mt-8 font-[500] leading-[110%] ">
+        <p className="text-[24px] w-full md:w-[75%] lg:w-[55%] xl:w-[68%] mt-8 font-[500] leading-[110%] ">
           Pay with your card—Visa, Mastercard, American Express and earn
           benefits every time you pay rent.
         </p>

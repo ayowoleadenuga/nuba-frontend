@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import {
 } from "@/redux/features/authApiSlice";
 import { nubaApis } from "@/services/api-services";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 const CreateAccountForm = () => {
   const dispatch = useDispatch();
@@ -28,8 +29,23 @@ const CreateAccountForm = () => {
   const [errors, setErrors] = React.useState<{
     [key in keyof CreateAccountState]?: string;
   }>({});
+  const searchParam = useSearchParams();
+  const userReferralCode = searchParam.get("refCode");
 
-  const user = useSelector((state: RootState) => state.signup.user);
+  useEffect(() => {
+    if (userReferralCode) {
+      localStorage.setItem("referralCode", userReferralCode);
+      dispatch(updateFormData({ referralCode: userReferralCode }));
+    }
+  }, []);
+
+  const refCodeExisting = localStorage.getItem("referralCode");
+  useEffect(() => {
+    if (refCodeExisting) {
+      dispatch(updateFormData({ referralCode: refCodeExisting }));
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
     setErrors(prevErrors => ({
@@ -80,13 +96,14 @@ const CreateAccountForm = () => {
       city: formData.city,
       postcode: formData.postCode,
       dateOfBirth: selectedDate?.toISOString() || "",
-      email: formData.email,
+      email: formData.email.toLocaleLowerCase(),
       password: formData.password,
       password_confirmation: formData.confirmPassword,
+      referralCode: formData.referralCode || "",
     };
 
     await onSubmit(payload);
-    // dispatch(resetSignup());
+    localStorage.removeItem("referralCode");
   };
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -141,6 +158,7 @@ const CreateAccountForm = () => {
           setErrors({ dateOfBirth: "" });
         }}
         value={selectedDate ? selectedDate.toLocaleDateString() : ""}
+        calendarType="dob"
       />
       {errors.dateOfBirth && (
         <p className="text-red-500 text-[12px]">{errors.dateOfBirth}</p>
@@ -253,6 +271,18 @@ const CreateAccountForm = () => {
       {errors.confirmPassword && (
         <p className="text-red-500 text-[12px]">{errors.confirmPassword}</p>
       )}
+      <NubaInput
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Refferal Code (Optional)"
+        name="referralCode"
+        readOnly={!!userReferralCode}
+        value={formData?.referralCode}
+        onChange={handleChange}
+      />
+
       <Button disabled={isLoading} type="submit" className="w-full mt-7">
         {isLoading ? "Creating account..." : "Continue"}
       </Button>

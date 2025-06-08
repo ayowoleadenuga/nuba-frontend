@@ -130,7 +130,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm font-semibold mt-3">
             <p>Payment Amount</p>
-            <span>£{rentDetail?.monthlyPrice}</span>
+            <span>£{(rentDetail?.monthlyPrice)?.toLocaleString()}</span>
           </div>
         </div>
 

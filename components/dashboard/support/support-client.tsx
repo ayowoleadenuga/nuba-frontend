@@ -3,7 +3,7 @@
 import { PointsIcon } from "@/assets/svg/points-icon";
 import SupportFaqs from "@/components/dashboard/support/support-faqs";
 import { Button } from "@/components/ui/button";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -17,8 +17,11 @@ import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
 import { nubaApis } from "@/services/api-services";
 import { useCreateSupportTicketMutation } from "@/redux/features/supportApiSlice";
+import { faqs } from "@/components/homepage/constants";
 
 const SupportClient = () => {
+  const [faqQuestions, setFaqQuestions] = useState(faqs);
+  const [searchTerm, setSearchTerm] = useState("");
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
@@ -45,7 +48,7 @@ const SupportClient = () => {
     value: string
   ) => {
     dispatch(setField({ field, value }));
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: "",
     }));
@@ -67,7 +70,7 @@ const SupportClient = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -89,6 +92,17 @@ const SupportClient = () => {
       createSupportTicketMutation
     );
     dispatch(resetSupportForm());
+  };
+
+  const handleFaqSearch = () => {
+    if (searchTerm.trim() === "") {
+      setFaqQuestions(faqs);
+    } else {
+      const filtered = faqs.filter((faq) =>
+        faq.question.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFaqQuestions(filtered);
+    }
   };
 
   return (
@@ -116,13 +130,21 @@ const SupportClient = () => {
       <div className="w-full md:w-[70%] xl:w-[50%] ">
         <div className="w-full flex items-center justify-between mt-10 gap-2">
           <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-[80%] h-[44px] px-4 border border-border rounded-[10px] outline-none text-[14px] "
             placeholder="Search Frequently Asked Questions"
           />
-          <Button className="w-[20%] ">Search</Button>
+          <Button onClick={handleFaqSearch} className="w-[20%] ">
+            Search
+          </Button>
         </div>
       </div>
-      <SupportFaqs />
+      <SupportFaqs
+        faqQuestions={faqQuestions}
+        setFaqQuestions={setFaqQuestions}
+      />
+
       <div className="w-full md:w-[70%] xl:w-[50%] my-10 ">
         <div className="w-full border-b border-b-[#E2E8F0] pb-1 ">
           <p className="font-[600] text-[12px] text-[#2A4152] ">
@@ -145,7 +167,7 @@ const SupportClient = () => {
               name="name"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               value={name}
-              onChange={e => handleChange("name", e.target.value)}
+              onChange={(e) => handleChange("name", e.target.value)}
             />
             {errors.name && (
               <p className="text-red-500 text-[12px]">{errors.name}</p>
@@ -158,7 +180,7 @@ const SupportClient = () => {
               name="email"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={email}
-              onChange={e => handleChange("email", e.target.value)}
+              onChange={(e) => handleChange("email", e.target.value)}
             />
             {errors.email && (
               <p className="text-red-500 text-[12px]">{errors.email}</p>
@@ -170,7 +192,7 @@ const SupportClient = () => {
               name="subject"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]  "
               value={subject}
-              onChange={e => handleChange("subject", e.target.value)}
+              onChange={(e) => handleChange("subject", e.target.value)}
             />
             {errors.subject && (
               <p className="text-red-500 text-[12px]">{errors.subject}</p>
@@ -182,7 +204,7 @@ const SupportClient = () => {
               name="message"
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] h-[119px] "
               value={message}
-              onChange={e => handleChange("message", e.target.value)}
+              onChange={(e) => handleChange("message", e.target.value)}
             />
             {errors.message && (
               <p className="text-red-500 text-[12px]">{errors.message}</p>

@@ -102,7 +102,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                       </p>
                     </div>
                     <p className="font-[500] text-[14px] text-[#474747] ">
-                      £{rentDetail?.monthlyPrice}
+                      £{rentDetail?.monthlyPrice?.toLocaleString()}
                     </p>
                   </div>
                 </div>
@@ -121,7 +121,10 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                   <div className="flex items-center justify-between">
                     <p className="text-[12px] font-[600] ">Total</p>
                     <p className="font-[500] text-[14px] text-[#474747] ">
-                      £{rentDetail && rentDetail?.monthlyPrice + 23.88}
+                      £
+                      {(
+                        rentDetail && rentDetail?.monthlyPrice + 23.88
+                      )?.toLocaleString()}
                     </p>
                   </div>
                 </div>

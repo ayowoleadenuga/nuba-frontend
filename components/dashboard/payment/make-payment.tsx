@@ -88,6 +88,22 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
+  const nextMilestone = () => {
+    const milestone = userProfile?.statistics.mileStone;
+
+    if (milestone !== undefined) {
+      if (milestone < 30) {
+        return 30;
+      } else if (milestone < 60) {
+        return 60;
+      } else {
+        return 100;
+      }
+    }
+
+    return 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
@@ -132,8 +148,9 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     if (paymentId) {
       await nubaApis.createPaymentMethod.handlePay(makePayment, paymentId, {
         usePoints: isOn,
-        callbackUrl: "http://localhost:3001/payment",
-        milestone: userProfile?.statistics?.mileStone,
+        callbackUrl: "https://www.nubarewards.com/payment",
+        // callbackUrl: "http://localhost:3001/payment",
+        milestone: nextMilestone(),
       });
       if (isSuccess) {
         window.location.href === data?.data?.authorizationUrl;
@@ -314,7 +331,9 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
       <div className="w-full md:w-[60%] xl:w-[47%] ">
         <div className="bg-white border border-border px-4 py-6 flex items-center justify-between rounded-[4px] ">
           <p className="text-[14px] font-[500] ">Payment amount</p>
-          <p className="text-[14px] font-[600] ">£{rentDetail?.monthlyPrice}</p>
+          <p className="text-[14px] font-[600] ">
+            £{rentDetail?.monthlyPrice?.toLocaleString()}
+          </p>
         </div>
         <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
           <div className="flex items-center justify-between">
@@ -347,8 +366,10 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
               : ` Pay £
             ${
               isOn && rentDetail?.monthlyPrice && discount?.data?.discount
-                ? rentDetail?.monthlyPrice + discount?.data?.discount
-                : rentDetail?.monthlyPrice
+                ? (
+                    rentDetail?.monthlyPrice + discount?.data?.discount
+                  ).toLocaleString()
+                : (rentDetail?.monthlyPrice ?? 0).toLocaleString()
             }`}
           </Button>
           <p className="text-[10px] mt-2 ">

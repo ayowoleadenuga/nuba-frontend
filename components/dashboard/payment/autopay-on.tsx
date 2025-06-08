@@ -47,7 +47,7 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
           <p className="font-[600] text-[12px] ">Total balance</p>
           <p className="text-[10px]">
             {" "}
-            £{rentDetail && rentDetail?.monthlyPrice + 23.88}
+            £{rentDetail && (rentDetail?.monthlyPrice + 23.88).toLocaleString()}
           </p>
         </div>
         <Button

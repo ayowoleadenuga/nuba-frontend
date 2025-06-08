@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import NubaInput from "@/components/ui/nuba-input";
 import SupportFaqsContainer from "../support/support-faqs-container";
-import { supportFaqs } from "../support/constants";
+import { pointsFaqs } from "./constants";
 
 const ReferralsRight = () => {
-  const [faqQuestions, setFaqQuestions] = useState(supportFaqs);
+  const [faqQuestions, setFaqQuestions] = useState(pointsFaqs);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   return (

@@ -6,6 +6,7 @@ const CalendarComp = ({
   setShowCalendar,
   setDateIsSelected,
   setSelectedDate,
+  calendarType,
 }: any) => {
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
@@ -21,6 +22,8 @@ const CalendarComp = ({
         color="#3F5BF6"
         rangeColors={["#3F5BF6"]}
         showMonthAndYearPickers={true}
+        minDate={calendarType === "future" ? new Date() : undefined}
+        maxDate={calendarType === "dob" ? new Date() : undefined}
       />
       {/* <button
         disabled={!dateIsSelected}

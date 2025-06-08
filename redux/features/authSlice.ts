@@ -46,6 +46,7 @@ interface SignUpState {
     newCity: string;
     state: string;
     cardName: string;
+    referralCode: string;
   };
   token: string | null;
   user: loginResponseData | null;
@@ -87,6 +88,7 @@ const initialState: SignUpState = {
     newCity: "",
     state: "",
     cardName: "",
+    referralCode: "",
   },
   token: null,
   user: null,

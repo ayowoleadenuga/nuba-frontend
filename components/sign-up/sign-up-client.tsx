@@ -42,7 +42,7 @@ const SignUpClient = () => {
       <div className="overflow-y-auto h-[calc(100%-548px)] flex items-center justify-center">
         {renderStep()}
       </div>
-      <div className="flex justify-between mt-4">
+      {/* <div className="flex justify-between mt-4">
         <button
           className="px-4 py-2 bg-gray-300 rounded"
           onClick={() => dispatch(prevStep())}
@@ -57,7 +57,7 @@ const SignUpClient = () => {
         >
           Next
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
