@@ -32,7 +32,8 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
-import { skipToken } from "@reduxjs/toolkit/query/react";
+import { skipToken } from "@reduxjs/toolkit/query";
+
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 export interface MakePaymentProps {
@@ -79,7 +80,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
           e.target.value,
       } as paymentSliceType["newPaymentMethod"])
     );
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -124,7 +125,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }

@@ -15,7 +15,7 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
-import { skipToken } from "@reduxjs/toolkit/query/react";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { formatDateToDDMMYYYY } from "@/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setMakePayment } from "@/redux/features/paymentSlice";
