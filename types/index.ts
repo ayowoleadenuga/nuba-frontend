@@ -443,3 +443,14 @@ export interface autoPayToggleResponse {
   statusCode: string;
   data: loginResponseData;
 }
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+  expand: boolean;
+}
+
+export interface SupportFaqsProps {
+  faqQuestions: FAQItem[];
+  setFaqQuestions: React.Dispatch<React.SetStateAction<FAQItem[]>>;
+}

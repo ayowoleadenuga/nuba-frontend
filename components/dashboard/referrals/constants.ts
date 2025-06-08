@@ -1,4 +1,4 @@
-export const supportFaqs = [
+export const pointsFaqs = [
   {
     question: "What Are Nuba Points?",
     answer: `Nuba Points are rewards you earn when someone you refer completes their first rent payment via Nuba. These points convert directly into rent discounts: 100 Nuba Points = £1 rent discount. Redeem at milestone levels - 30%, 60%, or 100% of your rent. Points have no expiration date until redeemed. After redemption, your points reset to zero
