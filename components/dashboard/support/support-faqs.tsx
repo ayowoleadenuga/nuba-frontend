@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC } from "react";
 import SupportFaqsContainer from "./support-faqs-container";
-import { supportFaqs } from "./constants";
+import { SupportFaqsProps } from "@/types";
 
-const SupportFaqs = () => {
-  const [faqQuestions, setFaqQuestions] = useState(supportFaqs);
-
+const SupportFaqs: FC<SupportFaqsProps> = ({
+  faqQuestions,
+  setFaqQuestions,
+}) => {
   return (
     <div className="mt-10 w-full md:w-[70%] xl:w-[50%]">
       <SupportFaqsContainer
