@@ -1,37 +1,4 @@
-import BenefitsIcon from "@/assets/svg/benefits-icon";
-import HomeIcon from "@/assets/svg/home-icon";
-import RewardsIcon from "@/assets/svg/rewards-icon";
-export const revolutioniseList = [
-  {
-    type: "Benefit",
-    price: "£300",
-    button: "Explore benefits",
-    icon: BenefitsIcon,
-    height: "350px",
-    bgUrl: "/assets/benefits-bg.jpg",
-    color: "#88BB6C",
-  },
-  {
-    type: "Rent",
-    price: "£1500",
-    button: "Manage Payments",
-    icon: HomeIcon,
-    height: "370px",
-    bgUrl: "/assets/managePaymentsBg.jpg",
-    color: "#6927DA",
-  },
-  {
-    type: "Rewards",
-    price: "£100",
-    button: "Explore rewards",
-    icon: RewardsIcon,
-    height: "350px",
-    bgUrl: "/assets/rewards-bg.jpg",
-    color: "#528BFF",
-  },
-];
-
-export const faqs = [
+export const supportFaqs = [
   {
     question: "Why Pay Rent with Nuba?",
     answer: `Because rent day doesn’t have to be pain day. Here’s how Nuba puts you back in control \n 🔁 Earn Rewards \n Turn your biggest monthly expense into a win. Pay rent with your card and stack up points with your provider. Even better? When your mates pay rent through your referral link, you earn even more—including repeated 100% off. Yes, rent-free life is real. \n 💳 More Flexibility \n Tight month? We get it. Use your credit card to pay rent, then repay before your bill’s due. More wiggle room, less stress. That’s freedom. \n 📈 Build Credit Faster \n Opt into our Credit Boost feature and watch your credit score grow. We report your on-time rent payments to all 3 major credit bureaus. Consistency pays off—literally. \n 🎉 Rent Pay Day \n Every 1st of the month is Rent Pay Day. That means surprise rewards, special offers, and a shot at free rent. Stay ready. \n 🏆 Nuba Points \n Referrals = Points. Points = Discounts. Stack enough and enjoy up to 100% off rent—month after month. There’s no cap. If you’re good at spreading the word, you could be living rent-free all year.`,
