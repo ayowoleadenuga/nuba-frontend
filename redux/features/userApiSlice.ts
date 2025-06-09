@@ -6,13 +6,13 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: baseQueryWithAuth,
   tagTypes: ["User", "Payments"],
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getUserProfile: builder.query<UserProfileDetailsResponse, void>({
       query: () => "user/me",
       providesTags: ["User"],
     }),
     updateUserProfile: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user",
         method: "PUT",
         body: payload,
@@ -21,11 +21,15 @@ export const userApi = createApi({
       invalidatesTags: ["User"],
     }),
     changePassword: builder.mutation({
-      query: payload => ({
+      query: (payload) => ({
         url: "/user/change-password",
         method: "PUT",
         body: payload,
       }),
+    }),
+
+    getUserreferrals: builder.query({
+      query: () => "user/referrals",
     }),
   }),
 });
@@ -34,4 +38,5 @@ export const {
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
   useChangePasswordMutation,
+  useGetUserreferralsQuery,
 } = userApi;

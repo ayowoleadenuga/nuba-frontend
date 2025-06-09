@@ -5,10 +5,16 @@ import GradientProgressBar from "./progress-bar";
 import React from "react";
 import CopyButton from "@/components/ui/copy-button";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
-import next from "next";
+import ReferralSkeleton from "../skeletons/referral-skeleton";
+import ErrorMessage from "../skeletons/error-message";
 
 const ReferralsLeft = () => {
-  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const {
+    data: userProfileDetails,
+    isLoading: isUserProfileLoading,
+    isError: isUserProfileError,
+    error: userProfileError,
+  } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
   const nextMilestone = () => {
@@ -75,8 +81,22 @@ const ReferralsLeft = () => {
       <div className=" border-b border-b-[#D9D9D9] py-5 text-[#474747] f ">
         <p className="font-[600] text-[12px] mt-10 ">Share</p>
       </div>
-      <CopyButton name="COPY" value="SAMANTEX" />
-      <CopyButton name="LINK" value="https://get.nuba.ukr/r/samantex" />
+
+      {isUserProfileError ? (
+        <ErrorMessage
+          message={
+            (userProfileError as any)?.data?.message ??
+            "Unable to load user profile."
+          }
+        />
+      ) : isUserProfileLoading || !userProfile ? (
+        <ReferralSkeleton />
+      ) : (
+        <>
+          <CopyButton name="COPY" value={userProfile.referralCode ?? ""} />
+          <CopyButton name="LINK" value={userProfile.referralLink ?? ""} />
+        </>
+      )}
     </div>
   );
 };
