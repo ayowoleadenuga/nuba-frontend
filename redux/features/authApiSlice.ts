@@ -10,6 +10,9 @@ import {
   tenancyDetailsResponse,
 } from "@/types";
 import { RootState } from "@/redux/store";
+import { resetSignup, setToken } from "@/redux/features/authSlice";
+import { useRouter } from "nextjs-toploader/app";
+import { useDispatch } from "react-redux";
 
 export const baseQueryWithAuth = fetchBaseQuery({
   baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
@@ -20,35 +23,67 @@ export const baseQueryWithAuth = fetchBaseQuery({
     }
     return headers;
   },
+  // credentials: "include",
 });
 
+export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
+  args,
+  api,
+  extraOptions
+) => {
+  let result = await baseQueryWithAuth(args, api, extraOptions);
+  console.log("result from  base is", result);
+  if (result.error && result.error.status === 401) {
+    const refreshResult = await baseQueryWithAuth(
+      {
+        url: "/auth/refresh-token",
+        method: "POST",
+      },
+      api,
+      extraOptions
+    );
+    console.log("refresh result is", refreshResult);
+    if (refreshResult.data) {
+      const newToken = (refreshResult.data as { accessToken: string })
+        .accessToken;
+
+      api.dispatch(setToken(newToken));
+      result = await baseQueryWithAuth(args, api, extraOptions);
+    } else {
+      api.dispatch(resetSignup());
+      window.location.href = "/login";
+    }
+  }
+
+  return result;
+};
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: baseQueryWithAuth,
-  endpoints: (builder) => ({
+  baseQuery: baseQueryWithReauth,
+  endpoints: builder => ({
     registerUser: builder.mutation<signUpResponse, sigUpPayload>({
-      query: (payload) => ({
+      query: payload => ({
         url: "/auth/register",
         method: "POST",
         body: payload,
       }),
     }),
     sendOTP: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/auth/email/verify",
         method: "POST",
         body: payload,
       }),
     }),
     resendOTP: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/auth/email/verification-link",
         method: "POST",
         body: payload,
       }),
     }),
     login: builder.mutation<loginResponse, loginPayload>({
-      query: (payload) => ({
+      query: payload => ({
         url: "/auth/login",
         method: "POST",
         body: payload,
@@ -64,7 +99,7 @@ export const authApi = createApi({
       tenancyDetailsResponse,
       tenancyDetailsPayload
     >({
-      query: (payload) => ({
+      query: payload => ({
         url: "/user/onboarding/rent-details",
         method: "PATCH",
         body: payload,
@@ -78,14 +113,14 @@ export const authApi = createApi({
       }),
     }),
     uploadLandlordDetails: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/user/onboarding/landlord-details",
         method: "PATCH",
         body: payload,
       }),
     }),
     uploadNewPaymentMethod: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/user/onboarding/payment-methods",
         method: "POST",
         body: payload,
@@ -97,7 +132,7 @@ export const authApi = createApi({
     }),
 
     loginWithGoogle: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/auth/google/login",
         method: "POST",
         body: payload,

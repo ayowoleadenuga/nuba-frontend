@@ -1,13 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithAuth } from "./authApiSlice";
+import { baseQueryWithReauth } from "./authApiSlice";
 
 export const supportApi = createApi({
   reducerPath: "supportApi",
-  baseQuery: baseQueryWithAuth,
+  baseQuery: baseQueryWithReauth,
 
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     createSupportTicket: builder.mutation({
-      query: (payload) => ({
+      query: payload => ({
         url: "/user/supports",
         method: "POST",
         body: payload,

@@ -21,6 +21,7 @@ import { rentsApi } from "@/redux/features/rentsApiSlice";
 import { paymentsApi } from "./features/paymentsApiSlice";
 import { transactionsApi } from "./features/transactionsApiSlice";
 import { supportApi } from "./features/supportApiSlice";
+import { KYCApi } from "@/redux/features/kycApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -40,13 +41,14 @@ const rootReducer = combineReducers({
   [paymentsApi.reducerPath]: paymentsApi.reducer,
   [transactionsApi.reducerPath]: transactionsApi.reducer,
   [supportApi.reducerPath]: supportApi.reducer,
+  [KYCApi.reducerPath]: KYCApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

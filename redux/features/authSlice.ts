@@ -129,6 +129,17 @@ const signupSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
     },
+    updateUserOnboardingStatus: (
+      state,
+      action: PayloadAction<{ isOnboarded: boolean }>
+    ) => {
+      if (state.user) {
+        state.user.onboarding.isOnboarded = action.payload.isOnboarded;
+      }
+    },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
   },
 });
 
@@ -139,5 +150,7 @@ export const {
   updateFormData,
   resetSignup,
   setAuthData,
+  updateUserOnboardingStatus,
+  setToken,
 } = signupSlice.actions;
 export default signupSlice.reducer;
