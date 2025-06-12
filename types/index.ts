@@ -498,3 +498,10 @@ export interface ReferralDataResponse {
   points_left_to_redeem: PointsLeftToRedeem;
   totalPoints: number;
 }
+
+export interface ContactUsPayload {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}

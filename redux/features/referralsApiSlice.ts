@@ -3,7 +3,7 @@ import { ReferralDataResponse } from "@/types";
 import { baseQueryWithReauth } from "./authApiSlice";
 
 export const referralsApi = createApi({
-  reducerPath: "referrals",
+  reducerPath: "referralsApi",
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     getreferrals: builder.query<ReferralDataResponse, void>({

@@ -9,6 +9,7 @@ import {
 import { AppDispatch } from "@/redux/store";
 import {
   ChangePasswordPayload,
+  ContactUsPayload,
   CreateSupportTicket,
   landlordDetailsPayload,
   loginPayload,
@@ -95,6 +96,10 @@ export type autopayToggleTrigger = (autoPayStatus: boolean) => {
   unwrap: () => Promise<any>;
 };
 
+export type SubmitContactUsMessageTrigger = (payload: ContactUsPayload) => {
+  unwrap: () => Promise<any>;
+};
+
 export const nubaApis = {
   sendEmail: (
     form: React.RefObject<HTMLFormElement | null>,
@@ -116,7 +121,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -455,6 +460,20 @@ export const nubaApis = {
       } catch (error: any) {
         console.error(error);
         toast.error(error?.data?.message || "Failed to validate payment");
+      }
+    },
+  },
+
+  submitContactUsMessage: {
+    handleSubmitContactUsMessage: async (
+      payload: ContactUsPayload,
+      submitContactUsMessageMutation: SubmitContactUsMessageTrigger
+    ) => {
+      try {
+        await submitContactUsMessageMutation(payload).unwrap();
+        toast.success("Message sent successfully");
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to send message");
       }
     },
   },
