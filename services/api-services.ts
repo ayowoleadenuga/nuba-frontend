@@ -4,6 +4,7 @@ import {
   setAuthData,
   setStep,
   SignUpStep,
+  updateUserOnboardingStatus,
 } from "@/redux/features/authSlice";
 import { AppDispatch } from "@/redux/store";
 import {
@@ -56,6 +57,17 @@ export type makePaymentTrigger = (params: {
   unwrap: () => Promise<any>;
 };
 
+// export type verificationTrigger = (params: {
+//   kycId: string;
+//   payload: paymentInitiationPayload;
+// }) => {
+//   unwrap: () => Promise<any>;
+// };
+
+export type verificationTrigger = () => {
+  unwrap: () => Promise<any>;
+};
+
 export type SendOTPTrigger = (payload: { token: string }) => {
   unwrap: () => Promise<{
     message: string;
@@ -104,7 +116,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          (error) => {
+          error => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -233,9 +245,15 @@ export const nubaApis = {
       route: () => void
     ) => {
       try {
-        await uploadLandlordDetailsMutation(payload).unwrap();
+        const response = await uploadLandlordDetailsMutation(payload).unwrap();
         dispatch(nextStep());
         toast.success("New payment method uploaded");
+        console.log("new payment method response", response);
+        dispatch(
+          updateUserOnboardingStatus({
+            isOnboarded: response.data.onboarding.isOnboarded,
+          })
+        );
         route();
       } catch (error: any) {
         toast.error(error.data.message);
@@ -408,6 +426,35 @@ export const nubaApis = {
         toast.success("Support ticket created successfully");
       } catch (error: any) {
         toast.error(error?.data?.message || "Failed to create support ticket");
+      }
+    },
+  },
+  kyc: {
+    handleVerify: async (
+      verify: verificationTrigger
+      // kycId: string,
+      // payload: paymentInitiationPayload
+    ) => {
+      try {
+        await verify().unwrap();
+        toast.success("KYC Verification initiated successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(
+          error?.data?.message || "Failed to initiate KYC Verification"
+        );
+      }
+    },
+    handleValidateKYCStatus: async (
+      kycId: string,
+      validateKYCStatus: validatePaymentTrigger
+    ) => {
+      try {
+        await validateKYCStatus(kycId).unwrap();
+        toast.success("Payment validated successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to validate payment");
       }
     },
   },

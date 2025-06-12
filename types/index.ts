@@ -131,6 +131,7 @@ export interface loginResponseData {
   autopay: boolean;
   autopayEnabledAt: Date | string;
   joinedAt: string;
+  isVerified: boolean;
 }
 
 export interface sigUpPayload {
@@ -255,6 +256,7 @@ export interface UserProfile {
   status: "active" | "inactive";
   autopay: boolean;
   autopayEnabledAt: string;
+  isVerified: boolean;
   onboarding: {
     isOnboarded: boolean;
     step: number;
@@ -397,6 +399,21 @@ export interface paymentResponse {
     reference: string;
     provider: string;
     authorizationUrl: string;
+  };
+}
+export interface kycResponse {
+  status: boolean;
+  message: string;
+  data: {
+    session_id: string;
+    verification_url: string;
+    timestamp: Date;
+  };
+}
+export interface kycStatusResponse {
+  status: boolean;
+  data: {
+    status: string;
   };
 }
 

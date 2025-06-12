@@ -7,11 +7,11 @@ import {
   paymentResponse,
   upcomingRentResponse,
 } from "@/types";
-import { baseQueryWithAuth } from "./authApiSlice";
+import { baseQueryWithReauth } from "./authApiSlice";
 
 export const paymentsApi = createApi({
   reducerPath: "paymentsApi",
-  baseQuery: baseQueryWithAuth,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Payments", "User"],
   endpoints: builder => ({
     getPaymentMethods: builder.query<{ data: PaymentMethod[] }, void>({

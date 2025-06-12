@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UserProfileDetailsResponse } from "@/types";
-import { baseQueryWithAuth } from "./authApiSlice";
+import { baseQueryWithReauth } from "./authApiSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: baseQueryWithAuth,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["User", "Payments"],
   endpoints: builder => ({
     getUserProfile: builder.query<UserProfileDetailsResponse, void>({

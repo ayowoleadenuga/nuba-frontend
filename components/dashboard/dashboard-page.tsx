@@ -1,6 +1,5 @@
 "use client";
 import CopyButton from "@/components/ui/copy-button";
-import { RootState } from "@/redux/store";
 import { useRouter } from "nextjs-toploader/app";
 import React from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
@@ -96,7 +95,13 @@ const DashboardPage = () => {
               <p className="font-[700] text-[12px]">{rentDetail?.country}</p>
             </div>
             <button
-              onClick={() => router.push("/payment")}
+              onClick={() => {
+                if (userProfile?.isVerified) {
+                  router.push("/payment");
+                } else {
+                  router.push("/kyc-verification");
+                }
+              }}
               className="h-9 px-5 bg-white text-black rounded-[4px] text-[14px] mt-6 font-[600] "
             >
               Pay Now

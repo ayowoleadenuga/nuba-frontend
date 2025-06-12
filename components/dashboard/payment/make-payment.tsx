@@ -80,7 +80,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
           e.target.value,
       } as paymentSliceType["newPaymentMethod"])
     );
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -125,7 +125,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -149,8 +149,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     if (paymentId) {
       await nubaApis.createPaymentMethod.handlePay(makePayment, paymentId, {
         usePoints: isOn,
-        callbackUrl: "https://www.nubarewards.com/payment",
-        // callbackUrl: "http://localhost:3001/payment",
+        // callbackUrl: "https://www.nubarewards.com/payment",
+        callbackUrl: "http://localhost:3001/payment",
         milestone: nextMilestone(),
       });
       if (isSuccess) {
