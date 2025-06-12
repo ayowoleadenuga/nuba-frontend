@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { UserProfileDetailsResponse } from "@/types";
 import { baseQueryWithReauth } from "./authApiSlice";
 
@@ -27,10 +27,6 @@ export const userApi = createApi({
         body: payload,
       }),
     }),
-
-    getUserreferrals: builder.query({
-      query: () => "user/referrals",
-    }),
   }),
 });
 
@@ -38,5 +34,4 @@ export const {
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
   useChangePasswordMutation,
-  useGetUserreferralsQuery,
 } = userApi;

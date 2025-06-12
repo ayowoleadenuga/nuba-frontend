@@ -4,14 +4,14 @@ import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import NubaInput from "@/components/ui/nuba-input";
 import SupportFaqsContainer from "../support/support-faqs-container";
 import { pointsFaqs } from "./constants";
-import { useGetUserreferralsQuery } from "@/redux/features/userApiSlice";
+import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(pointsFaqs);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { data: userreferrals } = useGetUserreferralsQuery(undefined);
+  const { data: userreferrals } = useGetreferralsQuery();
 
   return (
     <div className="w-full md:w-[49%]  ">
