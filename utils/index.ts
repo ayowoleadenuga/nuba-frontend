@@ -52,6 +52,14 @@ export const formatDate2 = (dateString: Date | string) => {
   return formattedDate;
 };
 
+export const formatDate3 = (date: Date) => {
+  return date.toLocaleDateString("en-us", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 export const getNextPaymentDate = (startDateStr: string): Date => {
   const today = new Date();
   let date = new Date(startDateStr);

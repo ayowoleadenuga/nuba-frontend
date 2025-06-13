@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const GetInTouch = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { fullName, phoneNumber, email, message, selectedFile } = useSelector(
+  const { fullName, phoneNumber, email, message, subject } = useSelector(
     (state: RootState) => state.contact
   );
   const form = useRef<HTMLFormElement | null>(null);
@@ -25,24 +25,13 @@ const GetInTouch = () => {
 
   const handleChange = (
     field: keyof RootState["contact"],
-    value: string | File | null
+    value: string | null
   ) => {
     dispatch(setField({ field, value }));
     setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: "",
     }));
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      dispatch(setField({ field: "selectedFile", value: file }));
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        selectedFile: "",
-      }));
-    }
   };
 
   const [submitContactUsMessageMutation, { isLoading: isContactUsReqPending }] =
@@ -55,6 +44,7 @@ const GetInTouch = () => {
       fullName,
       phoneNumber: phoneNumber.toString(),
       email,
+      subject,
       message,
     });
 
@@ -79,8 +69,9 @@ const GetInTouch = () => {
     await nubaApis.submitContactUsMessage.handleSubmitContactUsMessage(
       {
         name: fullName,
+        phone: phoneNumber.toString(),
         email: email,
-        subject: message,
+        subject: subject,
         message: message,
       },
       submitContactUsMessageMutation
@@ -136,6 +127,18 @@ const GetInTouch = () => {
         <NubaInput
           containerClass={"w-full mt-10"}
           label=""
+          placeholder="Subject"
+          name="message"
+          value={subject}
+          onChange={(e) => handleChange("subject", e.target.value)}
+        />
+        {errors.message && (
+          <p className="text-red-500 text-[12px]">{errors.message}</p>
+        )}
+
+        <NubaInput
+          containerClass={"w-full mt-10"}
+          label=""
           placeholder="Message"
           name="message"
           value={message}
@@ -144,63 +147,7 @@ const GetInTouch = () => {
         {errors.message && (
           <p className="text-red-500 text-[12px]">{errors.message}</p>
         )}
-        <label>
-          <input
-            id="FileInput"
-            type="file"
-            className="hidden"
-            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-            onChange={handleFileChange}
-          />
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              const fileInput = document.getElementById(
-                "FileInput"
-              ) as HTMLInputElement;
-              fileInput?.click();
-            }}
-            className=" mt-10 cursor-pointer w-full py-10 text-[12px] border-[2px] border-dashed border-black"
-          >
-            {!selectedFile && (
-              <div className="flex items-center justify-center gap-2 ">
-                <UploadIcon />
-                <p className="font-[700]">Upload Additional file</p>
-              </div>
-            )}
-            {selectedFile && (
-              <div className="mt-4 text-center flex items-center justify-center gap-2 w-full">
-                <div>
-                  {selectedFile.type.startsWith("image/") ? (
-                    <img
-                      src={URL.createObjectURL(selectedFile)}
-                      alt="Preview"
-                      className="w-[100px] h-[100px] object-cover mx-auto rounded-md"
-                    />
-                  ) : (
-                    <p className="text-[12px] font-[500]">
-                      {selectedFile.name}
-                    </p>
-                  )}
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(setField({ field: "selectedFile", value: null }));
-                  }}
-                >
-                  <IconDelete fill="red" />
-                </button>
-              </div>
-            )}
-          </div>
-        </label>
-        <p className="text-[10px] font-[500] mt-1 ">
-          Attach file. File size of your documents should not exceed 10MB
-        </p>
-        {errors.selectedFile && (
-          <p className="text-red-500 text-[12px]">{errors.selectedFile}</p>
-        )}
+
         <button
           disabled={isContactUsReqPending}
           type="submit"

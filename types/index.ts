@@ -14,8 +14,8 @@ export interface ContactState {
   fullName: string;
   phoneNumber: string;
   email: string;
+  subject: string;
   message: string;
-  selectedFile: File | null;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -507,7 +507,19 @@ export interface ReferralsDataResponse {
 
 export interface ContactUsPayload {
   name: string;
+  phone: string;
   email: string;
   subject: string;
   message: string;
+}
+
+export interface UpdateRentDueDatePayload {
+  rentId: string;
+  due_date: string;
+}
+
+export interface AccountTabProps {
+  setRentId: (id: string) => void;
+  setRentDueDate: (Date: Date | null) => void;
+  rentDueDate: Date | null;
 }

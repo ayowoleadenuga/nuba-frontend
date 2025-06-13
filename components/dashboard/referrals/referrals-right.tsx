@@ -5,25 +5,37 @@ import NubaInput from "@/components/ui/nuba-input";
 import SupportFaqsContainer from "../support/support-faqs-container";
 import { pointsFaqs } from "./constants";
 import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
+import { formatDate3 } from "@/utils";
+
+// Format date to yyyy-mm-dd
+const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(pointsFaqs);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { data: userReferrals } = useGetreferralsQuery();
+  const today = new Date();
+  const defaultStart = new Date();
+  defaultStart.setDate(today.getDate() - 30);
+
+  const [startDate, setStartDate] = useState<Date>(defaultStart);
+  const [endDate, setEndDate] = useState<Date>(today);
+
+  const { data: userReferrals } = useGetreferralsQuery({
+    startDate: formatDate(startDate),
+    endDate: formatDate(endDate),
+  });
+
   const userReferral = userReferrals?.data;
 
   return (
-    <div className="w-full md:w-[49%]  ">
+    <div className="w-full md:w-[49%]">
       <div className="bg-white p-5">
-        <div className="w-full flex items-center justify-between ">
-          <p className="text-[12px] font-[600] ">Referral history</p>
-
-          <div className="border rounded-[4px] h-[30px] flex items-center  gap-2 px-1 md:px-2 ">
+        <div className="w-full flex items-center justify-between">
+          <p className="text-[12px] font-[600]">Referral history</p>
+          <div className="border rounded-[4px] h-[30px] flex items-center gap-2 px-1 md:px-2">
             <NubaInput
-              containerClass={"w-[70px] md:w-[100px] space-y-0  "}
-              inputClass=" rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0 "
+              containerClass="w-[70px] md:w-[100px] space-y-0"
+              inputClass="rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0"
               dropdownButtonStyle="top-2 right-0"
               label=""
               placeholder="Start date"
@@ -31,26 +43,27 @@ const ReferralsRight = () => {
               dropdownIcon
               setSelectedDate={setStartDate}
               name="startDate"
-              value={startDate ? startDate.toLocaleDateString() : ""}
+              value={startDate ? formatDate3(startDate) : ""}
             />
-            <p className="font-[500] text-[14px] ">-</p>
+            <p className="font-[500] text-[14px]">-</p>
             <NubaInput
-              containerClass={"w-[70px] md:w-[100px] space-y-0  "}
-              inputClass=" rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0 "
+              containerClass="w-[70px] md:w-[100px] space-y-0"
+              inputClass="rounded-[8px] bg-transparent border-0 cursor-pointer h-[30px] text-[10px] md:text-[12px] p-0"
               dropdownButtonStyle="top-2 right-0"
               label=""
-              placeholder="End Date"
+              placeholder="End date"
               readOnly
               dropdownIcon
               setSelectedDate={setEndDate}
-              name="startDate"
-              value={endDate ? endDate.toLocaleDateString() : ""}
+              name="endDate"
+              value={endDate ? formatDate3(endDate) : ""}
             />
           </div>
         </div>
-        <div className="rounded-[4px] border border-[#d9d9d9] mt-10 ">
+
+        <div className="rounded-[4px] border border-[#d9d9d9] mt-10">
           <p className="border-b border-b-[#d9d9d9] text-[11px] p-4 text-right">
-            March 20, 2025
+            {formatDate3(startDate)} - {formatDate3(endDate)}
           </p>
 
           <div>
@@ -65,15 +78,15 @@ const ReferralsRight = () => {
                   <div className="flex items-center gap-1">
                     <CheckedIcon />
                     <div>
-                      <p className="text-[12px] font-[600] ">
+                      <p className="text-[12px] font-[600]">
                         {ref.referred_user.name}
                       </p>
-                      <p className="text-[10px] text-grayText ">
-                        Referral reward
+                      <p className="text-[10px] text-grayText">
+                        {ref.referred_user.email}
                       </p>
                     </div>
                   </div>
-                  <p className="text-[14px] font-[500] ">
+                  <p className="text-[14px] font-[500]">
                     {ref.pointsEarned} points
                   </p>
                 </div>
@@ -82,11 +95,11 @@ const ReferralsRight = () => {
           </div>
         </div>
       </div>
+
       <div className="mt-5 bg-white p-5">
-        <p className="text-[12px] font-[600] border-b border-b-border pb-5 ">
+        <p className="text-[12px] font-[600] border-b border-b-border pb-5">
           Frequently Asked Questions
         </p>
-
         <SupportFaqsContainer
           faqQuestions={faqQuestions}
           setFaqQuestions={setFaqQuestions}
