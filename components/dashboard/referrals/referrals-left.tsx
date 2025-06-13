@@ -5,27 +5,60 @@ import GradientProgressBar from "./progress-bar";
 import React from "react";
 import CopyButton from "@/components/ui/copy-button";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
-import next from "next";
+import ReferralSkeleton from "../skeletons/referral-skeleton";
+import ErrorMessage from "../skeletons/error-message";
+import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 
 const ReferralsLeft = () => {
-  const { data: userProfileDetails } = useGetUserProfileQuery();
+  const {
+    data: userProfileDetails,
+    isLoading: isUserProfileLoading,
+    isError: isUserProfileError,
+    error: userProfileError,
+  } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
-  const nextMilestone = () => {
-    const milestone = userProfile?.statistics.mileStone;
+  const { data: userReferrals } = useGetreferralsQuery();
 
-    if (milestone !== undefined) {
-      if (milestone < 30) {
-        return "30%";
-      } else if (milestone < 60) {
-        return "60%";
-      } else {
-        return "100%";
-      }
-    }
+  const userReferral = userReferrals?.data;
 
-    return "0%";
-  };
+  // const nextMilestone = () => {
+  //   const milestone = userProfile?.statistics.mileStone;
+
+  //   if (milestone !== undefined) {
+  //     if (milestone < 30) {
+  //       return "30%";
+  //     } else if (milestone < 60) {
+  //       return "60%";
+  //     } else {
+  //       return "100%";
+  //     }
+  //   }
+
+  //   return "0%";
+  // };
+
+  const totalPoints = userReferral?.totalPoints ?? 0;
+
+  const pointsTo30 = userReferral?.points_left_to_redeem?.["30_percent"] ?? 150;
+  const pointsTo60 = userReferral?.points_left_to_redeem?.["60_percent"] ?? 300;
+  const pointsTo100 =
+    userReferral?.points_left_to_redeem?.["100_percent"] ?? 500;
+
+  let pointsNeeded = 0;
+  let milestoneLabel = "";
+
+  if (totalPoints < pointsTo30) {
+    pointsNeeded = pointsTo30 - totalPoints;
+    milestoneLabel = "30%";
+  } else if (totalPoints < pointsTo60) {
+    pointsNeeded = pointsTo60 - totalPoints;
+    milestoneLabel = "60%";
+  } else if (totalPoints < pointsTo100) {
+    pointsNeeded = pointsTo100 - totalPoints;
+    milestoneLabel = "100%";
+  }
+
   return (
     <div className="  w-full md:w-[49%] bg-white p-5 ">
       <p className="text-[12px] font-[600] ">My reward points</p>
@@ -40,7 +73,7 @@ const ReferralsLeft = () => {
           <p className="text-[12px] text-grayText ">Your Referrals</p>
           <p className="text-[12px] text-grayText ">
             {" "}
-            {userProfile?.statistics.totalReferral}
+            {userReferral?.referrals?.length}
           </p>
         </div>
         <div className="flex items-center justify-between mt-5">
@@ -50,16 +83,16 @@ const ReferralsLeft = () => {
         <div className="flex items-center justify-between mt-5">
           <p className="text-[12px] text-grayText ">Points you have</p>
           <p className="text-[12px] text-grayText ">
-            {userProfile?.statistics.unitsEarned}
+            {userReferral?.totalPoints}
           </p>
         </div>
         <p className="text-[12px] text-grayText mt-5 ">
           Earn
-          <span className="mr-1 text-brandCore-orange "> 167</span>
-          more points to reach the {nextMilestone()} milestone
+          <span className="mr-1 text-brandCore-orange "> {pointsNeeded}</span>
+          more points to reach the {milestoneLabel} milestone
         </p>
       </div>
-      <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />
+      <GradientProgressBar percentage={Number(milestoneLabel)} />
       <div className="p-2 bg-[#fafafa] mt-5 ">
         <p className="text-[10px] ">
           Refer friends to earn points. Once you reach a milestone, you can
@@ -75,8 +108,22 @@ const ReferralsLeft = () => {
       <div className=" border-b border-b-[#D9D9D9] py-5 text-[#474747] f ">
         <p className="font-[600] text-[12px] mt-10 ">Share</p>
       </div>
-      <CopyButton name="COPY" value="SAMANTEX" />
-      <CopyButton name="LINK" value="https://get.nuba.ukr/r/samantex" />
+
+      {isUserProfileError ? (
+        <ErrorMessage
+          message={
+            (userProfileError as any)?.data?.message ??
+            "Unable to load user profile."
+          }
+        />
+      ) : isUserProfileLoading || !userProfile ? (
+        <ReferralSkeleton />
+      ) : (
+        <>
+          <CopyButton name="COPY" value={userProfile.referralCode ?? ""} />
+          <CopyButton name="LINK" value={userProfile.referralLink ?? ""} />
+        </>
+      )}
     </div>
   );
 };

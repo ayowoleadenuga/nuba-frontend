@@ -2,7 +2,8 @@
 import { IconDelete } from "@/assets/svg/icon-delete";
 import UploadIcon from "@/assets/svg/upload-icon";
 import NubaInput from "@/components/ui/nuba-input";
-import { setField } from "@/redux/features/contactSlice";
+import { useSubmitContactUsMessageMutation } from "@/redux/features/contactApiSlice";
+import { resetContactUsForm, setField } from "@/redux/features/contactSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { nubaApis } from "@/services/api-services";
 import { ContactState } from "@/types";
@@ -18,7 +19,6 @@ const GetInTouch = () => {
   );
   const form = useRef<HTMLFormElement | null>(null);
 
-  const [pending, setPending] = useState(false);
   const [errors, setErrors] = React.useState<{
     [key in keyof ContactState]?: string;
   }>({});
@@ -28,7 +28,7 @@ const GetInTouch = () => {
     value: string | File | null
   ) => {
     dispatch(setField({ field, value }));
-    setErrors(prevErrors => ({
+    setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: "",
     }));
@@ -38,14 +38,17 @@ const GetInTouch = () => {
     const file = event.target.files?.[0];
     if (file) {
       dispatch(setField({ field: "selectedFile", value: file }));
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
         selectedFile: "",
       }));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [submitContactUsMessageMutation, { isLoading: isContactUsReqPending }] =
+    useSubmitContactUsMessageMutation();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const result = contactFormSchema.safeParse({
@@ -58,7 +61,7 @@ const GetInTouch = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach(err => {
+      result.error.errors.forEach((err) => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -73,7 +76,17 @@ const GetInTouch = () => {
     }
 
     setErrors({});
-    nubaApis.sendEmail(form, setPending);
+    await nubaApis.submitContactUsMessage.handleSubmitContactUsMessage(
+      {
+        name: fullName,
+        email: email,
+        subject: message,
+        message: message,
+      },
+      submitContactUsMessageMutation
+    );
+
+    dispatch(resetContactUsForm());
   };
 
   return (
@@ -91,7 +104,7 @@ const GetInTouch = () => {
           placeholder="Full Name"
           name="user_name"
           value={fullName}
-          onChange={e => handleChange("fullName", e.target.value)}
+          onChange={(e) => handleChange("fullName", e.target.value)}
         />
         {errors.fullName && (
           <p className="text-red-500 text-[12px]">{errors.fullName}</p>
@@ -104,7 +117,7 @@ const GetInTouch = () => {
           inputMode="numeric"
           pattern="[0-9]*"
           value={phoneNumber}
-          onChange={e => handleChange("phoneNumber", e.target.value)}
+          onChange={(e) => handleChange("phoneNumber", e.target.value)}
         />
         {errors.phoneNumber && (
           <p className="text-red-500 text-[12px]">{errors.phoneNumber}</p>
@@ -115,7 +128,7 @@ const GetInTouch = () => {
           placeholder="Email address"
           name="user_email"
           value={email}
-          onChange={e => handleChange("email", e.target.value)}
+          onChange={(e) => handleChange("email", e.target.value)}
         />
         {errors.email && (
           <p className="text-red-500 text-[12px]">{errors.email}</p>
@@ -126,7 +139,7 @@ const GetInTouch = () => {
           placeholder="Message"
           name="message"
           value={message}
-          onChange={e => handleChange("message", e.target.value)}
+          onChange={(e) => handleChange("message", e.target.value)}
         />
         {errors.message && (
           <p className="text-red-500 text-[12px]">{errors.message}</p>
@@ -140,7 +153,7 @@ const GetInTouch = () => {
             onChange={handleFileChange}
           />
           <div
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               const fileInput = document.getElementById(
                 "FileInput"
@@ -171,7 +184,7 @@ const GetInTouch = () => {
                   )}
                 </div>
                 <button
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     dispatch(setField({ field: "selectedFile", value: null }));
                   }}
@@ -189,14 +202,14 @@ const GetInTouch = () => {
           <p className="text-red-500 text-[12px]">{errors.selectedFile}</p>
         )}
         <button
-          disabled={pending}
+          disabled={isContactUsReqPending}
           type="submit"
           className={cn(
-            pending ? "bg-gray-300" : "bg-black",
+            isContactUsReqPending ? "bg-gray-300" : "bg-black",
             "w-full text-white h-[54px] mt-[50px] rounded-[4px] text-[14px] font-[700] "
           )}
         >
-          {pending ? "SUBMITTING..." : "SUBMIT"}
+          {isContactUsReqPending ? "SUBMITTING..." : "SUBMIT"}
         </button>
       </form>
     </div>

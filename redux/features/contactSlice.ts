@@ -22,9 +22,9 @@ export const contactSlice = createSlice({
     ) => {
       state[action.payload.field] = action.payload.value;
     },
-    resetForm: () => initialState,
+    resetContactUsForm: () => initialState,
   },
 });
 
-export const { setField, resetForm } = contactSlice.actions;
+export const { setField, resetContactUsForm } = contactSlice.actions;
 export default contactSlice.reducer;

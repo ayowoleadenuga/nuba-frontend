@@ -472,3 +472,42 @@ export interface SupportFaqsProps {
   faqQuestions: FAQItem[];
   setFaqQuestions: React.Dispatch<React.SetStateAction<FAQItem[]>>;
 }
+
+export interface ReferredUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface PointsLeftToRedeem {
+  "30_percent": number;
+  "60_percent": number;
+  "100_percent": number;
+}
+
+export interface ReferralsEntity {
+  referred_user: ReferredUser;
+  amountPaid: number;
+  pointsEarned: number;
+  status: string;
+  createdAt: string;
+}
+
+export interface ReferralData {
+  referrals?: ReferralsEntity[] | null;
+  points_left_to_redeem: PointsLeftToRedeem;
+  totalPoints: number;
+}
+
+export interface ReferralsDataResponse {
+  status: string;
+  statusCode: number;
+  data: ReferralData;
+}
+
+export interface ContactUsPayload {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}

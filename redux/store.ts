@@ -22,6 +22,7 @@ import { paymentsApi } from "./features/paymentsApiSlice";
 import { transactionsApi } from "./features/transactionsApiSlice";
 import { supportApi } from "./features/supportApiSlice";
 import { KYCApi } from "@/redux/features/kycApiSlice";
+import { referralsApi } from "./features/referralsApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -42,13 +43,14 @@ const rootReducer = combineReducers({
   [transactionsApi.reducerPath]: transactionsApi.reducer,
   [supportApi.reducerPath]: supportApi.reducer,
   [KYCApi.reducerPath]: KYCApi.reducer,
+  [referralsApi.reducerPath]: referralsApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -56,12 +58,13 @@ export const store = configureStore({
       },
     }).concat(
       authApi.middleware,
-      authApi.middleware,
       userApi.middleware,
       rentsApi.middleware,
       paymentsApi.middleware,
       transactionsApi.middleware,
-      supportApi.middleware
+      supportApi.middleware,
+      KYCApi.middleware,
+      referralsApi.middleware
     ),
 });
 
