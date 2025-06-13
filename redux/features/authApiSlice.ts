@@ -50,6 +50,7 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
       api.dispatch(setToken(newToken));
       result = await baseQueryWithAuth(args, api, extraOptions);
     } else {
+      console.log("error using refresh token", refreshResult);
       api.dispatch(resetSignup());
       window.location.href = "/login";
     }
