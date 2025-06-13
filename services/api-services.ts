@@ -20,6 +20,7 @@ import {
   sigUpPayload,
   tenancyDetailsPayload,
   tenancyDetailsResponse,
+  UpdateRentDueDatePayload,
   UpdateUserProfilePayload,
 } from "@/types";
 import emailjs from "@emailjs/browser";
@@ -97,6 +98,10 @@ export type autopayToggleTrigger = (autoPayStatus: boolean) => {
 };
 
 export type SubmitContactUsMessageTrigger = (payload: ContactUsPayload) => {
+  unwrap: () => Promise<any>;
+};
+
+export type UpdateRentDueDateTrigger = (payload: UpdateRentDueDatePayload) => {
   unwrap: () => Promise<any>;
 };
 
@@ -474,6 +479,20 @@ export const nubaApis = {
         toast.success("Message sent successfully");
       } catch (error: any) {
         toast.error(error?.data?.message || "Failed to send message");
+      }
+    },
+  },
+
+  updateRentDueDate: {
+    handleUpdateRentDueDate: async (
+      payload: UpdateRentDueDatePayload,
+      updateRentDueDateMutation: UpdateRentDueDateTrigger
+    ) => {
+      try {
+        await updateRentDueDateMutation(payload).unwrap();
+        toast.success("Rent due date updated successfully");
+      } catch (error: any) {
+        toast.error(error?.data?.message || "Failed to update rent due date");
       }
     },
   },

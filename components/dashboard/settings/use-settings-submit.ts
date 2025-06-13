@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { resetSettingsForm } from "@/redux/features/settings-slice";
 import {
   changePasswordSettingsSchema,
+  updateDueDateSchema,
   updateUserProfileSchema,
 } from "@/utils/validator";
 import { nubaApis } from "@/services/api-services";
@@ -10,6 +11,7 @@ import {
   useChangePasswordMutation,
   useUpdateUserProfileMutation,
 } from "@/redux/features/userApiSlice";
+import { useUpdateRentDueDateMutation } from "@/redux/features/rentsApiSlice";
 
 type BaseProps = {
   setErrors: React.Dispatch<React.SetStateAction<SettingsErrorState>>;
@@ -30,12 +32,15 @@ export type SettingsSubmitProps =
     })
   | (BaseProps & {
       currentTab: "Account";
+      rentId: string;
+      rentDueDate: string;
     });
 
 export const useSettingsSubmit = (props: SettingsSubmitProps) => {
   const dispatch = useDispatch();
   const [changePasswordMutation] = useChangePasswordMutation();
   const [updateUserProfileMutation] = useUpdateUserProfileMutation();
+  const [updateRentDueDateMutation] = useUpdateRentDueDateMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,7 +56,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
       if (!result.success) {
         const errorMessages: Record<string, string> = {};
-        result.error.errors.forEach(err => {
+        result.error.errors.forEach((err) => {
           errorMessages[err.path[0] as string] = err.message;
         });
         setErrors(errorMessages);
@@ -79,7 +84,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
 
       if (!result.success) {
         const errorMessages: Record<string, string> = {};
-        result.error.errors.forEach(err => {
+        result.error.errors.forEach((err) => {
           errorMessages[err.path[0] as string] = err.message;
         });
         setErrors(errorMessages);
@@ -96,6 +101,31 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
         updateUserProfileMutation
       );
     } else if (props.currentTab === "Account") {
+      const { rentId, rentDueDate, setErrors } = props;
+
+      const result = updateDueDateSchema.safeParse({
+        rentId,
+        rentDueDate,
+      });
+
+      if (!result.success) {
+        const errorMessages: Record<string, string> = {};
+        result.error.errors.forEach((err) => {
+          errorMessages[err.path[0] as string] = err.message;
+        });
+        setErrors(errorMessages);
+        return;
+      }
+
+      setErrors?.({});
+
+      await nubaApis.updateRentDueDate.handleUpdateRentDueDate(
+        {
+          rentId,
+          due_date: rentDueDate,
+        },
+        updateRentDueDateMutation
+      );
     }
   };
 

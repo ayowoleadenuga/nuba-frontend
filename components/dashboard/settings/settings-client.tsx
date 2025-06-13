@@ -2,9 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointsIcon } from "@/assets/svg/points-icon";
-import { IconButton } from "@mui/material";
 import DetailsTab from "./details-tab";
 import AccountTab from "./account-tab";
 import SecurityTab from "./security-tab";
@@ -24,6 +22,7 @@ const SettingsClient = () => {
   const allTabs = ["Details", "Account", "Security"];
   const currentTab = searchParams.get("tab") || "Details";
   const [rentDueDate, setRentDueDate] = useState<Date | null>(null);
+  const [rentId, setRentId] = useState<string>("");
   const {
     oldPassword,
     newPassword,
@@ -73,6 +72,10 @@ const SettingsClient = () => {
   } else if (currentTab === "Account") {
     config = {
       currentTab: "Account",
+      rentDueDate: rentDueDate
+        ? rentDueDate?.toString()
+        : new Date().toString(),
+      rentId,
       setErrors,
     };
   }
@@ -100,8 +103,9 @@ const SettingsClient = () => {
       case "Account":
         return (
           <AccountTab
-            rentDueDate={rentDueDate}
             setRentDueDate={setRentDueDate}
+            setRentId={setRentId}
+            rentDueDate={rentDueDate}
           />
         );
       case "Security":

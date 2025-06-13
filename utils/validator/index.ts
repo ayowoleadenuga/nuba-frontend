@@ -126,3 +126,11 @@ export const updateUserProfileSchema = z.object({
     .min(10, "Phone number must be at least 10 digits")
     .regex(/^\d+$/, "Phone number must be digits only"),
 });
+
+export const updateDueDateSchema = z.object({
+  rentDueDate: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid rent due date",
+    }),
+});

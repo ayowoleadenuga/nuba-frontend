@@ -512,3 +512,14 @@ export interface ContactUsPayload {
   subject: string;
   message: string;
 }
+
+export interface UpdateRentDueDatePayload {
+  rentId: string;
+  due_date: string;
+}
+
+export interface AccountTabProps {
+  setRentId: (id: string) => void;
+  setRentDueDate: (Date: Date | null) => void;
+  rentDueDate: Date | null;
+}
