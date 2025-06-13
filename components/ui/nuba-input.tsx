@@ -13,7 +13,7 @@ interface RequestProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prependContent?: React.ReactNode | undefined;
   dropdown?: boolean;
   dropdownIcon?: boolean;
-  setSelectedDate?: (date: Date | null) => void;
+  setSelectedDate?: (date: Date) => void;
   dropdownItems?: string[];
   inputClass?: string;
   dropdownButtonStyle?: string;
@@ -115,7 +115,7 @@ const NubaInput: React.FC<RequestProps> = ({
           <button
             type="button"
             className={cn("absolute top-4 right-3", dropdownButtonStyle)}
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               if (dropdownIcon) setShowCalendar(!showCalendar);
               setIsDropdownOpen(!isDropdownOpen);
@@ -127,7 +127,7 @@ const NubaInput: React.FC<RequestProps> = ({
         {type === "password" && (
           <button
             type="button"
-            onClick={() => setShowPassword(prev => !prev)}
+            onClick={() => setShowPassword((prev) => !prev)}
             className="absolute top-2.5 right-3 text-gray-500"
           >
             {showPassword ? <HidePassword /> : <ShowPassword />}
