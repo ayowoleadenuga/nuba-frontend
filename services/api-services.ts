@@ -256,12 +256,12 @@ export const nubaApis = {
         console.log("new payment method response", response);
         dispatch(
           updateUserOnboardingStatus({
-            isOnboarded: response.data.onboarding.isOnboarded,
+            isOnboarded: response?.onboarding?.isOnboarded,
           })
         );
         route();
       } catch (error: any) {
-        toast.error(error.data.message);
+        toast.error(error?.data?.message);
       }
     },
   },

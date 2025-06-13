@@ -11,7 +11,8 @@ const ReferralsRight = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { data: userreferrals } = useGetreferralsQuery();
+  const { data: userReferrals } = useGetreferralsQuery();
+  const userReferral = userReferrals?.data;
 
   return (
     <div className="w-full md:w-[49%]  ">
@@ -51,15 +52,33 @@ const ReferralsRight = () => {
           <p className="border-b border-b-[#d9d9d9] text-[11px] p-4 text-right">
             March 20, 2025
           </p>
-          <div className="flex items-start justify-between p-5">
-            <div className="flex items-center gap-1">
-              <CheckedIcon />
-              <div>
-                <p className="text-[12px] font-[600] ">John Doe</p>
-                <p className="text-[10px] text-grayText ">Referral reward</p>
-              </div>
-            </div>
-            <p className="text-[14px] font-[500] ">125 points</p>
+
+          <div>
+            {userReferral?.referrals?.length === 0 ? (
+              <p className="text-sm text-grayText">No referrals yet.</p>
+            ) : (
+              userReferral?.referrals?.map((ref, index: number) => (
+                <div
+                  key={index}
+                  className="flex items-start justify-between p-5"
+                >
+                  <div className="flex items-center gap-1">
+                    <CheckedIcon />
+                    <div>
+                      <p className="text-[12px] font-[600] ">
+                        {ref.referred_user.name}
+                      </p>
+                      <p className="text-[10px] text-grayText ">
+                        Referral reward
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-[14px] font-[500] ">
+                    {ref.pointsEarned} points
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -493,10 +493,16 @@ export interface ReferralsEntity {
   createdAt: string;
 }
 
-export interface ReferralDataResponse {
+export interface ReferralData {
   referrals?: ReferralsEntity[] | null;
   points_left_to_redeem: PointsLeftToRedeem;
   totalPoints: number;
+}
+
+export interface ReferralsDataResponse {
+  status: string;
+  statusCode: number;
+  data: ReferralData;
 }
 
 export interface ContactUsPayload {
