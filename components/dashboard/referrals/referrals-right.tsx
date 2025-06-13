@@ -6,6 +6,8 @@ import SupportFaqsContainer from "../support/support-faqs-container";
 import { pointsFaqs } from "./constants";
 import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 import { formatDate3 } from "@/utils";
+import empty from "@/assets/gif/empty.gif";
+import Image from "next/image";
 
 // Format date to yyyy-mm-dd
 const formatDate = (date: Date) => date.toISOString().split("T")[0];
@@ -68,7 +70,13 @@ const ReferralsRight = () => {
 
           <div>
             {userReferral?.referrals?.length === 0 ? (
-              <p className="text-sm text-grayText">No referrals yet.</p>
+              <div className="flex items-center justify-center py-10 ">
+                <Image
+                  src={empty}
+                  alt="empty"
+                  className="w-[100px] h-[100px] "
+                />
+              </div>
             ) : (
               userReferral?.referrals?.map((ref, index: number) => (
                 <div
