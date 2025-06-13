@@ -4,11 +4,10 @@ import { Accordion } from "@/components/ui/accordion";
 import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
-import { SettingsState } from "@/types";
+import { AccountTabProps, SettingsState } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentAccordionItem from "./payment-accordion-item";
-import { useState } from "react";
-import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import { FC, useEffect, useState } from "react";
 import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
@@ -16,12 +15,9 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query";
 import { formatDate } from "@/utils";
 
-interface AccountTabProps {
-  setRentDueDate: (Date: Date | null) => void;
-  rentDueDate: Date | null;
-}
-const AccountTab: React.FC<AccountTabProps> = ({
+const AccountTab: FC<AccountTabProps> = ({
   setRentDueDate,
+  setRentId,
   rentDueDate,
 }) => {
   const { preferredPaymnetMethod } = useSelector(
@@ -34,9 +30,6 @@ const AccountTab: React.FC<AccountTabProps> = ({
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
 
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
-
-  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
-    useGetUserProfileQuery();
   const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
   const firstRentId = rents?.data?.[0]?.id;
 
@@ -44,6 +37,13 @@ const AccountTab: React.FC<AccountTabProps> = ({
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
+
+  useEffect(() => {
+    if (rentDetail?.dueDate) {
+      setRentDueDate(new Date(rentDetail.dueDate));
+      setRentId(rentDetail.id);
+    }
+  }, [rentDetail?.dueDate]);
 
   return (
     <div>
@@ -75,7 +75,9 @@ const AccountTab: React.FC<AccountTabProps> = ({
               inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
               dropdownIcon
               setSelectedDate={setRentDueDate}
-              value={rentDetail?.dueDate ? formatDate(rentDetail.dueDate) : "—"}
+              value={
+                rentDueDate ? formatDate(rentDueDate.toISOString()) : "Loading"
+              }
               onChange={() => {}}
               calendarType="future"
             />
