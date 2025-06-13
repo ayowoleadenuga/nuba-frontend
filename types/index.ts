@@ -14,8 +14,8 @@ export interface ContactState {
   fullName: string;
   phoneNumber: string;
   email: string;
+  subject: string;
   message: string;
-  selectedFile: File | null;
   loading: boolean;
   error: string | null;
   success: boolean;
@@ -507,6 +507,7 @@ export interface ReferralsDataResponse {
 
 export interface ContactUsPayload {
   name: string;
+  phone: string;
   email: string;
   subject: string;
   message: string;

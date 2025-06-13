@@ -23,6 +23,7 @@ import { transactionsApi } from "./features/transactionsApiSlice";
 import { supportApi } from "./features/supportApiSlice";
 import { KYCApi } from "@/redux/features/kycApiSlice";
 import { referralsApi } from "./features/referralsApiSlice";
+import { contactApi } from "./features/contactApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   [supportApi.reducerPath]: supportApi.reducer,
   [KYCApi.reducerPath]: KYCApi.reducer,
   [referralsApi.reducerPath]: referralsApi.reducer,
+  [contactApi.reducerPath]: contactApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -64,7 +66,8 @@ export const store = configureStore({
       transactionsApi.middleware,
       supportApi.middleware,
       KYCApi.middleware,
-      referralsApi.middleware
+      referralsApi.middleware,
+      contactApi.middleware
     ),
 });
 
