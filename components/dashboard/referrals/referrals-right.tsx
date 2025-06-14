@@ -5,12 +5,9 @@ import NubaInput from "@/components/ui/nuba-input";
 import SupportFaqsContainer from "../support/support-faqs-container";
 import { pointsFaqs } from "./constants";
 import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
-import { formatDate3 } from "@/utils";
+import { formatDate3, formatDate4 } from "@/utils";
 import empty from "@/assets/gif/empty.gif";
 import Image from "next/image";
-
-// Format date to yyyy-mm-dd
-const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(pointsFaqs);
@@ -23,8 +20,8 @@ const ReferralsRight = () => {
   const [endDate, setEndDate] = useState<Date>(today);
 
   const { data: userReferrals } = useGetreferralsQuery({
-    startDate: formatDate(startDate),
-    endDate: formatDate(endDate),
+    startDate: formatDate4(startDate),
+    endDate: formatDate4(endDate),
   });
 
   const userReferral = userReferrals?.data;

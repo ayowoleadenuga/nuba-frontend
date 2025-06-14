@@ -122,7 +122,7 @@ export const useSettingsSubmit = (props: SettingsSubmitProps) => {
       await nubaApis.updateRentDueDate.handleUpdateRentDueDate(
         {
           rentId,
-          due_date: rentDueDate,
+          dueDate: rentDueDate,
         },
         updateRentDueDateMutation
       );

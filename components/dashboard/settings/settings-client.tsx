@@ -15,6 +15,7 @@ import { SettingsErrorState } from "@/types";
 import { SettingsSubmitProps, useSettingsSubmit } from "./use-settings-submit";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "../skeletons/points-date-join-skeleton";
+import { formatDate4 } from "@/utils";
 
 const SettingsClient = () => {
   const router = useRouter();
@@ -73,7 +74,7 @@ const SettingsClient = () => {
     config = {
       currentTab: "Account",
       rentDueDate: rentDueDate
-        ? rentDueDate?.toString()
+        ? formatDate4(rentDueDate)
         : new Date().toString(),
       rentId,
       setErrors,

@@ -15,10 +15,10 @@ export const rentsApi = createApi({
     }),
 
     updateRentDueDate: builder.mutation({
-      query: ({ rentId, due_date }) => ({
+      query: ({ rentId, dueDate }) => ({
         url: `/user/rents/${rentId}/due-date`,
         method: "PATCH",
-        body: { due_date },
+        body: { dueDate },
       }),
     }),
   }),

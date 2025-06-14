@@ -5,21 +5,17 @@ import { baseQueryWithReauth } from "./authApiSlice";
 interface ReferralsParams {
   startDate: string;
   endDate: string;
-  query?: string;
 }
 
 export const referralsApi = createApi({
   reducerPath: "referralsApi",
   baseQuery: baseQueryWithReauth,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getreferrals: builder.query<ReferralsDataResponse, ReferralsParams | void>({
-      query: params => {
+      query: (params) => {
         if (!params) return "user/referrals";
-        const { startDate, endDate, query } = params;
+        const { startDate, endDate } = params;
         let url = `user/referrals?startDate=${startDate}&endDate=${endDate}`;
-        if (query) {
-          url += `&query=${encodeURIComponent(query)}`;
-        }
         return url;
       },
     }),

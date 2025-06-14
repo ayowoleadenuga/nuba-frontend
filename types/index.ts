@@ -515,7 +515,7 @@ export interface ContactUsPayload {
 
 export interface UpdateRentDueDatePayload {
   rentId: string;
-  due_date: string;
+  dueDate: string;
 }
 
 export interface AccountTabProps {
