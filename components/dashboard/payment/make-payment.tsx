@@ -33,8 +33,10 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
-
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import { RyftPaymentComponent } from "ryft-react";
+import { env } from "@/env";
+import RyftPaymentForm from "@/services/ryft/ryft-payment-form";
 
 export interface MakePaymentProps {
   paymentId: string | undefined;
@@ -44,7 +46,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
   const dispatch = useDispatch();
   const [isOn, setIsOn] = useState(false);
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
-
+  const [clientSecret, setClientSecret] = useState<string>("");
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
 
   const { data: rents } = useGetUserRentsQuery();
@@ -54,7 +56,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
-  const [makePayment, { data, isLoading, isSuccess }] =
+  const [makePayment, { data: clientSecretData, isLoading, isSuccess }] =
     useMakePaymentMutation();
   const {
     country,
@@ -89,6 +91,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
+  const [showPaymentForm, setShowPaymentForm] = useState<boolean>(false);
   const nextMilestone = () => {
     const milestone = userProfile?.statistics.mileStone;
 
@@ -149,15 +152,30 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     if (paymentId) {
       await nubaApis.createPaymentMethod.handlePay(makePayment, paymentId, {
         usePoints: isOn,
-        // callbackUrl: "https://www.nubarewards.com/payment",
-        callbackUrl: "http://localhost:3001/payment",
+        callbackUrl: "https://www.nubarewards.com/payment",
+        // env.NODE_ENV === "development"
+        //   ? "http://localhost:3001/payment"
+        //   : "https://www.nubarewards.com/payment",
         milestone: nextMilestone(),
       });
+      console.log("clent secret data is", clientSecretData);
       if (isSuccess) {
-        window.location.href === data?.data?.authorizationUrl;
-        dispatch(setMakePayment("complete"));
+        setShowPaymentForm(isSuccess);
+        console.log("clent secret data is", clientSecretData);
+        // window.location.href === data?.data?.authorizationUrl;
+        // dispatch(setMakePayment("complete"));
       }
     }
+  };
+
+  const handlePaymentSuccess = (paymentSession: any) => {
+    console.log("Payment successful:", paymentSession);
+    // Handle successful payment
+  };
+
+  const handlePaymentError = (error: any, userFacingMessage: string) => {
+    console.error("Payment failed:", error);
+    // Handle payment error
   };
 
   return (
@@ -377,6 +395,41 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
             Submitting this page will charge your card and cannot be undone
           </p>
         </div>
+        {/* {(isSuccess || showPaymentForm) && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg relative">
+              <button
+                className="absolute top-4 right-2 text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPaymentForm(false)}
+              >
+                <p className="w-5 h-5 font-[700] ">X</p>
+              </button>
+              <RyftPaymentForm
+                clientSecret={clientSecretData?.data?.token as string}
+              />
+              <RyftPaymentComponent
+                publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+                clientSecret={clientSecretData?.data?.token as string}
+                onPaymentSuccess={handlePaymentSuccess}
+                onPaymentError={handlePaymentError}
+                googlePay={{
+                  merchantIdentifier: "your_merchant_id",
+                  merchantName: "Your Business",
+                  merchantCountryCode: "US",
+                }}
+                applePay={{
+                  merchantName: "Your Business Name",
+                  merchantCountryCode: "US",
+                }}
+                fieldCollection={{
+                  billingAddress: {
+                    display: "minimum", // "full", "minimum", or "none"
+                  },
+                }}
+              />
+            </div>
+          </div>
+        )} */}
       </div>
     </div>
   );
