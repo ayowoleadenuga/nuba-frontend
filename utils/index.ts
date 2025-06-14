@@ -60,6 +60,9 @@ export const formatDate3 = (date: Date) => {
   });
 };
 
+// Format date to yyyy-mm-dd
+export const formatDate4 = (date: Date) => date.toISOString().split("T")[0];
+
 export const getNextPaymentDate = (startDateStr: string): Date => {
   const today = new Date();
   let date = new Date(startDateStr);
