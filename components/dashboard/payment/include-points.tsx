@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
 import GradientProgressBar from "@/components/dashboard/referrals/progress-bar";
 import { Button } from "@/components/ui/button";
+import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import React from "react";
 
@@ -13,21 +14,30 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
 
-  const nextMilestone = () => {
-    const milestone = userProfile?.statistics.mileStone;
+  const { data: userReferrals } = useGetreferralsQuery();
 
-    if (milestone !== undefined) {
-      if (milestone < 30) {
-        return "30%";
-      } else if (milestone < 60) {
-        return "60%";
-      } else {
-        return "100%";
-      }
-    }
+  const userReferral = userReferrals?.data;
 
-    return "0%";
-  };
+  const totalPoints = userReferral?.totalPoints ?? 0;
+
+  const pointsTo30 = userReferral?.points_left_to_redeem?.["30_percent"] ?? 150;
+  const pointsTo60 = userReferral?.points_left_to_redeem?.["60_percent"] ?? 300;
+  const pointsTo100 =
+    userReferral?.points_left_to_redeem?.["100_percent"] ?? 500;
+
+  let pointsNeeded = 0;
+  let milestoneLabel = "";
+
+  if (totalPoints < pointsTo30) {
+    pointsNeeded = pointsTo30 - totalPoints;
+    milestoneLabel = "30%";
+  } else if (totalPoints < pointsTo60) {
+    pointsNeeded = pointsTo60 - totalPoints;
+    milestoneLabel = "60%";
+  } else if (totalPoints < pointsTo100) {
+    pointsNeeded = pointsTo100 - totalPoints;
+    milestoneLabel = "100%";
+  }
 
   return (
     <div className="w-full md:w-[60%] xl:w-[40%] ">
@@ -43,7 +53,7 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           <div className="flex items-center justify-between">
             <p className="text-[12px] text-grayText ">Your Referrals</p>
             <p className="text-[12px] text-grayText ">
-              {userProfile?.statistics.totalReferral}
+              {userReferral?.referrals?.length}
             </p>
           </div>
           <div className="flex items-center justify-between mt-5">
@@ -53,13 +63,13 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Points you have</p>
             <p className="text-[12px] text-grayText ">
-              {userProfile?.statistics.unitBalance}
+              {userReferral?.totalPoints}
             </p>
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
-            <span className="mr-1 text-brandCore-orange "> 167</span>
-            more points to reach the {nextMilestone()} milestone
+            <span className="mr-1 text-brandCore-orange "> {pointsNeeded}</span>
+            more points to reach the {milestoneLabel} milestone
           </p>
         </div>
         <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />

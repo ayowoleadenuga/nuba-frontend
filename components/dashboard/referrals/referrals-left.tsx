@@ -22,22 +22,6 @@ const ReferralsLeft = () => {
 
   const userReferral = userReferrals?.data;
 
-  // const nextMilestone = () => {
-  //   const milestone = userProfile?.statistics.mileStone;
-
-  //   if (milestone !== undefined) {
-  //     if (milestone < 30) {
-  //       return "30%";
-  //     } else if (milestone < 60) {
-  //       return "60%";
-  //     } else {
-  //       return "100%";
-  //     }
-  //   }
-
-  //   return "0%";
-  // };
-
   const totalPoints = userReferral?.totalPoints ?? 0;
 
   const pointsTo30 = userReferral?.points_left_to_redeem?.["30_percent"] ?? 150;
