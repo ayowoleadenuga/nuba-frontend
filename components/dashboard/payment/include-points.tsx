@@ -72,7 +72,7 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
             more points to reach the {milestoneLabel} milestone
           </p>
         </div>
-        <GradientProgressBar percentage={userProfile?.statistics?.mileStone} />
+        <GradientProgressBar percentage={Number(milestoneLabel)} />
         <div className="p-2 bg-[#fafafa] mt-5 ">
           <p className="text-[10px] ">
             Refer friends to earn points. Once you reach a milestone, you can
