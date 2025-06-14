@@ -2,7 +2,6 @@ import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
 import GradientProgressBar from "@/components/dashboard/referrals/progress-bar";
 import { Button } from "@/components/ui/button";
 import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
-import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import React from "react";
 
 interface IncludePointsProps {
@@ -11,11 +10,7 @@ interface IncludePointsProps {
   >;
 }
 const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
-  const { data: userProfileDetails } = useGetUserProfileQuery();
-  const userProfile = userProfileDetails?.data;
-
   const { data: userReferrals } = useGetreferralsQuery();
-
   const userReferral = userReferrals?.data;
 
   const totalPoints = userReferral?.totalPoints ?? 0;
