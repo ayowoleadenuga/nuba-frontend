@@ -1,6 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { env } from "@/env";
-import { RootState } from "@/redux/store";
+import { createApi } from "@reduxjs/toolkit/query/react";
+
 import {
   GetUserTransactionFeeResponse,
   GetUserTransactionsResponse,
