@@ -276,61 +276,26 @@ export interface UserProfileDetailsResponse {
 }
 
 export interface Transaction {
-  id: number;
-  orderId: number;
-  user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNumber: string;
-    address1: string;
-    address2: string;
-    city: string;
-    postcode: string;
-    onboarding: {
-      isOnboarded: boolean;
-      step: number;
-    };
-    statistics: {
-      rentPaidAmount: number;
-      totalRentPaid: number;
-      totalReferral: number;
-      unitsEarned: number;
-    };
-    status: string;
-    joinedAt: string;
-  };
-  subscription: string;
-  service: string;
+  id: string;
+  orderId: string;
   paymentId: string;
   transactionNumber: string;
-  amount: number;
+  amount: string;
+  amountPaid: string;
+  discount: string;
+  currency: string;
   status: string;
-  cardType: string;
+  cardType: string | null;
   paymentMethod: string;
   createdAt: string;
+  completedAt: string | null;
   updatedAt: string;
 }
 
-export interface PaginationMeta {
-  total: number;
-  count: number;
-  per_page: number;
-  current_page: number;
-  total_pages: number;
-  links: {
-    first: string;
-    last: string;
-    prev: string;
-    next: string;
-  };
-}
-
 export interface GetUserTransactionsResponse {
-  success: boolean;
+  status: string;
+  statusCode: number;
   data: Transaction[];
-  meta: PaginationMeta;
 }
 
 export interface GetUserTransactionFeeResponse {

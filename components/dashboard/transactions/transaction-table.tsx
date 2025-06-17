@@ -50,11 +50,11 @@ const TransactionTable = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Pending":
+      case "pending":
         return "bg-yellow-500";
-      case "Success":
+      case "success":
         return "bg-green-500";
-      case "Failed":
+      case "failed":
         return "bg-red-500";
       default:
         return "bg-gray-400";
@@ -80,8 +80,11 @@ const TransactionTable = () => {
   }
 
   const sortedData = [...transactions].sort((a, b) => {
-    if (a[sortBy] < b[sortBy]) return ascending ? -1 : 1;
-    if (a[sortBy] > b[sortBy]) return ascending ? 1 : -1;
+    const valA = a?.[sortBy] ?? "";
+    const valB = b?.[sortBy] ?? "";
+
+    if (valA < valB) return ascending ? -1 : 1;
+    if (valA > valB) return ascending ? 1 : -1;
     return 0;
   });
 
@@ -123,9 +126,9 @@ const TransactionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((tx, index) => (
+          {paginatedData.map((tx) => (
             <tr key={tx.id} className="h-12">
-              <td>{format(new Date(tx.createdAt), "dd/MM/yyyy hh:mm a")}</td>
+              <td>{format(new Date(tx.createdAt), "dd/MM/yyyy")}</td>
               <td>
                 <div className="flex items-center gap-2">
                   <span
@@ -152,8 +155,8 @@ const TransactionTable = () => {
                   <span>..{tx.paymentMethod.slice(-4)}</span>
                 </div>
               </td>
-              <td>{tx.user?.statistics?.totalReferral ?? 0}</td>
-              <td>${tx.amount.toFixed(2)}</td>
+              <td>{tx.discount}</td>
+              <td>${Number(tx.amount).toFixed(2)}</td>
               <td>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

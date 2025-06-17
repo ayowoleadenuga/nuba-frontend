@@ -14,11 +14,20 @@ export const transactionsApi = createApi({
       query: () => "/user/transactions",
     }),
 
+    getUserTransactionByRef: builder.query<GetUserTransactionsResponse, string>(
+      {
+        query: (ref) => `/user/transactions/references/${ref}`,
+      }
+    ),
+
     getUserTransactionFee: builder.query<GetUserTransactionFeeResponse, void>({
       query: () => "/user/transactions/fee",
     }),
   }),
 });
 
-export const { useGetUserTransactionsQuery, useGetUserTransactionFeeQuery } =
-  transactionsApi;
+export const {
+  useGetUserTransactionsQuery,
+  useGetUserTransactionFeeQuery,
+  useGetUserTransactionByRefQuery,
+} = transactionsApi;

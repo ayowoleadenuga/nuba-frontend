@@ -114,7 +114,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[12px] font-[600] ">Fee</p>
-                      <p className="text-[#474747] text-[10px] ">01/05/2025</p>
+                      {/* <p className="text-[#474747] text-[10px] ">01/05/2025</p> */}
                     </div>
                     <p className="font-[500] text-[14px] text-[#474747] ">
                       £{transactionFee?.data?.fee}
