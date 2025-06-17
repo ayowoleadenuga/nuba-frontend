@@ -16,6 +16,7 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { useGetDiscountQuery } from "@/redux/features/paymentsApiSlice";
+import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 
 const TransactionClient = () => {
   const router = useRouter();
@@ -39,21 +40,29 @@ const TransactionClient = () => {
   }, [userProfile?.joinedAt]);
 
   const { data: discount, isLoading: discountLoading } = useGetDiscountQuery();
-  const nextMilestone = () => {
-    const milestone = userProfile?.statistics.mileStone;
+  const { data: userReferrals } = useGetreferralsQuery();
+  const userReferral = userReferrals?.data;
 
-    if (milestone !== undefined) {
-      if (milestone < 30) {
-        return "30%";
-      } else if (milestone < 60) {
-        return "60%";
-      } else {
-        return "100%";
-      }
-    }
+  const totalPoints = userReferral?.totalPoints ?? 0;
 
-    return "0%";
-  };
+  const pointsTo30 = userReferral?.points_left_to_redeem?.["30_percent"] ?? 150;
+  const pointsTo60 = userReferral?.points_left_to_redeem?.["60_percent"] ?? 300;
+  const pointsTo100 =
+    userReferral?.points_left_to_redeem?.["100_percent"] ?? 500;
+
+  let pointsNeeded = 0;
+  let milestoneLabel = "";
+
+  if (totalPoints < pointsTo30) {
+    pointsNeeded = pointsTo30 - totalPoints;
+    milestoneLabel = "30%";
+  } else if (totalPoints < pointsTo60) {
+    pointsNeeded = pointsTo60 - totalPoints;
+    milestoneLabel = "60%";
+  } else if (totalPoints < pointsTo100) {
+    pointsNeeded = pointsTo100 - totalPoints;
+    milestoneLabel = "100%";
+  }
   return (
     <div className="w-full p-5 ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
@@ -102,8 +111,8 @@ const TransactionClient = () => {
           </div>
           <p className="text-[12px] text-grayText mt-5 ">
             Earn
-            <span className="mr-1 text-brandCore-orange "> 167</span>
-            more points to reach the {nextMilestone()} milestone
+            <span className="mr-1 text-brandCore-orange "> {pointsNeeded}</span>
+            more points to reach the {milestoneLabel} milestone
           </p>
         </div>
 

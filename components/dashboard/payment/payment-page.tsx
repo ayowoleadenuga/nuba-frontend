@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMakePayment } from "@/redux/features/paymentSlice";
 import { RootState } from "@/redux/store";
 import { useGetUpcomingRentPaymentQuery } from "@/redux/features/paymentsApiSlice";
+import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 
 interface PaymentPageProps {
   setTab: React.Dispatch<
@@ -47,6 +48,9 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
     data: upcomingRentPaymentsList,
     isLoading: upcomingRentPaymentsLoading,
   } = useGetUpcomingRentPaymentQuery(firstRentId ?? skipToken);
+
+  const { data: transactionFee } = useGetUserTransactionFeeQuery();
+
   return (
     <div className="py-6 ">
       {upcomingRentPaymentsLoading ? (
@@ -113,7 +117,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                       <p className="text-[#474747] text-[10px] ">01/05/2025</p>
                     </div>
                     <p className="font-[500] text-[14px] text-[#474747] ">
-                      £23.88
+                      £{transactionFee?.data?.fee}
                     </p>
                   </div>
                 </div>
@@ -123,7 +127,9 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                     <p className="font-[500] text-[14px] text-[#474747] ">
                       £
                       {(
-                        rentDetail && rentDetail?.monthlyPrice + 23.88
+                        rentDetail &&
+                        rentDetail?.monthlyPrice +
+                          (transactionFee?.data?.fee ?? 0)
                       )?.toLocaleString()}
                     </p>
                   </div>

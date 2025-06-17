@@ -333,6 +333,14 @@ export interface GetUserTransactionsResponse {
   meta: PaginationMeta;
 }
 
+export interface GetUserTransactionFeeResponse {
+  status: string;
+  statusCode: number;
+  data: {
+    fee: number;
+  };
+}
+
 export interface PaymentMethod {
   id: string;
   country: string;
