@@ -14,7 +14,8 @@ export type paymentSliceType = {
     cvc: string;
     mmYY: string;
   };
-  makePayment: "" | "start" | "complete"
+  makePayment: "" | "start" | "complete" | "ryft";
+  rentPaymentStatus: "success" | "" | "error";
 };
 
 const initialState: paymentSliceType = {
@@ -32,6 +33,7 @@ const initialState: paymentSliceType = {
     mmYY: "",
   },
   makePayment: "",
+  rentPaymentStatus: "",
 };
 
 export const paymentSlice = createSlice({
@@ -48,12 +50,26 @@ export const paymentSlice = createSlice({
       state.newPaymentMethod = { ...state.newPaymentMethod, ...action.payload };
     },
     resetNewPaymentForm: () => initialState,
-    setMakePayment: (state, action: PayloadAction<"" | "start" | "complete">) => {
+    setMakePayment: (
+      state,
+      action: PayloadAction<"" | "start" | "complete" | "ryft">
+    ) => {
       state.makePayment = action.payload;
+    },
+    setRentPaymentStatus: (
+      state,
+      action: PayloadAction<"" | "success" | "error">
+    ) => {
+      state.rentPaymentStatus = action.payload;
     },
   },
 });
 
-export const { setAutoPay, updatePaymentMethod, resetNewPaymentForm,setMakePayment} =
-  paymentSlice.actions;
+export const {
+  setAutoPay,
+  updatePaymentMethod,
+  resetNewPaymentForm,
+  setMakePayment,
+  setRentPaymentStatus,
+} = paymentSlice.actions;
 export default paymentSlice.reducer;

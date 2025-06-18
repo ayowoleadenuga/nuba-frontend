@@ -3,7 +3,11 @@ import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
+import {
+  useGetPaymentMethodsQuery,
+  useGetUpcomingRentPaymentQuery,
+  useInitiatePaymentQuery,
+} from "@/redux/features/paymentsApiSlice";
 import { AutoPayOffProps } from "@/types";
 import React, { useState } from "react";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
@@ -15,8 +19,14 @@ import {
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
+import { nubaApis } from "@/services/api-services";
 
-const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
+const AutopayOff: React.FC<AutoPayOffProps> = ({
+  setTab,
+  initiatePaymentLoading,
+  handleInitiatePayment,
+  upcomingRentPaymentsLoading,
+}) => {
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
   const dispatch = useDispatch();
@@ -80,10 +90,11 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
           </p>
         </div>
         <Button
-          onClick={() => dispatch(setMakePayment("start"))}
+          onClick={handleInitiatePayment}
+          disabled={upcomingRentPaymentsLoading || initiatePaymentLoading}
           className=" flex items-center justify-center w-full mt-2 "
         >
-          Make Payment
+          {initiatePaymentLoading ? "Initiating Payment..." : "Make Payment"}
         </Button>
       </div>
     </div>

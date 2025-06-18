@@ -35,6 +35,7 @@ const TransactionTable = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
 
+  console.log("uset transactions", userTransactions);
   const handleSort = (key: SortKey) => {
     if (key === sortBy) {
       setAscending(!ascending);
@@ -126,7 +127,7 @@ const TransactionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((tx) => (
+          {paginatedData.map(tx => (
             <tr key={tx.id} className="h-12">
               <td>{format(new Date(tx.createdAt), "dd/MM/yyyy")}</td>
               <td>

@@ -6,7 +6,7 @@ import { RefreshIcon } from "@/assets/svg/refresh-icon";
 import AutopayOff from "./autopay-off";
 import AutopayOn from "./autopay-on";
 import EarnedCard from "./earned-card";
-import React from "react";
+import React, { useEffect } from "react";
 import MakePayment from "./make-payment";
 import PaymentResponse from "./payment-response";
 import { useRouter } from "nextjs-toploader/app";
@@ -18,10 +18,19 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query";
 import { formatDateToDDMMYYYY } from "@/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { setMakePayment } from "@/redux/features/paymentSlice";
+import {
+  setMakePayment,
+  setRentPaymentStatus,
+} from "@/redux/features/paymentSlice";
 import { RootState } from "@/redux/store";
-import { useGetUpcomingRentPaymentQuery } from "@/redux/features/paymentsApiSlice";
+import {
+  useGetUpcomingRentPaymentQuery,
+  useInitiatePaymentQuery,
+} from "@/redux/features/paymentsApiSlice";
 import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
+import { nubaApis } from "@/services/api-services";
+import RyftPayment from "@/components/dashboard/payment/ryft-payment";
+import RyftPaymentResponse from "@/components/dashboard/payment/ryft-payment-response";
 
 interface PaymentPageProps {
   setTab: React.Dispatch<
@@ -51,10 +60,34 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
 
   const { data: transactionFee } = useGetUserTransactionFeeQuery();
 
+  const {
+    data: clientSecretData,
+    isLoading: initiatePaymentLoading,
+    isSuccess: initatePaymentSuccess,
+    isError: initiatePaymentError,
+    refetch,
+  } = useInitiatePaymentQuery();
+
+  const handleInitiatePayment = async () => {
+    if (upcomingRentPaymentsList?.data?.id) {
+      await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
+      if (initatePaymentSuccess) {
+        dispatch(setMakePayment("start"));
+        // window.location.href === data?.data?.authorizationUrl;
+        // dispatch(setMakePayment("complete"));
+      }
+    }
+  };
+
+  useEffect(() => {
+    dispatch(setRentPaymentStatus(""));
+  }, []);
+
+  console.log("make payment is", makePayment);
   return (
     <div className="py-6 ">
       {upcomingRentPaymentsLoading ? (
-        <div className="bg-gray-300 w-[500px] h-[500px] animate-pulse "></div>
+        <div className="bg-gray-300 w-[400px] h-4500px] animate-pulse "></div>
       ) : (
         <div>
           <div className="flex items-center justify-between">
@@ -64,6 +97,13 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                 className="text-[12px] font-[600] my-5 flex items-center gap-2"
               >
                 <ArrowLeftIcon /> Confirm your payment
+              </button>
+            ) : makePayment === "ryft" ? (
+              <button
+                onClick={() => dispatch(setMakePayment("start"))}
+                className="text-[12px] font-[600] my-5 flex items-center gap-2"
+              >
+                <ArrowLeftIcon /> Go back
               </button>
             ) : (
               <p className="font-[600] text-[12px] ">
@@ -137,15 +177,32 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </div>
 
               {userProfile?.autopay ? (
-                <AutopayOn setTab={setTab} />
+                <AutopayOn
+                  setTab={setTab}
+                  initiatePaymentLoading={initiatePaymentLoading}
+                  handleInitiatePayment={handleInitiatePayment}
+                  upcomingRentPaymentsLoading={upcomingRentPaymentsLoading}
+                />
               ) : (
-                <AutopayOff setTab={setTab} />
+                <AutopayOff
+                  setTab={setTab}
+                  initiatePaymentLoading={initiatePaymentLoading}
+                  handleInitiatePayment={handleInitiatePayment}
+                  upcomingRentPaymentsLoading={upcomingRentPaymentsLoading}
+                />
               )}
             </div>
           ) : makePayment === "start" ? (
-            <MakePayment paymentId={upcomingRentPaymentsList?.data?.id} />
+            <MakePayment
+              paymentId={upcomingRentPaymentsList?.data?.id}
+              clientSecret={clientSecretData?.data?.token}
+              initiatePaymentLoading={initiatePaymentLoading}
+              initiatePaymentError={initiatePaymentError}
+            />
+          ) : makePayment === "ryft" ? (
+            <RyftPayment clientSecret={clientSecretData?.data?.token} />
           ) : (
-            <PaymentResponse />
+            <RyftPaymentResponse />
           )}
         </div>
       )}

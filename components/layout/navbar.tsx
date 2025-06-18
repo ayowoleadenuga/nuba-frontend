@@ -6,8 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { resetSignup } from "@/redux/features/authSlice";
 
 interface NavigationProps {
   hasBg?: boolean;
@@ -16,6 +17,7 @@ interface NavigationProps {
 const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const userAll = useSelector((state: RootState) => state.signup);
 
@@ -47,7 +49,7 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
           </ul>
         </div>
 
-        {userAll?.token ? (
+        {userAll?.token && userAll?.user?.onboarding?.isOnboarded ? (
           <div className="flex items-center gap-5">
             <button
               onClick={() => router.push("/dashboard")}
@@ -70,7 +72,10 @@ const Navbar: React.FC<NavigationProps> = ({ hasBg }) => {
             </button>
 
             <button
-              onClick={() => router.push("/sign-up")}
+              onClick={() => {
+                router.push("/sign-up");
+                dispatch(resetSignup());
+              }}
               className=" bg-white text-black font-[700] md:block hidden cursor-pointer px-3 rounded-[36px] h-8 "
             >
               Register

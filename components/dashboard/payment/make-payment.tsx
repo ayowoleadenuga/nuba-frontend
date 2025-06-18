@@ -24,6 +24,7 @@ import {
   useCreatePaymentMethodMutation,
   useGetDiscountQuery,
   useGetPaymentMethodsQuery,
+  useInitiatePaymentQuery,
   useMakePaymentMutation,
 } from "@/redux/features/paymentsApiSlice";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
@@ -34,19 +35,27 @@ import {
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
-import { RyftPaymentComponent } from "ryft-react";
-import { env } from "@/env";
-import RyftPaymentForm from "@/services/ryft/ryft-payment-form";
+import empty from "@/assets/gif/empty.gif";
+import RyftPayment from "@/components/dashboard/payment/ryft-payment";
+import Image from "next/image";
 
 export interface MakePaymentProps {
   paymentId: string | undefined;
+  clientSecret: string | undefined;
+  initiatePaymentLoading?: boolean;
+  initiatePaymentError?: boolean;
 }
-const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
+const MakePayment: React.FC<MakePaymentProps> = ({
+  paymentId,
+  clientSecret,
+  initiatePaymentLoading,
+  initiatePaymentError,
+}) => {
   const [createPaymentMethodMutation] = useCreatePaymentMethodMutation();
   const dispatch = useDispatch();
-  const [isOn, setIsOn] = useState(false);
+  const [isOn, setIsOn] = useState<boolean>(false);
+  const [saveCardDetails, setSaveCardDetails] = useState<boolean>(false);
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
-  const [clientSecret, setClientSecret] = useState<string>("");
   const { data: paymentMethods } = useGetPaymentMethodsQuery();
 
   const { data: rents } = useGetUserRentsQuery();
@@ -56,8 +65,11 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
-  const [makePayment, { data: clientSecretData, isLoading, isSuccess }] =
-    useMakePaymentMutation();
+
+  const [
+    makePayment,
+    { data, isLoading: makingPaymentLoading, isSuccess: makepaymentSuccess },
+  ] = useMakePaymentMutation();
   const {
     country,
     postcode,
@@ -70,28 +82,27 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     cvc,
     mmYY,
   } = useSelector((state: RootState) => state.payment.newPaymentMethod);
+  const [addPayment, setAddPayment] = useState<boolean>(false);
 
   const [errors, setErrors] = useState<{
     [key in keyof paymentSliceType["newPaymentMethod"]]?: string;
   }>({});
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(
-      updatePaymentMethod({
-        [e.target.name as keyof paymentSliceType["newPaymentMethod"]]:
-          e.target.value,
-      } as paymentSliceType["newPaymentMethod"])
-    );
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [e.target.name]: "",
-    }));
-  };
+  // const formRef = useRef<HTMLFormElement | null>(null);
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   dispatch(
+  //     updatePaymentMethod({
+  //       [e.target.name as keyof paymentSliceType["newPaymentMethod"]]:
+  //         e.target.value,
+  //     } as paymentSliceType["newPaymentMethod"])
+  //   );
+  //   setErrors(prevErrors => ({
+  //     ...prevErrors,
+  //     [e.target.name]: "",
+  //   }));
+  // };
   const { data: discount, isLoading: discountLoading } = useGetDiscountQuery();
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
-
-  const [showPaymentForm, setShowPaymentForm] = useState<boolean>(false);
   const nextMilestone = () => {
     const milestone = userProfile?.statistics.mileStone;
 
@@ -148,34 +159,27 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
     dispatch(resetNewPaymentForm());
   };
 
+  // env.NODE_ENV === "development"
+  //   ? "http://localhost:3001/payment"
+  //   : "https://www.nubarewards.com/payment",
   const handleMakePayment = async () => {
     if (paymentId) {
-      await nubaApis.createPaymentMethod.handlePay(makePayment, paymentId, {
-        usePoints: isOn,
-        callbackUrl: "https://www.nubarewards.com/payment",
-        // env.NODE_ENV === "development"
-        //   ? "http://localhost:3001/payment"
-        //   : "https://www.nubarewards.com/payment",
-        milestone: nextMilestone(),
-      });
-      console.log("clent secret data is", clientSecretData);
-      if (isSuccess) {
-        setShowPaymentForm(isSuccess);
-        console.log("clent secret data is", clientSecretData);
-        // window.location.href === data?.data?.authorizationUrl;
-        // dispatch(setMakePayment("complete"));
+      try {
+        const response = await nubaApis.createPaymentMethod.handlePay(
+          makePayment,
+          paymentId,
+          {
+            usePoints: isOn,
+            callbackUrl: "https://www.nubarewards.com/payment",
+            milestone: nextMilestone(),
+          }
+        );
+
+        dispatch(setMakePayment("ryft"));
+      } catch (error) {
+        console.error("Payment error:", error);
       }
     }
-  };
-
-  const handlePaymentSuccess = (paymentSession: any) => {
-    console.log("Payment successful:", paymentSession);
-    // Handle successful payment
-  };
-
-  const handlePaymentError = (error: any, userFacingMessage: string) => {
-    console.error("Payment failed:", error);
-    // Handle payment error
   };
 
   return (
@@ -192,11 +196,17 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
               onSelect={() => setActiveMethodId(method.id)}
             />
           ))}
+          {paymentMethods?.data?.length === 0 && (
+            <div className="flex items-center justify-center w-full py-3">
+              <Image src={empty} alt="empty" className="w-10 h-10 " />
+            </div>
+          )}
         </Accordion>
 
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1" className="border-0 ">
             <AccordionTrigger
+              onClick={() => setAddPayment(true)}
               dropdownVisible={false}
               className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3 "
             >
@@ -208,7 +218,22 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
             </AccordionTrigger>
 
             <AccordionContent>
-              <form onSubmit={handleSubmit} ref={formRef} className="w-full ">
+              {initiatePaymentLoading && (
+                <p className="text-[14px]   ">Loading...</p>
+              )}
+              {initiatePaymentError && (
+                <p className="text-red-500 text-[14px]  ">
+                  Error generating client secret.
+                </p>
+              )}
+              {clientSecret && !initiatePaymentLoading && (
+                <RyftPayment
+                  addPayment={addPayment}
+                  clientSecret={clientSecret}
+                  buttonText="Add Card"
+                />
+              )}
+              {/* <form onSubmit={handleSubmit} ref={formRef} className="w-full ">
                 <NubaInput
                   containerClass={"w-full mt-2"}
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
@@ -342,7 +367,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
                 >
                   Add
                 </button>
-              </form>
+              </form> */}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -363,7 +388,6 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
                 Save up to £{discount?.data?.discount} on this payment
               </p>
             )}
-            {/* <ArrowRightIcon /> */}
           </div>
           <div className="flex items-center justify-between pt-5">
             <p className="text-[12px]  ">Pay with points to reduce paymment</p>
@@ -376,11 +400,13 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
         </div>
         <div className="bg-white border border-border px-4 py-6  mt-1 ">
           <Button
-            disabled={isLoading || discountLoading}
+            disabled={
+              makingPaymentLoading || discountLoading || !saveCardDetails
+            }
             onClick={handleMakePayment}
             className="w-full"
           >
-            {isLoading
+            {makingPaymentLoading
               ? "Processing"
               : ` Pay £
             ${
@@ -391,45 +417,17 @@ const MakePayment: React.FC<MakePaymentProps> = ({ paymentId }) => {
                 : (rentDetail?.monthlyPrice ?? 0).toLocaleString()
             }`}
           </Button>
-          <p className="text-[10px] mt-2 ">
-            Submitting this page will charge your card and cannot be undone
-          </p>
+          <span className="text-[10px] mt-2  flex items-start justify-center gap-1">
+            <input
+              type="checkbox"
+              className="accent-brandCore-orange w-4 h-4 rounded-[16px] "
+              checked={saveCardDetails}
+              onChange={() => setSaveCardDetails(!saveCardDetails)}
+            />
+            Submitting this page will save your card details and be used for
+            your future transactions
+          </span>
         </div>
-        {/* {(isSuccess || showPaymentForm) && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg relative">
-              <button
-                className="absolute top-4 right-2 text-gray-500 hover:text-gray-700"
-                onClick={() => setShowPaymentForm(false)}
-              >
-                <p className="w-5 h-5 font-[700] ">X</p>
-              </button>
-              <RyftPaymentForm
-                clientSecret={clientSecretData?.data?.token as string}
-              />
-              <RyftPaymentComponent
-                publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
-                clientSecret={clientSecretData?.data?.token as string}
-                onPaymentSuccess={handlePaymentSuccess}
-                onPaymentError={handlePaymentError}
-                googlePay={{
-                  merchantIdentifier: "your_merchant_id",
-                  merchantName: "Your Business",
-                  merchantCountryCode: "US",
-                }}
-                applePay={{
-                  merchantName: "Your Business Name",
-                  merchantCountryCode: "US",
-                }}
-                fieldCollection={{
-                  billingAddress: {
-                    display: "minimum", // "full", "minimum", or "none"
-                  },
-                }}
-              />
-            </div>
-          </div>
-        )} */}
       </div>
     </div>
   );

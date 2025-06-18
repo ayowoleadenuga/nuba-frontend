@@ -131,6 +131,16 @@ const LoginClient = () => {
         <p className="font-[700] text-[12px] text-center mt-5 ">
           By continuing, you agree to our Terms & Conditions.{" "}
         </p>
+        <span className="mt-3 text-[14px] flex items-center justify-center gap-1 ">
+          <p className=" ">No Account?</p>
+          <button
+            onClick={() => router.push("/sign-up")}
+            type="button"
+            className="font-[700] text-brandCore-orange "
+          >
+            Create One
+          </button>
+        </span>
       </form>
     </div>
   );

@@ -56,12 +56,15 @@ export default function RyftPaymentForm({
   };
 
   return (
-    <form id="ryft-pay-form" onSubmit={handleSubmit}>
+    <form id="ryft-pay-form" onSubmit={handleSubmit} className="space-y-4">
+      <div id="ryft-card-number" className="border rounded p-2" />
+      <div id="ryft-expiry-date" className="border rounded p-2" />
+      <div id="ryft-cvc" className="border rounded p-2" />
       <button
-        className="bg-[#CF931D] rounded-[16px] w-full  "
+        className="bg-[#CF931D] rounded-[16px] w-full py-2 text-white font-semibold"
         id="pay-btn"
         ref={payButtonRef}
-        disabled
+        disabled={!isReady}
       >
         PAY NOW
       </button>

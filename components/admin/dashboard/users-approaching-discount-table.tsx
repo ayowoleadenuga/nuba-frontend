@@ -84,8 +84,8 @@ const UserApproachingDiscountTable = () => {
                   </span>
                 </div>
               </td>
-              <td>${user.rentAmount.toFixed(2)}</td>
-              <td>${user.afterDiscount.toFixed(2)}</td>
+              <td>${user?.rentAmount?.toFixed(2)}</td>
+              <td>${user?.afterDiscount?.toFixed(2)}</td>
               <td>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

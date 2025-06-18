@@ -75,7 +75,7 @@ const TransactionClient = () => {
               <div className="flex items-center gap-2">
                 <PointsIcon />
                 <p className="font-[700] text-[#CF931D]">
-                  {userProfile?.statistics.unitsEarned} pts
+                  {userProfile?.statistics?.unitsEarned} pts
                 </p>
               </div>
               <p className="text-[11px] text-[#999B9E]">

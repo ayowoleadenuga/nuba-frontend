@@ -327,12 +327,19 @@ export interface AutoPayOffProps {
   setTab: React.Dispatch<
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
+
+  initiatePaymentLoading: boolean;
+  handleInitiatePayment: () => void;
+  upcomingRentPaymentsLoading: boolean;
 }
 
 export interface AutoPayOnProps {
   setTab: React.Dispatch<
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
+  initiatePaymentLoading: boolean;
+  handleInitiatePayment: () => void;
+  upcomingRentPaymentsLoading: boolean;
   // setMakePayment: React.Dispatch<
   //   React.SetStateAction<"" | "start" | "complete">
   // >;

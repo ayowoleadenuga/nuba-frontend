@@ -58,6 +58,7 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
 
   return result;
 };
+
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithReauth,

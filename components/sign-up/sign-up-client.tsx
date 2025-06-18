@@ -11,6 +11,7 @@ import TenancyAgreementUpload from "@/components/sign-up/tenancy-agreement-uploa
 import AgentDetailsForm from "@/components/sign-up/agent-details";
 import NewPaymentForm from "@/components/sign-up/new-payment-method";
 import { Button } from "@/components/ui/button";
+import NewPaymentMethodRyft from "@/components/sign-up/new-payment-method-ryft";
 
 const SignUpClient = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const SignUpClient = () => {
       case SignUpStep.AGENT_DETAILS:
         return <AgentDetailsForm />;
       case SignUpStep.NEW_PAYMENT_METHOD:
-        return <NewPaymentForm />;
+        return <NewPaymentMethodRyft />;
       default:
         return <CreateAccountForm />;
     }

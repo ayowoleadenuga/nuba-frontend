@@ -1,18 +1,21 @@
 import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { CheckedIcon } from "@/assets/svg/ckecked-icon";
 import { Button } from "@/components/ui/button";
-import { setMakePayment } from "@/redux/features/paymentSlice";
 import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
-import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { AutoPayOnProps } from "@/types";
 import { skipToken } from "@reduxjs/toolkit/query";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
+const AutopayOn: React.FC<AutoPayOnProps> = ({
+  setTab,
+  initiatePaymentLoading,
+  handleInitiatePayment,
+  upcomingRentPaymentsLoading,
+}) => {
   const dispatch = useDispatch();
   const { data: rents } = useGetUserRentsQuery();
   const firstRentId = rents?.data?.[0]?.id;
@@ -21,8 +24,7 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
-  // const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
-  // useGetUserProfileQuery();
+
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -57,10 +59,11 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({ setTab }) => {
           </p>
         </div>
         <Button
-          onClick={() => dispatch(setMakePayment("start"))}
+          onClick={handleInitiatePayment}
+          disabled={upcomingRentPaymentsLoading || initiatePaymentLoading}
           className=" flex items-center justify-center w-full mt-2 "
         >
-          Make Payment
+          {initiatePaymentLoading ? "Initiating Payment..." : "Make Payment"}
         </Button>
       </div>
     </div>

@@ -3,23 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setStep,
-  SignUpStep,
-  updateFormData,
-  resetSignup,
-} from "@/redux/features/authSlice";
+import { updateFormData } from "@/redux/features/authSlice";
 import { RootState } from "@/redux/store";
 import { CreateAccountState, sigUpPayload } from "@/types";
 import { signUpFormSchema } from "@/utils/validator";
 import { GoogleIcon } from "@/assets/svg/google-icon";
 import {
-  useGetGoogleLoginUrlQuery,
   useLazyGetGoogleLoginUrlQuery,
   useRegisterUserMutation,
 } from "@/redux/features/authApiSlice";
 import { nubaApis } from "@/services/api-services";
-import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 
 const CreateAccountForm = () => {

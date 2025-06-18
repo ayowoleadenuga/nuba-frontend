@@ -36,6 +36,11 @@ export const paymentsApi = createApi({
         body: payload,
       }),
     }),
+    initiatePayment: builder.query<paymentResponse, void>({
+      query: () => ({
+        url: `user/payment-methods/initiate`,
+      }),
+    }),
 
     validatePayment: builder.mutation<paymentResponse, string>({
       query: payload => ({
@@ -69,6 +74,7 @@ export const paymentsApi = createApi({
 export const {
   useGetPaymentMethodsQuery,
   useCreatePaymentMethodMutation,
+  useInitiatePaymentQuery,
   useMakePaymentMutation,
   useValidatePaymentMutation,
   useGetUpcomingRentPaymentQuery,

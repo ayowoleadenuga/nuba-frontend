@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
 import Image from "next/image";
 import {
+  useGetDiscountQuery,
   useGetPaymentMethodsQuery,
+  useInitiatePaymentQuery,
   useToggleAutoPayMutation,
 } from "@/redux/features/paymentsApiSlice";
-import { Accordion } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 import {
   useGetUserRentsDetailsQuery,
@@ -16,6 +23,8 @@ import { formatDate } from "@/utils";
 import paymentCard from "@/assets/png/payment-card.png";
 import { nubaApis } from "@/services/api-services";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import { AddIcon } from "@/assets/svg/add-icon";
+import RyftPayment from "@/components/dashboard/payment/ryft-payment";
 
 interface AutoPayProps {
   setTab: React.Dispatch<
@@ -48,6 +57,14 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
 
   const [toggleAutoPay, { isLoading: togglingAutopay }] =
     useToggleAutoPayMutation();
+  const [addPayment, setAddPayment] = useState<boolean>(false);
+
+  const {
+    data: clientSecretData,
+    isLoading: initiatePaymentLoading,
+    isSuccess: initatePaymentSuccess,
+    isError: initiatePaymentError,
+  } = useInitiatePaymentQuery();
 
   const handleToggleAutopay = async () => {
     if (userProfile) {
@@ -60,7 +77,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   };
 
   return (
-    <div className="w-full md:w-[60%] xl:w-[40%] min-h-[70vh]">
+    <div className="w-full md:w-[80%] xl:w-[40%] min-h-[70vh]">
       <button
         onClick={() => setTab("")}
         className="text-[12px] font-[600] my-5 flex items-center gap-2"
@@ -69,15 +86,43 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
       </button>
       <div className="rounded-lg shadow-md p-4 bg-white">
         <div className="mb-4">
-          <div className="flex items-center justify-between w-full mb-2">
-            <p className="text-[14px] font-[600]">Payment Method</p>
-            <button
-              onClick={() => setShowAllMethods(prev => !prev)}
-              className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500]"
-            >
-              Change
-            </button>
-          </div>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1" className="border-0 ">
+              <AccordionTrigger
+                onClick={() => setAddPayment(true)}
+                dropdownVisible={false}
+                className="flex items-center justify-between gap-2 relative "
+              >
+                <div className="flex items-center justify-between w-full mb-2">
+                  <p className="text-[14px] font-[600]">Payment Method</p>
+                  <button
+                    onClick={() => setShowAllMethods(prev => !prev)}
+                    className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500]"
+                  >
+                    Change
+                  </button>
+                </div>
+              </AccordionTrigger>
+
+              <AccordionContent>
+                {initiatePaymentLoading && (
+                  <p className="text-[14px]   ">Loading...</p>
+                )}
+                {initiatePaymentError && (
+                  <p className="text-red-500 text-[14px]  ">
+                    Error generating client secret.
+                  </p>
+                )}
+                {clientSecretData?.data?.token && !initiatePaymentLoading && (
+                  <RyftPayment
+                    addPayment={addPayment}
+                    clientSecret={clientSecretData?.data?.token}
+                    buttonText="Add Payment Method"
+                  />
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
           {!showAllMethods && selectedMethod && (
             <div className="flex items-center justify-between mt-2 border-b border-boder pb-5">
@@ -130,7 +175,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm font-semibold mt-3">
             <p>Payment Amount</p>
-            <span>£{(rentDetail?.monthlyPrice)?.toLocaleString()}</span>
+            <span>£{rentDetail?.monthlyPrice?.toLocaleString()}</span>
           </div>
         </div>
 

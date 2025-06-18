@@ -93,24 +93,24 @@ const PayoutTable = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((payout, index) => (
+          {sortedData?.map((payout, index) => (
             <tr key={index} className="border-t h-12 hover:bg-[#ececec] ">
-              <td className="pr-3 py-2">{payout.renterName}</td>
-              <td className="px-3 py-2">{payout.renterEmail}</td>
-              <td className="px-3 py-2">{payout.landlordName}</td>
+              <td className="pr-3 py-2">{payout?.renterName}</td>
+              <td className="px-3 py-2">{payout?.renterEmail}</td>
+              <td className="px-3 py-2">{payout?.landlordName}</td>
               <td className="px-3 py-2 whitespace-nowrap">
-                {payout.landlordBankDetails}
+                {payout?.landlordBankDetails}
               </td>
-              <td className="px-3 py-2">${payout.amountPaid.toFixed(2)}</td>
+              <td className="px-3 py-2">${payout?.amountPaid?.toFixed(2)}</td>
               <td className="px-3 py-2">
-                {new Date(payout.paymentDate).toLocaleDateString("en-US", {
+                {new Date(payout?.paymentDate).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
                 })}
               </td>
-              <td className="px-3 py-2">{payout.payoutStatus}</td>
-              <td className="px-3 py-2">{payout.notes}</td>
+              <td className="px-3 py-2">{payout?.payoutStatus}</td>
+              <td className="px-3 py-2">{payout?.notes}</td>
               <td className="px-3 py-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

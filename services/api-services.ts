@@ -126,7 +126,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          (error) => {
+          error => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -313,17 +313,26 @@ export const nubaApis = {
         toast.error(error?.data?.message || "Failed to create payment method");
       }
     },
+    handleInitiatePay: async (makePayment: verificationTrigger) => {
+      try {
+        await makePayment().unwrap();
+        // toast.success("Payment initiated successfully");
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error?.data?.message || "Failed to initiate payment");
+      }
+    },
     handlePay: async (
       makePayment: makePaymentTrigger,
       paymentId: string,
       payload: paymentInitiationPayload
     ) => {
       try {
-        await makePayment({ paymentId, payload }).unwrap();
-        toast.success("Payment initiated successfully");
+        return await makePayment({ paymentId, payload }).unwrap();
+        // toast.success("Payment successful");
       } catch (error: any) {
         console.error(error);
-        toast.error(error?.data?.message || "Failed to initiate payment");
+        // toast.error(error?.data?.message || "Failed to initiate payment");
       }
     },
     handleValidatePayment: async (

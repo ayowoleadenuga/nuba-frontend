@@ -14,6 +14,8 @@ import {
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { formatDate } from "@/utils";
+import empty from "@/assets/gif/empty.gif";
+import Image from "next/image";
 
 const AccountTab: FC<AccountTabProps> = ({
   setRentDueDate,
@@ -57,6 +59,12 @@ const AccountTab: FC<AccountTabProps> = ({
         <div className="w-full border-b border-b-[#E2E8F0] pb-6 ">
           <div className="w-full md:w-[70%] xl:w-[50%] ">
             <Accordion type="single" collapsible className="mt-6">
+              <p className="font-[500] text-[12px] ">Payment List</p>
+              {paymentMethods?.data?.length === 0 && (
+                <div className="flex items-center justify-center w-full py-3">
+                  <Image src={empty} alt="empty" className="w-10 h-10 " />
+                </div>
+              )}
               {paymentMethods?.data?.map((method, index: number) => (
                 <PaymentAccordionItem
                   key={method.id}
