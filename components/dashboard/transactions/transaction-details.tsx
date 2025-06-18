@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "nextjs-toploader/app";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { useGetUserTransactionByRefQuery } from "@/redux/features/transactionsApiSlice";
-import { formatDate3 } from "@/utils";
 
 const TransactionDetails = () => {
   const router = useRouter();
