@@ -35,7 +35,6 @@ const TransactionTable = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
 
-  console.log("uset transactions", userTransactions);
   const handleSort = (key: SortKey) => {
     if (key === sortBy) {
       setAscending(!ascending);

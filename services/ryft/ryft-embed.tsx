@@ -36,7 +36,6 @@ export function RyftEmbed({ clientSecret }: { clientSecret: string }) {
           clientSecret,
           container: containerRef.current,
           onSuccess: (paymentResult: any) => {
-            console.log(" Payment success", paymentResult);
             // Handle post-payment (e.g., call backend)
           },
           onError: (error: any) => {

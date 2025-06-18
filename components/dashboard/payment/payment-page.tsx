@@ -83,7 +83,6 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
     dispatch(setRentPaymentStatus(""));
   }, []);
 
-  console.log("make payment is", makePayment);
   return (
     <div className="py-6 ">
       {upcomingRentPaymentsLoading ? (

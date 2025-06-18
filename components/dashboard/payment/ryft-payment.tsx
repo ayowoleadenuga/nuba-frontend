@@ -20,7 +20,6 @@ const RyftPayment = ({
   const dispatch = useDispatch();
 
   const handlePaymentSuccess = () => {
-    console.log("payment successful");
     if (addPayment) {
       toast.success("Payment added successfully");
     } else {
@@ -29,7 +28,6 @@ const RyftPayment = ({
     }
   };
   const handlePaymentFailure = () => {
-    console.log("payment failed");
     if (addPayment) {
       toast.error("Error adding payment");
     } else {

@@ -32,7 +32,6 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
   extraOptions
 ) => {
   let result = await baseQueryWithAuth(args, api, extraOptions);
-  console.log("result from  base is", result);
   if (result.error && result.error.status === 401) {
     const refreshResult = await baseQueryWithAuth(
       {
@@ -42,7 +41,6 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
       api,
       extraOptions
     );
-    console.log("refresh result is", refreshResult);
     if (refreshResult.data) {
       const newToken = (refreshResult.data as { accessToken: string })
         .accessToken;
@@ -50,7 +48,6 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
       api.dispatch(setToken(newToken));
       result = await baseQueryWithAuth(args, api, extraOptions);
     } else {
-      console.log("error using refresh token", refreshResult);
       api.dispatch(resetSignup());
       window.location.href = "/login";
     }

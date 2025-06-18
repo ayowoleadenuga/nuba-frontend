@@ -16,8 +16,6 @@ const RyftPaymentResponse = () => {
     (state: RootState) => state.payment.rentPaymentStatus
   );
 
-  console.log("rentPaymentStatus", rentPaymentStatus);
-
   return (
     <div>
       <div className="w-full flex items-center justify-center flex-col text-center gap-5 mt-10 mb-[153px] ">

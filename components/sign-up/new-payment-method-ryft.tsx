@@ -23,16 +23,14 @@ const NewPaymentMethodRyft = () => {
   } = useInitiatePaymentQuery();
 
   useEffect(() => {
-    const handleMakePayment = async () => {
+    const handleInitiatePayment = async () => {
       await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
-      console.log("clent secret data is", clientSecretData);
       if (isSuccess) {
-        console.log("clent secret data is", clientSecretData);
         // window.location.href === data?.data?.authorizationUrl;
         // dispatch(setMakePayment("complete"));
       }
     };
-    handleMakePayment();
+    handleInitiatePayment();
   }, []);
 
   const handleSuccess = () => {

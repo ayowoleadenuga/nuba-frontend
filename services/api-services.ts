@@ -258,7 +258,6 @@ export const nubaApis = {
         const response = await uploadLandlordDetailsMutation(payload).unwrap();
         dispatch(nextStep());
         toast.success("New payment method uploaded");
-        console.log("new payment method response", response);
         dispatch(
           updateUserOnboardingStatus({
             isOnboarded: response?.onboarding?.isOnboarded,
