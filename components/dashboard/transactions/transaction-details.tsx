@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useParams } from "next/navigation";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { PointsIcon } from "@/assets/svg/points-icon";
 import { IconButton } from "@mui/material";
@@ -8,13 +9,19 @@ import { TransactionsIcon } from "@/assets/svg/transactions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "nextjs-toploader/app";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
+import { useGetUserTransactionByRefQuery } from "@/redux/features/transactionsApiSlice";
 
 const TransactionDetails = () => {
   const router = useRouter();
+  const { id } = useParams();
+  const transactionNumber = id as string;
 
-  const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
-    useGetUserProfileQuery();
+  const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
+
+  const { data: userTransactionByRef } =
+    useGetUserTransactionByRefQuery(transactionNumber);
+  const userTransaction = userTransactionByRef?.data[0];
 
   const joinedYear = React.useMemo(() => {
     if (!userProfile?.joinedAt) return "";
@@ -26,14 +33,14 @@ const TransactionDetails = () => {
     <div className="w-full p-5  min-h-[100vh] pb-[60px] ">
       <div className="pb-4 border-b border-b-[#D9D9D9] w-full flex items-center justify-between ">
         <p className="text-[20px] font-[600] ">
-          {format(new Date(), "dd/mm/yyyy")}{" "}
+          {userTransaction?.createdAt &&
+            format(new Date(userTransaction?.createdAt), "dd/MM/yyyy")}
         </p>
         <div className="flex items-center gap-4 ">
           <div>
             <div className="flex items-center">
               <PointsIcon />
               <p className="font-[700] text-[#CF931D]  ">
-                {" "}
                 {userProfile?.statistics.unitsEarned} pts
               </p>
             </div>
@@ -62,18 +69,21 @@ const TransactionDetails = () => {
               <p>Sent</p>
             </div>
           </div>
-          <p className="text-[24px] ">-1,2019.00</p>
+          <p className="text-[24px] ">-{userTransaction?.amountPaid}</p>
         </div>
       </div>
       <p className="text-[12px] mt-6 mb-5 ">Details</p>
       <div className="bg-white p-3 md:p-6 w-full md:w-[60%] xl:w-[45%] text-[12px]  ">
         <div className="flex items-center justify-between py-3">
           <p className="text-[#2A4152] ">Transaction ID</p>
-          <p>NUBA354ETR12546</p>
+          <p>{userTransaction?.transactionNumber}</p>
         </div>
         <div className="flex items-center justify-between py-3">
           <p className="text-[#2A4152] ">Transaction Date</p>
-          <p>01/01/2025</p>
+          <p>
+            {userTransaction?.createdAt &&
+              format(new Date(userTransaction?.createdAt), "dd/MM/yyyy")}
+          </p>
         </div>
         <div className="flex items-center justify-between py-3">
           <p className="text-[#2A4152] ">Recipient</p>
@@ -85,7 +95,7 @@ const TransactionDetails = () => {
         </div>
         <div className="flex items-center justify-between py-3">
           <p className="text-[#2A4152] ">Rent amount</p>
-          <p>1,200.00</p>
+          <p>{userTransaction?.amount}</p>
         </div>
         <div className="flex items-center justify-between py-3">
           <p className="text-[#2A4152] ">Fees</p>

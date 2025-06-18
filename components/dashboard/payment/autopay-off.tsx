@@ -14,6 +14,7 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 
 const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
   const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
@@ -26,6 +27,9 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
     firstRentId ?? skipToken
   );
   const rentDetail = rentDetails?.data;
+
+  const { data: transactionFee } = useGetUserTransactionFeeQuery();
+
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -68,7 +72,11 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({ setTab }) => {
           <p className="font-[600] text-[12px] ">Total balance</p>
           <p className="text-[10px]">
             {" "}
-            £{rentDetail && (rentDetail?.monthlyPrice + 23.88).toLocaleString()}
+            £
+            {rentDetail &&
+              (
+                rentDetail?.monthlyPrice + (transactionFee?.data?.fee ?? 0)
+              ).toLocaleString()}
           </p>
         </div>
         <Button
