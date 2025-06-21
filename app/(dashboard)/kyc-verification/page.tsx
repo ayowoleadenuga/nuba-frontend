@@ -90,7 +90,7 @@ const kycVerification = () => {
           verificationLoading ||
           isUserProfileLoading ||
           isUserProfileError ||
-          userProfile?.isVerified ||
+          userProfile?.isKycVerified ||
           kycResponseLoading
         }
         className="uppercase mt-10 "
@@ -98,7 +98,7 @@ const kycVerification = () => {
         {" "}
         {verificationLoading ? "Verifying..." : "Start kyc process"}
       </Button>
-      {(userProfile?.isVerified ||
+      {(userProfile?.isKycVerified ||
         kycResponse?.data?.status === "verified") && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg">
@@ -143,7 +143,7 @@ const kycVerification = () => {
                 verificationLoading ||
                 isUserProfileLoading ||
                 isUserProfileError ||
-                userProfile?.isVerified ||
+                userProfile?.isKycVerified ||
                 kycResponseLoading
               }
               onClick={handleVerifyUser}
