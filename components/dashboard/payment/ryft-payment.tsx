@@ -1,3 +1,4 @@
+import { RyftPaymentComponent } from "@/components/ryft/ryft-payment";
 import { env } from "@/env";
 import {
   setMakePayment,
@@ -5,7 +6,7 @@ import {
 } from "@/redux/features/paymentSlice";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { RyftPaymentComponent } from "ryft-react";
+// import { RyftPaymentComponent } from "ryft-react";
 import { toast } from "sonner";
 
 const RyftPayment = ({

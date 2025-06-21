@@ -96,7 +96,7 @@ const DashboardPage = () => {
             </div>
             <button
               onClick={() => {
-                if (userProfile?.isVerified) {
+                if (userProfile?.isKycVerified) {
                   router.push("/payment");
                 } else {
                   router.push("/kyc-verification");

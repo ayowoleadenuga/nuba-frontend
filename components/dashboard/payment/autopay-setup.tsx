@@ -77,7 +77,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   };
 
   return (
-    <div className="w-full md:w-[80%] xl:w-[40%] min-h-[70vh]">
+    <div className="w-full md:w-[80%] xl:w-[50%] min-h-[70vh]">
       <button
         onClick={() => setTab("")}
         className="text-[12px] font-[600] my-5 flex items-center gap-2"
@@ -95,12 +95,12 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
               >
                 <div className="flex items-center justify-between w-full mb-2">
                   <p className="text-[14px] font-[600]">Payment Method</p>
-                  <button
+                  <div
                     onClick={() => setShowAllMethods(prev => !prev)}
-                    className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500]"
+                    className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500] flex items-center justify-center"
                   >
                     Change
-                  </button>
+                  </div>
                 </div>
               </AccordionTrigger>
 

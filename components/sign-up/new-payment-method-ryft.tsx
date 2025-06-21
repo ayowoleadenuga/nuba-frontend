@@ -1,4 +1,5 @@
 import RyftPayment from "@/components/dashboard/payment/ryft-payment";
+import { RyftPaymentComponent } from "@/components/ryft/ryft-payment";
 import { Loader } from "@/components/ui/loader";
 import { env } from "@/env";
 import { updateUserOnboardingStatus } from "@/redux/features/authSlice";
@@ -8,7 +9,7 @@ import RyftPaymentForm from "@/services/ryft/ryft-payment-form";
 import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { RyftPaymentComponent } from "ryft-react";
+// import { RyftPaymentComponent } from "ryft-react";
 import { toast } from "sonner";
 
 const NewPaymentMethodRyft = () => {
@@ -78,6 +79,7 @@ const NewPaymentMethodRyft = () => {
                 display: "minimum", // "full", "minimum", or "none"
               },
             }}
+            className=""
           />
         </div>
       )}

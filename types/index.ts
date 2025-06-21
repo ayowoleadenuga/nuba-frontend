@@ -113,6 +113,7 @@ export interface loginResponseData {
   address2: string;
   city: string;
   postcode: string;
+  isKycVerified: boolean;
   onboarding: {
     isOnboarded: boolean;
     step: number;
@@ -256,7 +257,7 @@ export interface UserProfile {
   status: "active" | "inactive";
   autopay: boolean;
   autopayEnabledAt: string;
-  isVerified: boolean;
+  isKycVerified: boolean;
   onboarding: {
     isOnboarded: boolean;
     step: number;
