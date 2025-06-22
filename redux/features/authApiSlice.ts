@@ -15,7 +15,8 @@ import { useRouter } from "nextjs-toploader/app";
 import { useDispatch } from "react-redux";
 
 export const baseQueryWithAuth = fetchBaseQuery({
-  baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
+  // baseUrl: env.NEXT_PUBLIC_API_URL_NUBA,
+  baseUrl:"https://api.nubarewards.com/v1/",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).signup.token;
     if (token) {
