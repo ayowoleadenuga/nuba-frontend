@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 const RyftPayment = ({
   clientSecret,
-  addPayment,
+  addPayment = true,
   buttonText,
 }: {
   clientSecret: string | undefined;
@@ -36,6 +36,8 @@ const RyftPayment = ({
       dispatch(setRentPaymentStatus("error"));
     }
   };
+
+  console.log("add payment is", addPayment, "client secret", clientSecret);
   return (
     <div className="bg-white p-6 mt-10 ">
       {/* <RyftPaymentForm
@@ -45,20 +47,6 @@ const RyftPayment = ({
         publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
         clientSecret={clientSecret as string}
         buttonText={buttonText ?? "Pay Now"}
-        //   amount={100}
-        //   currency="usd"
-        //   onSuccess={onSuccess}
-        //   onError={onError}
-        //   onPaymentCancel={onPaymentCancel}
-        //   onPaymentError={onPaymentError}
-        //   onPaymentSuccess={onPaymentSuccess}
-        //   onPaymentCancel={onPaymentCancel}
-        //   onPaymentError={onPaymentError}
-        //   onPaymentSuccess={onPaymentSuccess}
-        //   onPaymentCancel={onPaymentCancel}
-        //   onPaymentError={onPaymentError}
-        //   onPaymentSuccess={onPaymentSuccess}
-        //   onPaymentCancel={onPaymentCancel}
         onPaymentSuccess={handlePaymentSuccess}
         onPaymentError={handlePaymentFailure}
         googlePay={{

@@ -64,24 +64,28 @@ const kycVerification = () => {
   return (
     <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center text-[#0B2233] ">
       <Note />
-      <p className="font-[600] text-[28px] text-center">
-        We value your security.
-        <br /> Let’s verify your identity.
+
+      <p className="font-[600] text-[28px] text-center w-[60%] ">
+        Just a quick ID check!
+        <br /> We verify your identity to protect your payments and meet UK
+        regulations.
+        <br />
       </p>
       <div className=" mt-6">
         <div className="flex items-center gap-3 mt-2">
           <Checkk />
-          <p className="text-[20px] font-[500] ">Protect your account.</p>
+          <p className="text-[20px] font-[500] ">Protect your payment.</p>
         </div>
-        <div className="flex items-center gap-3 mt-2">
-          <Checkk />
-          <p className="text-[20px] font-[500] ">Build trust and safety.</p>
-        </div>
+
         <div className="flex items-center gap-3 mt-2">
           <Checkk />
           <p className="text-[20px] font-[500] ">
             Ensure regulatory compliance.
           </p>
+        </div>
+        <div className="flex items-center gap-3 mt-2">
+          <Checkk />
+          <p className="text-[20px] font-[500] "> Takes less than 2 minutes.</p>
         </div>
       </div>
       <Button

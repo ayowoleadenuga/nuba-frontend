@@ -120,12 +120,17 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                   return false;
                 }
 
-                // Check if Google Pay API is available
-                if (
-                  typeof window.google === "undefined" ||
-                  !window.google.payments
-                ) {
-                  console.warn("Google Pay API not available");
+                // Check if we're in a supported browser
+                const userAgent = navigator.userAgent.toLowerCase();
+                const isChrome =
+                  userAgent.includes("chrome") && !userAgent.includes("edg");
+                const isSafari =
+                  userAgent.includes("safari") && !userAgent.includes("chrome");
+
+                if (!isChrome && !isSafari) {
+                  console.warn(
+                    "Google Pay is only supported in Chrome and Safari"
+                  );
                   return false;
                 }
 
@@ -137,6 +142,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             };
 
             if (isGooglePaySupported()) {
+              console.log("Google Pay is supported, adding to config");
               config.googlePay = googlePay;
             } else {
               console.warn(
@@ -150,6 +156,9 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
           }
 
           try {
+            // const payButton = document.getElementById(
+            //   "pay-btn"
+            // ) as HTMLButtonElement;
             window.Ryft.init(config);
             ryftInitialized.current = true;
 
@@ -157,7 +166,9 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             window.Ryft.addEventHandler(
               "cardValidationChanged",
               (e: CardValidationEvent) => {
+                console.log("Card validation changed:", e);
                 setIsFormValid(e.isValid);
+                // payButton.disabled = !e.isValid;
               }
             );
 
@@ -188,10 +199,13 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             if (
               googlePay &&
               initError instanceof Error &&
-              initError.message &&
-              initError.message.includes("google")
+              (initError.message.includes("google") ||
+                initError.message.includes("manifest") ||
+                initError.message.includes("payment"))
             ) {
-              console.warn("Retrying initialization without Google Pay...");
+              console.warn(
+                "Google Pay initialization failed, retrying without Google Pay..."
+              );
               const fallbackConfig = { ...config };
               delete fallbackConfig.googlePay;
 
@@ -203,7 +217,9 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                 window.Ryft.addEventHandler(
                   "cardValidationChanged",
                   (e: CardValidationEvent) => {
+                    console.log("Card validation changed:", e);
                     setIsFormValid(e.isValid);
+                    // payButton.disabled = !e.isValid;
                   }
                 );
 
@@ -227,7 +243,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                 `;
                 document.head.appendChild(style);
 
-                // console.log("Ryft initialized successfully without Google Pay");
+                console.log("Ryft initialized successfully without Google Pay");
               } catch (fallbackError) {
                 console.error(
                   "Fallback initialization also failed:",
@@ -272,6 +288,40 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
     }
   }, [isLoading, onPaymentLoadingChange]);
 
+  // Debug useEffect to monitor state changes
+  //   useEffect(() => {
+  //     console.log("State changed:", {
+  //       isFormValid,
+  //       isLoading,
+  //       disabled,
+  //       buttonShouldBeDisabled: !isFormValid || isLoading || disabled,
+  //     });
+
+  //     // Check the actual button DOM element
+  //     const button = document.getElementById("pay-btn") as HTMLButtonElement;
+  //     if (button) {
+  //       console.log("Button DOM disabled attribute:", button.disabled);
+  //       console.log("Button DOM classes:", button.className);
+
+  //       // Force update the button's disabled state to match React state
+  //       const shouldBeDisabled = !isFormValid || isLoading || disabled;
+  //       if (button.disabled !== shouldBeDisabled) {
+  //         console.log("Forcing button disabled state to:", shouldBeDisabled);
+  //         button.disabled = shouldBeDisabled;
+  //       }
+
+  //       // Force update the button's classes
+  //       const expectedClasses = `w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors pay-button ${
+  //         shouldBeDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black"
+  //       }`;
+
+  //       if (button.className !== expectedClasses) {
+  //         console.log("Forcing button classes to:", expectedClasses);
+  //         button.className = expectedClasses;
+  //       }
+  //     }
+  //   }, [isFormValid, isLoading, disabled]);
+
   const handlePaymentResult = (paymentSession: PaymentSession): void => {
     setIsLoading(false);
 
@@ -298,12 +348,20 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
   };
 
   const handleSubmit = async (): Promise<void> => {
+    console.log("handleSubmit called with state:", {
+      isFormValid,
+      isLoading,
+      disabled,
+      ryftAvailable: !!window.Ryft,
+    });
+
     if (!window.Ryft) {
       setError("Payment system not initialized");
       return;
     }
 
     if (disabled) {
+      console.log("Payment blocked: disabled prop is true");
       return;
     }
 
@@ -311,9 +369,20 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
     setError("");
 
     try {
+      console.log("Attempting payment with Ryft...");
+
+      // Check if Ryft has any validation methods
+      if ((window.Ryft as any).validateForm) {
+        console.log("Ryft has validateForm method, calling it...");
+        const validationResult = (window.Ryft as any).validateForm();
+        console.log("Validation result:", validationResult);
+      }
+
       const paymentSession = await window.Ryft.attemptPayment();
+      console.log("Payment result:", paymentSession);
       handlePaymentResult(paymentSession);
     } catch (error) {
+      console.error("Payment error:", error);
       setIsLoading(false);
       const errorMessage = "Payment failed. Please try again.";
       setError(errorMessage);
@@ -338,6 +407,39 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
       </div>
     );
   }
+  console.log(
+    "form validity is",
+    isFormValid,
+    "is loading is",
+    isLoading,
+    "disabled is",
+    disabled
+  );
+
+  const buttonDisabled = !isFormValid || isLoading || disabled;
+  console.log("Button disabled state:", buttonDisabled);
+
+  // Function to check for Ryft overlays
+  const checkForRyftOverlays = () => {
+    const button = document.getElementById("pay-btn");
+    if (button) {
+      const rect = button.getBoundingClientRect();
+      const elementsAtPoint = document.elementsFromPoint(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+      );
+      console.log("Elements at button center:", elementsAtPoint);
+
+      // Check if any Ryft elements are overlaying the button
+      const ryftElements = elementsAtPoint.filter(
+        el =>
+          el.classList.contains("ryft") ||
+          el.id.includes("ryft") ||
+          el.className.includes("ryft")
+      );
+      console.log("Ryft elements overlaying button:", ryftElements);
+    }
+  };
 
   return (
     <div
@@ -347,13 +449,29 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
         <div id="ryft-pay-form" className="Ryft--payform space-y-4">
           <button
             id="pay-btn"
+            key={`${isFormValid}-${isLoading}-${disabled}`}
             type="button"
-            onClick={handleSubmit}
-            disabled={!isFormValid || isLoading || disabled}
+            onClick={e => {
+              console.log("Button clicked! Event:", e);
+              console.log("Button element:", e.target);
+              console.log(
+                "Button disabled attribute:",
+                (e.target as HTMLButtonElement).disabled
+              );
+              console.log(
+                "Button pointer-events style:",
+                (e.target as HTMLButtonElement).style.pointerEvents
+              );
+              checkForRyftOverlays();
+
+              // Simple test to see if click is working
+              // alert("Button click detected! Testing if click works.");
+
+              handleSubmit();
+            }}
+            disabled={buttonDisabled}
             className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors pay-button ${
-              !isFormValid || isLoading || disabled
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#CF931D] hover:bg-[#CF931D] active:bg-[#CF931D] "
+              buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black  "
             }`}
             aria-label={isLoading ? "Processing payment" : "Submit payment"}
           >
