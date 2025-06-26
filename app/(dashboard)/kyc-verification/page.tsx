@@ -65,7 +65,7 @@ const kycVerification = () => {
     <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center text-[#0B2233] ">
       <Note />
 
-      <p className="font-[600] text-[28px] text-center w-[60%] ">
+      <p className="font-[600] text-[18px] md:text-[28px] text-center w-[90%] md:w-[60%] ">
         Just a quick ID check!
         <br /> We verify your identity to protect your payments and meet UK
         regulations.

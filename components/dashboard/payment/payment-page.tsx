@@ -118,6 +118,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </button>
             </div>
           </div>
+          <p>{makePayment}</p>
           {makePayment === "" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
               <div className="cardStyle bg-white h-fit  ">

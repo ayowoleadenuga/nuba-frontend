@@ -62,7 +62,6 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   const {
     data: clientSecretData,
     isLoading: initiatePaymentLoading,
-    isSuccess: initatePaymentSuccess,
     isError: initiatePaymentError,
   } = useInitiatePaymentQuery();
 
@@ -113,6 +112,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
                     Error generating client secret.
                   </p>
                 )}
+
                 {clientSecretData?.data?.token && !initiatePaymentLoading && (
                   <RyftPayment
                     addPayment={addPayment}

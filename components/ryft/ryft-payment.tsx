@@ -96,6 +96,10 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
           const config: RyftConfig = {
             publicKey,
             clientSecret,
+            usage: "setupCard",
+            fieldCollection: {
+              nameOnCard: true,
+            },
           };
 
           // Add optional configurations
@@ -337,6 +341,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
     }
 
     if (paymentSession.lastError && window.Ryft) {
+      console.log("user last error", paymentSession.lastError);
       const userFacingError = window.Ryft.getUserFacingErrorMessage(
         paymentSession.lastError
       );
@@ -419,28 +424,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
   const buttonDisabled = !isFormValid || isLoading || disabled;
   console.log("Button disabled state:", buttonDisabled);
 
-  // Function to check for Ryft overlays
-  const checkForRyftOverlays = () => {
-    const button = document.getElementById("pay-btn");
-    if (button) {
-      const rect = button.getBoundingClientRect();
-      const elementsAtPoint = document.elementsFromPoint(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2
-      );
-      console.log("Elements at button center:", elementsAtPoint);
-
-      // Check if any Ryft elements are overlaying the button
-      const ryftElements = elementsAtPoint.filter(
-        el =>
-          el.classList.contains("ryft") ||
-          el.id.includes("ryft") ||
-          el.className.includes("ryft")
-      );
-      console.log("Ryft elements overlaying button:", ryftElements);
-    }
-  };
-
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-lg shadow-lg p-6 ryft-payment-component ${className}`}
@@ -451,24 +434,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             id="pay-btn"
             key={`${isFormValid}-${isLoading}-${disabled}`}
             type="button"
-            onClick={e => {
-              console.log("Button clicked! Event:", e);
-              console.log("Button element:", e.target);
-              console.log(
-                "Button disabled attribute:",
-                (e.target as HTMLButtonElement).disabled
-              );
-              console.log(
-                "Button pointer-events style:",
-                (e.target as HTMLButtonElement).style.pointerEvents
-              );
-              checkForRyftOverlays();
-
-              // Simple test to see if click is working
-              // alert("Button click detected! Testing if click works.");
-
-              handleSubmit();
-            }}
+            onClick={handleSubmit}
             disabled={buttonDisabled}
             className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors pay-button ${
               buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black  "

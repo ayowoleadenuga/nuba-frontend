@@ -36,11 +36,11 @@ const NewPaymentMethodRyft = () => {
 
   const handleSuccess = () => {
     toast.success("New Payment Method Created");
-    dispatch(
-      updateUserOnboardingStatus({
-        isOnboarded: clientSecretData?.message === "success",
-      })
-    );
+    // dispatch(
+    //   updateUserOnboardingStatus({
+    //     isOnboarded: clientSecretData?.message === "success",
+    //   })
+    // );
     router.push("/dashboard");
   };
 
@@ -78,8 +78,10 @@ const NewPaymentMethodRyft = () => {
               billingAddress: {
                 display: "minimum", // "full", "minimum", or "none"
               },
+              nameOnCard: true,
             }}
             className=""
+            // usage
           />
         </div>
       )}

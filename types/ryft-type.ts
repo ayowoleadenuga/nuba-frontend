@@ -14,6 +14,7 @@ export interface FieldCollectionConfig {
   billingAddress?: {
     display: "full" | "minimum" | "none";
   };
+  nameOnCard: boolean;
 }
 
 export interface PaymentMethod {
@@ -28,6 +29,7 @@ export interface RyftConfig {
   applePay?: ApplePayConfig;
   googlePay?: GooglePayConfig;
   fieldCollection?: FieldCollectionConfig;
+  usage: string;
 }
 
 export interface PaymentSession {

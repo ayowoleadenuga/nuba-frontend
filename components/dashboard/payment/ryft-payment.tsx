@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const RyftPayment = ({
   clientSecret,
   addPayment = true,
-  buttonText,
+  buttonText = "Save Card",
 }: {
   clientSecret: string | undefined;
   addPayment?: boolean;
@@ -62,6 +62,7 @@ const RyftPayment = ({
           billingAddress: {
             display: "minimum", // "full", "minimum", or "none"
           },
+          nameOnCard: true,
         }}
       />
     </div>
