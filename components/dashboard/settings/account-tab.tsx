@@ -1,7 +1,10 @@
 "use client";
 import NubaInput from "@/components/ui/nuba-input";
 import { Accordion } from "@/components/ui/accordion";
-import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
+import {
+  useGetPaymentMethodsQuery,
+  useSetDefaultPaymentMethodMutation,
+} from "@/redux/features/paymentsApiSlice";
 import { setSettingsField } from "@/redux/features/settings-slice";
 import { RootState } from "@/redux/store";
 import { AccountTabProps, SettingsState } from "@/types";
@@ -16,6 +19,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { formatDate } from "@/utils";
 import empty from "@/assets/gif/empty.gif";
 import Image from "next/image";
+import { nubaApis } from "@/services/api-services";
 
 const AccountTab: FC<AccountTabProps> = ({
   setRentDueDate,
@@ -29,9 +33,10 @@ const AccountTab: FC<AccountTabProps> = ({
   const handleChange = (field: keyof SettingsState, value: string) => {
     dispatch(setSettingsField({ field, value }));
   };
-  const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
+  // const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
 
-  const { data: paymentMethods } = useGetPaymentMethodsQuery();
+  const { data: paymentMethods, refetch: refreshPaymentMethods } =
+    useGetPaymentMethodsQuery();
   const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
   const firstRentId = rents?.data?.[0]?.id;
 
@@ -46,6 +51,17 @@ const AccountTab: FC<AccountTabProps> = ({
       setRentId(rentDetail.id);
     }
   }, [rentDetail?.dueDate]);
+
+  const [setDefaultPaymentMethodMutation] =
+    useSetDefaultPaymentMethodMutation();
+
+  const handleSelectPaymentMethod = async (id: string) => {
+    await nubaApis.setDefaultPaymentMethod.handleSetDefaultPaymentMethod(
+      id,
+      setDefaultPaymentMethodMutation
+    );
+    refreshPaymentMethods();
+  };
 
   return (
     <div>
@@ -70,8 +86,8 @@ const AccountTab: FC<AccountTabProps> = ({
                   key={method.id}
                   method={method}
                   index={index}
-                  isActive={method.id === activeMethodId}
-                  onSelect={() => setActiveMethodId(method.id)}
+                  // isActive={method.id === activeMethodId}
+                  onSelect={() => handleSelectPaymentMethod(method.id)}
                 />
               ))}
             </Accordion>

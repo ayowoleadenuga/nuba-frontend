@@ -15,6 +15,7 @@ const RyftPaymentResponse = () => {
   const rentPaymentStatus = useSelector(
     (state: RootState) => state.payment.rentPaymentStatus
   );
+  const paymentId = useSelector((state: RootState) => state.payment.paymentId);
 
   return (
     <div>
@@ -44,7 +45,7 @@ const RyftPaymentResponse = () => {
         </p>
         {rentPaymentStatus === "success" ? (
           <button
-            onClick={() => router.push("/transactions/1")}
+            onClick={() => router.push(`/transactions/${paymentId}`)}
             className="flex items-center gap-1 underline"
           >
             View payment details <ArrowRightIcon />

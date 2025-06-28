@@ -53,7 +53,9 @@ const IncludePoints: React.FC<IncludePointsProps> = ({ setTab }) => {
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Paid Referrals</p>
-            <p className="text-[12px] text-grayText ">4</p>
+            <p className="text-[12px] text-grayText ">
+              {userReferral?.totalPaidReferrals}{" "}
+            </p>
           </div>
           <div className="flex items-center justify-between mt-5">
             <p className="text-[12px] text-grayText ">Points you have</p>

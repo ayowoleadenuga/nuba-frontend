@@ -15,8 +15,14 @@ import { useSearchParams } from "next/navigation";
 import { ErrorLogo } from "@/assets/svg/error-logo";
 
 const kycVerification = () => {
-  const [kycVerification, { isLoading: verificationLoading, isSuccess, data }] =
-    useKycVerificationMutation();
+  const [
+    kycVerification,
+    {
+      isLoading: verificationLoading,
+      isSuccess,
+      data: kycVerificationResponse,
+    },
+  ] = useKycVerificationMutation();
 
   const {
     data: userProfileDetails,
@@ -31,7 +37,7 @@ const kycVerification = () => {
   }, []);
 
   const searchParams = useSearchParams();
-  const verificationId = searchParams.get("verificationId");
+  const verificationId = searchParams.get("verificationStatus");
 
   const [
     triggerValidateKYC,
@@ -40,23 +46,29 @@ const kycVerification = () => {
 
   useEffect(() => {
     const handleValidateKYCStatus = async (kycId: string) => {
-      await nubaApis.kyc.handleValidateKYCStatus(kycId, triggerValidateKYC);
+      await nubaApis.kyc.handleValidateKYCStatus(
+        kycVerificationResponse?.data?.session_id ?? "",
+        triggerValidateKYC
+      );
     };
 
-    if (verificationId) {
-      handleValidateKYCStatus(verificationId);
+    if (
+      verificationId === "complete" &&
+      kycVerificationResponse?.data?.session_id
+    ) {
+      handleValidateKYCStatus(kycVerificationResponse?.data?.session_id);
     }
   }, [verificationId]);
 
   const handleVerifyUser = async () => {
-    await nubaApis.kyc.handleVerify(kycVerification);
-    //    {
-    //   callbackUrl: "https://www.nubarewards.com/payment",
-    //   callbackUrl: "http://localhost:3001/payment",
-    //   milestone: nextMilestone(),
-    // });
-    if (isSuccess) {
-      window.location.href === data?.data?.verification_url;
+    try {
+      const response = await nubaApis.kyc.handleVerify(kycVerification);
+      console.log("kyc res", response);
+      if (response?.data?.sessionUrl) {
+        window.location.href = response.data.sessionUrl;
+      }
+    } catch (error) {
+      console.error("KYC verification failed:", error);
     }
   };
   const router = useRouter();
@@ -85,7 +97,7 @@ const kycVerification = () => {
         </div>
         <div className="flex items-center gap-3 mt-2">
           <Checkk />
-          <p className="text-[20px] font-[500] "> Takes less than 2 minutes.</p>
+          <p className="text-[20px] font-[500] "> Takes less than 2 minutes.</p>
         </div>
       </div>
       <Button

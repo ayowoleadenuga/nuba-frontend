@@ -68,6 +68,13 @@ export const paymentsApi = createApi({
         invalidatesTags: ["User"],
       }
     ),
+
+    setDefaultPaymentMethod: builder.mutation({
+      query: (paymentMethodId: string) => ({
+        url: `user/payment-methods/${paymentMethodId}/default`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -80,4 +87,5 @@ export const {
   useGetUpcomingRentPaymentQuery,
   useGetDiscountQuery,
   useToggleAutoPayMutation,
+  useSetDefaultPaymentMethodMutation,
 } = paymentsApi;

@@ -60,7 +60,7 @@ const RyftPayment = ({
         }}
         fieldCollection={{
           billingAddress: {
-            display: "minimum", // "full", "minimum", or "none"
+            display: "full", // "full", "minimum", or "none"
           },
           nameOnCard: true,
         }}

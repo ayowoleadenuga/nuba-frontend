@@ -16,6 +16,7 @@ export type paymentSliceType = {
   };
   makePayment: "" | "start" | "complete" | "ryft";
   rentPaymentStatus: "success" | "" | "error";
+  paymentId: string;
 };
 
 const initialState: paymentSliceType = {
@@ -34,6 +35,7 @@ const initialState: paymentSliceType = {
   },
   makePayment: "",
   rentPaymentStatus: "",
+  paymentId: "",
 };
 
 export const paymentSlice = createSlice({
@@ -62,6 +64,9 @@ export const paymentSlice = createSlice({
     ) => {
       state.rentPaymentStatus = action.payload;
     },
+    setPaymentId: (state, action: PayloadAction<string>) => {
+      state.paymentId = action.payload;
+    },
   },
 });
 
@@ -71,5 +76,6 @@ export const {
   resetNewPaymentForm,
   setMakePayment,
   setRentPaymentStatus,
+  setPaymentId,
 } = paymentSlice.actions;
 export default paymentSlice.reducer;
