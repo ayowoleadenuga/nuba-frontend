@@ -45,16 +45,18 @@ const kycVerification = () => {
   ] = useLazyValidateKYCQuery();
 
   useEffect(() => {
-    const handleValidateKYCStatus = async () => {
-      const sessionId = localStorage.getItem("kyc_session_id") ?? "";
-      if (!sessionId) return;
-      await nubaApis.kyc.handleValidateKYCStatus(sessionId, triggerValidateKYC);
-      console.log("kyc response", kycResponse);
-      // localStorage.removeItem("kyc_session_id");
+    const handleValidateKYCStatus = async (kycId: string) => {
+      await nubaApis.kyc.handleValidateKYCStatus(
+        kycVerificationResponse?.data?.session_id ?? "",
+        triggerValidateKYC
+      );
     };
 
-    if (verificationId === "complete") {
-      handleValidateKYCStatus();
+    if (
+      verificationId === "complete" &&
+      kycVerificationResponse?.data?.session_id
+    ) {
+      handleValidateKYCStatus(kycVerificationResponse?.data?.session_id);
     }
   }, [verificationId]);
 
@@ -62,8 +64,7 @@ const kycVerification = () => {
     try {
       const response = await nubaApis.kyc.handleVerify(kycVerification);
       console.log("kyc res", response);
-      if (response?.data?.sessionUrl && response?.data?.session_id) {
-        localStorage.setItem("kyc_session_id", response.data.session_id);
+      if (response?.data?.sessionUrl) {
         window.location.href = response.data.sessionUrl;
       }
     } catch (error) {

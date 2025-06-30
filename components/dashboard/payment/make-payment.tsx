@@ -171,9 +171,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
           }
         );
         console.log("the make payment response is", response);
-
-        // response.status === "success"
-        if (response.message === "Payment Successfull") {
+        if (response.status === "success") {
           toast.success("Payment successful");
           setShowPaymentOptionModal(false);
           dispatch(setMakePayment("complete"));
@@ -328,9 +326,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({
                   transactionFee?.data?.fee
             }`}
           </Button>
-          <p className="text-[12px] mt-2 ">
-            Submitting this page will charge your default card and cannot be
-            undone
+          <p className="text-[12px] mt-5 text-red-500 ">
+            NOTE: Clicking Pay will debit your default card
           </p>
         </div>
       </div>
