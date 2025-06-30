@@ -72,7 +72,7 @@ const OtpForm = () => {
     <div className="flex flex-col items-center justify-center w-full md:w-[50%] lg:w-[35%] ">
       <VerifyBadge />
       <p className="text-center text-[24px] md:text-[28px] font-[600] my-10 ">
-        Enter the code sent to your email addrress
+        Enter the code sent to your email address
       </p>
       <div className="flex flex-col space-y-2 ">
         <div className="flex space-x-2">

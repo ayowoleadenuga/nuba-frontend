@@ -291,6 +291,7 @@ export interface Transaction {
   createdAt: string;
   completedAt: string | null;
   updatedAt: string;
+  fee: number;
 }
 
 export interface GetUserTransactionsResponse {
@@ -309,6 +310,7 @@ export interface GetUserTransactionFeeResponse {
 
 export interface PaymentMethod {
   id: string;
+  default: boolean;
   country: string;
   postcode: string;
   city: string;
@@ -387,7 +389,7 @@ export interface kycResponse {
   message: string;
   data: {
     session_id: string;
-    verification_url: string;
+    sessionUrl: string;
     timestamp: Date;
   };
 }
@@ -478,6 +480,7 @@ export interface ReferralData {
   referrals?: ReferralsEntity[] | null;
   points_left_to_redeem: PointsLeftToRedeem;
   totalPoints: number;
+  totalPaidReferrals: number;
 }
 
 export interface ReferralsDataResponse {

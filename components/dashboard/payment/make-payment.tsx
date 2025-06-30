@@ -9,15 +9,14 @@ import {
 import { AddIcon } from "@/assets/svg/add-icon";
 import ToggleSwitch from "@/components/ui/toggle-switch";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils";
-import NubaInput from "@/components/ui/nuba-input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
   paymentSliceType,
   resetNewPaymentForm,
   setMakePayment,
-  updatePaymentMethod,
+  setPaymentId,
+  setRentPaymentStatus,
 } from "@/redux/features/paymentSlice";
 import { paymentSchema } from "@/utils/validator";
 import {
@@ -26,6 +25,7 @@ import {
   useGetPaymentMethodsQuery,
   useInitiatePaymentQuery,
   useMakePaymentMutation,
+  useSetDefaultPaymentMethodMutation,
 } from "@/redux/features/paymentsApiSlice";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 import { nubaApis } from "@/services/api-services";
@@ -38,25 +38,36 @@ import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import empty from "@/assets/gif/empty.gif";
 import RyftPayment from "@/components/dashboard/payment/ryft-payment";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useRouter } from "nextjs-toploader/app";
+import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 
 export interface MakePaymentProps {
   paymentId: string | undefined;
   clientSecret: string | undefined;
   initiatePaymentLoading?: boolean;
   initiatePaymentError?: boolean;
+  handleInitiateRyft: () => void;
 }
 const MakePayment: React.FC<MakePaymentProps> = ({
   paymentId,
   clientSecret,
   initiatePaymentLoading,
   initiatePaymentError,
+  handleInitiateRyft,
 }) => {
   const [createPaymentMethodMutation] = useCreatePaymentMethodMutation();
   const dispatch = useDispatch();
+  const router = useRouter();
   const [isOn, setIsOn] = useState<boolean>(false);
-  const [saveCardDetails, setSaveCardDetails] = useState<boolean>(false);
-  const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
-  const { data: paymentMethods } = useGetPaymentMethodsQuery();
+  // const [saveCardDetails, setSaveCardDetails] = useState<boolean>(false);
+  const [showPaymentOptionModal, setShowPaymentOptionModal] = useState(false);
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState<
+    "default" | "new"
+  >("default");
+  // const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
+  const { data: paymentMethods, refetch: refreshPaymentMethods } =
+    useGetPaymentMethodsQuery();
 
   const { data: rents } = useGetUserRentsQuery();
   const firstRentId = rents?.data?.[0]?.id;
@@ -87,19 +98,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
   const [errors, setErrors] = useState<{
     [key in keyof paymentSliceType["newPaymentMethod"]]?: string;
   }>({});
-  // const formRef = useRef<HTMLFormElement | null>(null);
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(
-  //     updatePaymentMethod({
-  //       [e.target.name as keyof paymentSliceType["newPaymentMethod"]]:
-  //         e.target.value,
-  //     } as paymentSliceType["newPaymentMethod"])
-  //   );
-  //   setErrors(prevErrors => ({
-  //     ...prevErrors,
-  //     [e.target.name]: "",
-  //   }));
-  // };
+
   const { data: discount, isLoading: discountLoading } = useGetDiscountQuery();
   const { data: userProfileDetails } = useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
@@ -159,9 +158,6 @@ const MakePayment: React.FC<MakePaymentProps> = ({
     dispatch(resetNewPaymentForm());
   };
 
-  // env.NODE_ENV === "development"
-  //   ? "http://localhost:3001/payment"
-  //   : "https://www.nubarewards.com/payment",
   const handleMakePayment = async () => {
     if (paymentId) {
       try {
@@ -174,12 +170,54 @@ const MakePayment: React.FC<MakePaymentProps> = ({
             milestone: nextMilestone(),
           }
         );
+        console.log("the make payment response is", response);
 
-        dispatch(setMakePayment("ryft"));
+        // response.status === "success"
+        if (response.message === "Payment Successfull") {
+          toast.success("Payment successful");
+          setShowPaymentOptionModal(false);
+          dispatch(setMakePayment("complete"));
+          dispatch(setRentPaymentStatus("success"));
+          dispatch(setPaymentId(response?.data?.reference));
+          console.log("payment id is", response);
+          // dispatch(setMakePayment("ryft"));
+        }
       } catch (error) {
+        toast.error("Payment failed");
+        dispatch(setMakePayment("complete"));
+        dispatch(setRentPaymentStatus("error"));
         console.error("Payment error:", error);
       }
     }
+  };
+  const {
+    data: transactionFee,
+    refetch: refetchTransactionFee,
+    isFetching: isFetchingFee,
+    isSuccess: isFeeSuccess,
+  } = useGetUserTransactionFeeQuery();
+
+  console.log("fee is", transactionFee, "isfetchin fee is", isFetchingFee);
+
+  // const handleContinuePayment = () => {
+  //   if (selectedPaymentOption === "default") {
+  //     handleMakePayment();
+  //   } else {
+  //     router.push("/ryft");
+  //     // handleInitiateRyft();
+  //     // dispatch(setMakePayment("ryft"));
+  //   }
+  // };
+
+  const [setDefaultPaymentMethodMutation] =
+    useSetDefaultPaymentMethodMutation();
+
+  const handleSelectPaymentMethod = async (id: string) => {
+    await nubaApis.setDefaultPaymentMethod.handleSetDefaultPaymentMethod(
+      id,
+      setDefaultPaymentMethodMutation
+    );
+    refreshPaymentMethods();
   };
 
   return (
@@ -192,8 +230,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({
               key={method.id}
               method={method}
               index={index}
-              isActive={method.id === activeMethodId}
-              onSelect={() => setActiveMethodId(method.id)}
+              // isActive={method.id === activeMethodId}
+              onSelect={() => handleSelectPaymentMethod(method.id)}
             />
           ))}
           {paymentMethods?.data?.length === 0 && (
@@ -233,141 +271,6 @@ const MakePayment: React.FC<MakePaymentProps> = ({
                   buttonText="Add Card"
                 />
               )}
-              {/* <form onSubmit={handleSubmit} ref={formRef} className="w-full ">
-                <NubaInput
-                  containerClass={"w-full mt-2"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Card holder Name (as it appears on the card)"
-                  value={cardName}
-                  name="cardName"
-                  onChange={handleChange}
-                />
-                {errors.cardName && (
-                  <p className="text-red-500 text-[12px]">{errors.cardName}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Card Number"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={cardNumber}
-                  name="cardNumber"
-                  onChange={handleChange}
-                />
-                {errors.cardNumber && (
-                  <p className="text-red-500 text-[12px]">
-                    {errors.cardNumber}
-                  </p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="CVV/CVC Code (3 digits on back, 4 for Amex)"
-                  value={cvc}
-                  name="cvc"
-                  onChange={handleChange}
-                />
-                {errors.cvc && (
-                  <p className="text-red-500 text-[12px]">{errors.cvc}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Expiration Date (MM/YY)"
-                  placeholder="MM/YY"
-                  value={mmYY}
-                  name="mmYY"
-                  onChange={handleChange}
-                />
-                {errors.mmYY && (
-                  <p className="text-red-500 text-[12px]">{errors.mmYY}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Country"
-                  value={country}
-                  name="country"
-                  onChange={handleChange}
-                />
-                {errors.country && (
-                  <p className="text-red-500 text-[12px]">{errors.country}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="State / Province"
-                  value={state}
-                  name="state"
-                  onChange={handleChange}
-                />
-                {errors.state && (
-                  <p className="text-red-500 text-[12px]">{errors.state}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="City"
-                  value={city}
-                  name="city"
-                  onChange={handleChange}
-                />
-                {errors.city && (
-                  <p className="text-red-500 text-[12px]">{errors.city}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Postcode / ZIP"
-                  value={postcode}
-                  name="postcode"
-                  onChange={handleChange}
-                />
-                {errors.postcode && (
-                  <p className="text-red-500 text-[12px]">{errors.postcode}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Address Line 1"
-                  value={address}
-                  name="address"
-                  onChange={handleChange}
-                />
-                {errors.address && (
-                  <p className="text-red-500 text-[12px]">{errors.address}</p>
-                )}
-
-                <NubaInput
-                  containerClass={"w-full mt-6 mb-6"}
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px]"
-                  label="Address Line 2 (optional)"
-                  value={address_2}
-                  name="address_2"
-                  onChange={handleChange}
-                />
-                {errors.address_2 && (
-                  <p className="text-red-500 text-[12px]">{errors.address_2}</p>
-                )}
-
-                <button
-                  type="submit"
-                  className={cn(
-                    "w-full text-white h-[54px] mt-[30px] rounded-[4px] text-[14px] font-[700] bg-black"
-                  )}
-                >
-                  Add
-                </button>
-              </form> */}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -376,7 +279,10 @@ const MakePayment: React.FC<MakePaymentProps> = ({
         <div className="bg-white border border-border px-4 py-6 flex items-center justify-between rounded-[4px] ">
           <p className="text-[14px] font-[500] ">Payment amount</p>
           <p className="text-[14px] font-[600] ">
-            £{rentDetail?.monthlyPrice?.toLocaleString()}
+            £
+            {rentDetail &&
+              rentDetail?.monthlyPrice?.toLocaleString() +
+                transactionFee?.data?.fee}
           </p>
         </div>
         <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
@@ -400,35 +306,91 @@ const MakePayment: React.FC<MakePaymentProps> = ({
         </div>
         <div className="bg-white border border-border px-4 py-6  mt-1 ">
           <Button
-            disabled={
-              makingPaymentLoading || discountLoading || !saveCardDetails
-            }
+            disabled={makingPaymentLoading || discountLoading || isFetchingFee}
             onClick={handleMakePayment}
+            // onClick={() => setShowPaymentOptionModal(true)}
             className="w-full"
           >
             {makingPaymentLoading
               ? "Processing"
               : ` Pay £
             ${
-              isOn && rentDetail?.monthlyPrice && discount?.data?.discount
+              isOn &&
+              rentDetail?.monthlyPrice &&
+              discount?.data?.discount &&
+              isFeeSuccess
                 ? (
-                    rentDetail?.monthlyPrice + discount?.data?.discount
+                    rentDetail?.monthlyPrice +
+                    transactionFee?.data?.fee -
+                    discount?.data?.discount
                   ).toLocaleString()
-                : (rentDetail?.monthlyPrice ?? 0).toLocaleString()
+                : (rentDetail?.monthlyPrice ?? 0).toLocaleString() +
+                  transactionFee?.data?.fee
             }`}
           </Button>
-          <span className="text-[10px] mt-2  flex items-start justify-center gap-1">
-            <input
-              type="checkbox"
-              className="accent-brandCore-orange w-4 h-4 rounded-[16px] "
-              checked={saveCardDetails}
-              onChange={() => setSaveCardDetails(!saveCardDetails)}
-            />
-            Submitting this page will save your card details and be used for
-            your future transactions
-          </span>
+          <p className="text-[12px] mt-2 ">
+            Submitting this page will charge your default card and cannot be
+            undone
+          </p>
         </div>
       </div>
+
+      {showPaymentOptionModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40"
+          onClick={() => setShowPaymentOptionModal(false)}
+        >
+          <div
+            className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg relative"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-3 right-3 w-8 h-8 hover:bg-gray-100 rounded-full"
+              onClick={() => setShowPaymentOptionModal(false)}
+              aria-label="Close"
+            >
+              <p className="font-[700] text-[10px] ">X</p>
+            </button>
+            <h2 className=" font-semibold mb-4">
+              Please Select option to pay with
+            </h2>
+            <div className="mb-4 text-[14px] ">
+              <label className=" cursor-pointer flex items-center mb-2">
+                <input
+                  type="radio"
+                  name="paymentOption"
+                  value="default"
+                  checked={selectedPaymentOption === "default"}
+                  onChange={() => setSelectedPaymentOption("default")}
+                  className="mr-2 accent-black"
+                />
+                Default Card
+              </label>
+              <label className=" cursor-pointer flex items-center">
+                <input
+                  type="radio"
+                  name="paymentOption"
+                  value="new"
+                  checked={selectedPaymentOption === "new"}
+                  onChange={() => setSelectedPaymentOption("new")}
+                  className="mr-2 accent-black  "
+                />
+                Use a new card
+              </label>
+            </div>
+            <Button
+              disabled={makingPaymentLoading}
+              className="w-full"
+              // onClick={handleContinuePayment}
+            >
+              {makingPaymentLoading || initiatePaymentLoading
+                ? "Processing"
+                : ` Continue
+           `}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

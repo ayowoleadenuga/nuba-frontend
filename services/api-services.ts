@@ -105,6 +105,10 @@ export type UpdateRentDueDateTrigger = (payload: UpdateRentDueDatePayload) => {
   unwrap: () => Promise<any>;
 };
 
+export type setDefaultPaymentMethodTrigger = (paymentMethodId: string) => {
+  unwrap: () => Promise<any>;
+};
+
 export const nubaApis = {
   sendEmail: (
     form: React.RefObject<HTMLFormElement | null>,
@@ -126,7 +130,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          error => {
+          (error) => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -308,7 +312,6 @@ export const nubaApis = {
         await createPaymentMethodMutation(payload).unwrap();
         toast.success("Payment method created successfully");
       } catch (error: any) {
-        console.error(error);
         toast.error(error?.data?.message || "Failed to create payment method");
       }
     },
@@ -328,7 +331,6 @@ export const nubaApis = {
     ) => {
       try {
         return await makePayment({ paymentId, payload }).unwrap();
-        // toast.success("Payment successful");
       } catch (error: any) {
         console.error(error);
         // toast.error(error?.data?.message || "Failed to initiate payment");
@@ -362,6 +364,22 @@ export const nubaApis = {
     },
   },
 
+  setDefaultPaymentMethod: {
+    handleSetDefaultPaymentMethod: async (
+      paymentMethodId: string,
+      setDefaultPaymentMethodMutation: setDefaultPaymentMethodTrigger
+    ) => {
+      try {
+        await setDefaultPaymentMethodMutation(paymentMethodId).unwrap();
+        toast.success("Default payment method set successfully");
+      } catch (error: any) {
+        toast.error(
+          error?.data?.message || "Failed to set default payment method"
+        );
+      }
+    },
+  },
+
   getGoogleLoginUrl: {
     handleGetGoogleLoginUrl: async (
       triggerGoogleLoginUrl: () => Promise<any>
@@ -377,7 +395,6 @@ export const nubaApis = {
           toast.error("Google login URL not found");
         }
       } catch (error: any) {
-        console.error("Google login failed:", error);
         toast.error(
           error?.data?.message || error?.message || "Google login failed"
         );
@@ -428,7 +445,6 @@ export const nubaApis = {
           }
         }
       } catch (error: any) {
-        console.error("Google login failed", error);
         toast.error(error?.data?.message || "Google login failed");
       }
     },
@@ -454,13 +470,15 @@ export const nubaApis = {
       // payload: paymentInitiationPayload
     ) => {
       try {
-        await verify().unwrap();
+        const response = await verify().unwrap();
         toast.success("KYC Verification initiated successfully");
+        return response;
       } catch (error: any) {
         console.error(error);
         toast.error(
           error?.data?.message || "Failed to initiate KYC Verification"
         );
+        throw error;
       }
     },
     handleValidateKYCStatus: async (

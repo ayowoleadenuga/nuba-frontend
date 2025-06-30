@@ -81,7 +81,7 @@ const TransactionDetails = () => {
       {/* Printable Section */}
       <div
         ref={receiptRef}
-        className="w-full md:w-[60%] xl:w-[45%] bg-white p-4 mt-5"
+        className="w-full md:w-[70%] xl:w-[50%] bg-white p-4 mt-5"
       >
         <p className="font-[600] text-[12px] mt-3">Transaction details</p>
         <div className="border border-[#D9D9D9] rounded-[4px] flex items-center justify-between p-2 md:p-5 mt-1">
@@ -97,7 +97,9 @@ const TransactionDetails = () => {
               <p>Sent</p>
             </div>
           </div>
-          <p className="text-[24px]">-{userTransaction?.amountPaid}</p>
+          <p className="text-[24px]">
+            - £{Number(userTransaction?.amount).toLocaleString()}
+          </p>
         </div>
 
         <p className="text-[12px] mt-6 mb-5">Details</p>
@@ -123,15 +125,25 @@ const TransactionDetails = () => {
           </div>
           <div className="flex items-center justify-between py-3">
             <p className="text-[#2A4152]">Rent amount</p>
-            <p>{userTransaction?.amount}</p>
+            <p>£{Number(userTransaction?.amount).toLocaleString()}</p>
           </div>
           <div className="flex items-center justify-between py-3">
             <p className="text-[#2A4152]">Fees</p>
-            <p>19.00</p>
+            <p>£{userTransaction?.fee} </p>
+          </div>
+          <div className="flex items-center justify-between py-3 ">
+            <p>Discount</p>
+            <p> £{userTransaction?.discount}</p>
           </div>
           <div className="flex items-center justify-between py-3 font-[700]">
             <p>Total</p>
-            <p>1,219.00</p>
+            <p>
+              {" "}
+              £
+              {userTransaction
+                ? userTransaction?.amount + userTransaction?.fee
+                : "Loading..."}
+            </p>
           </div>
         </div>
       </div>

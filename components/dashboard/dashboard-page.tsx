@@ -63,9 +63,7 @@ const DashboardPage = () => {
 
   return (
     <div className="py-6 px-4">
-      <p className="font-[600] text-[12px] ">
-        Welcome {userProfile?.firstName},
-      </p>
+      <p className="font-[600]  ">Welcome {userProfile?.firstName},</p>
 
       <div className=" border-b border-b-[#D9D9D9] pb-5">
         {isRentsError || isRentDetailsError ? (

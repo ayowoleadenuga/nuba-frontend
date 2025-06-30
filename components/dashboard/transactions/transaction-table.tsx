@@ -79,55 +79,63 @@ const TransactionTable = () => {
     return <p className="text-center py-8">No transactions found.</p>;
   }
 
-  const sortedData = [...transactions].sort((a, b) => {
-    const valA = a?.[sortBy] ?? "";
-    const valB = b?.[sortBy] ?? "";
+  // const sortedData = [...transactions].sort((a, b) => {
+  //   const valA = a?.[sortBy] ?? "";
+  //   const valB = b?.[sortBy] ?? "";
 
-    if (valA < valB) return ascending ? -1 : 1;
-    if (valA > valB) return ascending ? 1 : -1;
-    return 0;
-  });
+  //   if (valA < valB) return ascending ? -1 : 1;
+  //   if (valA > valB) return ascending ? 1 : -1;
+  //   return 0;
+  // });
 
   const offset = currentPage * itemsPerPage;
-  const paginatedData = sortedData.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(sortedData.length / itemsPerPage);
+  // const paginatedData = sortedData.slice(offset, offset + itemsPerPage);
+  // const pageCount = Math.ceil(sortedData.length / itemsPerPage);
+  const paginatedData = transactions.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(transactions.length / itemsPerPage);
 
   return (
     <div className="overflow-x-auto mt-6 px-2 md:block hidden">
       <table className="w-[95%] text-sm text-left">
         <thead className="w-full">
           <tr className="font-[600] text-[12px] w-full">
+            <th className="w-[5%] ">S/N</th>
             <th
-              className="cursor-pointer w-[20%]"
-              onClick={() => handleSort("createdAt")}
+              className="cursor-pointer w-[15%]"
+              // onClick={() => handleSort("createdAt")}
             >
-              Payment Date {sortBy === "createdAt" && (ascending ? "↑" : "↓")}
+              Payment Date
+              {/* {sortBy === "createdAt" && (ascending ? "↑" : "↓")} */}
             </th>
             <th
               className="cursor-pointer w-[15%]"
-              onClick={() => handleSort("status")}
+              // onClick={() => handleSort("status")}
             >
-              Status {sortBy === "status" && (ascending ? "↑" : "↓")}
+              Status
+              {/* {sortBy === "status" && (ascending ? "↑" : "↓")} */}
             </th>
             <th
               className="cursor-pointer w-[30%]"
-              onClick={() => handleSort("cardType")}
+              // onClick={() => handleSort("cardType")}
             >
-              Card {sortBy === "cardType" && (ascending ? "↑" : "↓")}
+              Card
+              {/* {sortBy === "cardType" && (ascending ? "↑" : "↓")} */}
             </th>
             <th className="w-[15%]">Referral Discount</th>
             <th
               className="cursor-pointer w-[15%]"
-              onClick={() => handleSort("amount")}
+              // onClick={() => handleSort("amount")}
             >
-              Rent Amount {sortBy === "amount" && (ascending ? "↑" : "↓")}
+              Rent Amount
+              {/* {sortBy === "amount" && (ascending ? "↑" : "↓")} */}
             </th>
             <th className="w-[5%]">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map(tx => (
+          {paginatedData.map((tx, index: number) => (
             <tr key={tx.id} className="h-12">
+              <td>{offset + index + 1} </td>
               <td>{format(new Date(tx.createdAt), "dd/MM/yyyy")}</td>
               <td>
                 <div className="flex items-center gap-2">
@@ -141,7 +149,8 @@ const TransactionTable = () => {
               </td>
               <td className="pr-10">
                 <div className="flex items-center gap-2 justify-between">
-                  {tx.cardType === "Amex" ? (
+                  {tx?.cardType}
+                  {/* {tx.cardType === "Amex" ? (
                     <div className="flex items-center gap-2">
                       <Image src={ammexCard} alt="Amex" />
                       <p>Amex Card</p>
@@ -152,11 +161,11 @@ const TransactionTable = () => {
                       <p>Mastercard</p>
                     </div>
                   )}
-                  <span>..{tx.paymentMethod.slice(-4)}</span>
+                  <span>..{tx.paymentMethod.slice(-4)}</span> */}
                 </div>
               </td>
               <td>{tx.discount}</td>
-              <td>${Number(tx.amount).toFixed(2)}</td>
+              <td>${Number(tx.amount).toLocaleString()}</td>
               <td>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

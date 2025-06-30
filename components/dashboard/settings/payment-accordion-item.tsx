@@ -10,14 +10,14 @@ import paymentCard from "@/assets/png/payment-card.png";
 interface PaymentAccordionItemProps {
   method: PaymentMethod;
   index: number;
-  isActive: boolean;
+  // isActive: boolean;
   onSelect: () => void;
 }
 
 const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
   method,
   index,
-  isActive,
+  // isActive,
   onSelect,
 }) => {
   return (
@@ -27,7 +27,17 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
       className="cursor-pointer"
     >
       <AccordionTrigger className="flex items-center justify-between gap-2 relative bg-[#F1F1F1] px-3">
-        <p className="font-[500] text-[14px]">{method.cardName}</p>
+        <div className="flex gap-2">
+          {method.default && (
+            <span className="bg-white border-[#474747] border-[2px] rounded-full w-4 h-4 flex items-center justify-center ">
+              <span className="bg-black rounded-full w-2 h-2"></span>
+            </span>
+          )}
+          {!method.default && (
+            <span className="bg-white border-[#474747] border-[2px] rounded-full w-4 h-4 flex items-center justify-center "></span>
+          )}
+          <p className="font-[500] text-[14px]">{method.cardName}</p>
+        </div>
         <div className="absolute right-8 top-4 flex items-center gap-2">
           <Image src={paymentCard} alt="card" className="w-7 h-5 " />
           <p>{method.lastDigits}</p>
@@ -48,8 +58,10 @@ const PaymentAccordionItem: React.FC<PaymentAccordionItemProps> = ({
               </p>
             </div>
           </div>
-          {isActive && (
-            <span className="bg-[#27AE60] border-[#474747] border rounded-full w-4 h-4"></span>
+          {method.default && (
+            <span className="bg-white border-[#474747] border-[2px] rounded-full w-4 h-4 flex items-center justify-center ">
+              <span className="bg-black rounded-full w-2 h-2"></span>
+            </span>
           )}
         </div>
       </AccordionContent>

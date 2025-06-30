@@ -15,10 +15,14 @@ const TenancyAgreementUpload = () => {
     useUploadTenancyAgreementMutation();
   const [file, setFile] = useState<File | null>(null);
 
+  const { paymentReference } = useSelector(
+    (state: RootState) => state.signup.formData
+  );
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      setFile(selectedFile); // Not in Redux
+      setFile(selectedFile);
     }
   };
 
@@ -49,7 +53,16 @@ const TenancyAgreementUpload = () => {
         selectedFile={file as File | null}
         name="tenancyAgreement"
       />
-
+      <NubaInput
+        containerClass={"w-full mt-7 "}
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Payment Reference"
+        name="paymentReference"
+        value={paymentReference}
+        onChange={e =>
+          dispatch(updateFormData({ paymentReference: e.target.value }))
+        }
+      />
       <Button
         disabled={!file || isLoading}
         className="w-full mt-10"

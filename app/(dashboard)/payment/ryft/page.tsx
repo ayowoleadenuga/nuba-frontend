@@ -1,3 +1,4 @@
+"use client";
 import RyftPayment from "@/components/dashboard/payment/ryft-payment";
 import { RyftPaymentComponent } from "@/components/ryft/ryft-payment";
 import { Loader } from "@/components/ui/loader";
@@ -12,7 +13,7 @@ import { useDispatch } from "react-redux";
 // import { RyftPaymentComponent } from "ryft-react";
 import { toast } from "sonner";
 
-const NewPaymentMethodRyft = () => {
+const Ryft = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const {
@@ -26,38 +27,24 @@ const NewPaymentMethodRyft = () => {
   useEffect(() => {
     const handleInitiatePayment = async () => {
       await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
-      if (isSuccess) {
-        // window.location.href === data?.data?.authorizationUrl;
-        // dispatch(setMakePayment("complete"));
-      }
     };
     handleInitiatePayment();
   }, []);
 
   const handleSuccess = () => {
     toast.success("New Payment Method Created");
-    // dispatch(
-    //   updateUserOnboardingStatus({
-    //     isOnboarded: clientSecretData?.message === "success",
-    //   })
-    // );
-    router.push("/dashboard");
+    router.push("/payment?ryft=new-card-added");
   };
 
   const handleFailed = () => {
     toast.error("Payment Method Creation Failed");
-    dispatch(
-      updateUserOnboardingStatus({
-        isOnboarded: clientSecretData?.message === "success",
-      })
-    );
   };
   return (
-    <div>
+    <div className="w-full flex items-center justify-center">
       {isSuccess && (
         <div className="bg-white p-6 rounded-xl text-center w-full max-w-md  relative">
           <p className="text-[24px] md:text-[28px] font-[600] text-center mb-10 ">
-            New Payment Method
+            Add Payment Method
           </p>
           <RyftPaymentComponent
             publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
@@ -76,7 +63,7 @@ const NewPaymentMethodRyft = () => {
             }}
             fieldCollection={{
               billingAddress: {
-                display: "full", // "full", "minimum", or "none"
+                display: "minimum", // "full", "minimum", or "none"
               },
               nameOnCard: true,
             }}
@@ -101,4 +88,4 @@ const NewPaymentMethodRyft = () => {
   );
 };
 
-export default NewPaymentMethodRyft;
+export default Ryft;

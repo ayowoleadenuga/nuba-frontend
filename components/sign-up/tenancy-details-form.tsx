@@ -157,6 +157,16 @@ const TenancyDetailsForm = () => {
         label="Rent Frequency"
         name="rentFrequency"
         value={formData?.rentFrequency}
+        dropdown
+        dropdownItems={[
+          "Monthly",
+          "Every 2 months",
+          "Every 3 months",
+          "Every 4 months",
+          "Every 5 months",
+          "Every 2 months",
+          "Yearly",
+        ]}
         onChange={handleChange}
       />
       {errors.rentFrequency && (

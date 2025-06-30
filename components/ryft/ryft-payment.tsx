@@ -97,9 +97,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             publicKey,
             clientSecret,
             usage: "setupCard",
-            fieldCollection: {
-              nameOnCard: true,
-            },
           };
 
           // Add optional configurations
@@ -291,40 +288,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
       onPaymentLoadingChange(isLoading);
     }
   }, [isLoading, onPaymentLoadingChange]);
-
-  // Debug useEffect to monitor state changes
-  //   useEffect(() => {
-  //     console.log("State changed:", {
-  //       isFormValid,
-  //       isLoading,
-  //       disabled,
-  //       buttonShouldBeDisabled: !isFormValid || isLoading || disabled,
-  //     });
-
-  //     // Check the actual button DOM element
-  //     const button = document.getElementById("pay-btn") as HTMLButtonElement;
-  //     if (button) {
-  //       console.log("Button DOM disabled attribute:", button.disabled);
-  //       console.log("Button DOM classes:", button.className);
-
-  //       // Force update the button's disabled state to match React state
-  //       const shouldBeDisabled = !isFormValid || isLoading || disabled;
-  //       if (button.disabled !== shouldBeDisabled) {
-  //         console.log("Forcing button disabled state to:", shouldBeDisabled);
-  //         button.disabled = shouldBeDisabled;
-  //       }
-
-  //       // Force update the button's classes
-  //       const expectedClasses = `w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors pay-button ${
-  //         shouldBeDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black"
-  //       }`;
-
-  //       if (button.className !== expectedClasses) {
-  //         console.log("Forcing button classes to:", expectedClasses);
-  //         button.className = expectedClasses;
-  //       }
-  //     }
-  //   }, [isFormValid, isLoading, disabled]);
 
   const handlePaymentResult = (paymentSession: PaymentSession): void => {
     setIsLoading(false);

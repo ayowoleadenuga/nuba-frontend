@@ -6,7 +6,7 @@ import { RefreshIcon } from "@/assets/svg/refresh-icon";
 import AutopayOff from "./autopay-off";
 import AutopayOn from "./autopay-on";
 import EarnedCard from "./earned-card";
-import React, { useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import MakePayment from "./make-payment";
 import PaymentResponse from "./payment-response";
 import { useRouter } from "nextjs-toploader/app";
@@ -16,7 +16,7 @@ import {
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { formatDateToDDMMYYYY } from "@/utils";
+import { formatDate3, formatDateToDDMMYYYY } from "@/utils";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setMakePayment,
@@ -37,7 +37,9 @@ interface PaymentPageProps {
     React.SetStateAction<"" | "autopay-setup" | "include-points">
   >;
 }
-const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
+const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
+  const [feeFetchedAt, setFeeFetchedAt] = useState<string | null>(null);
+
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -58,7 +60,24 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
     isLoading: upcomingRentPaymentsLoading,
   } = useGetUpcomingRentPaymentQuery(firstRentId ?? skipToken);
 
-  const { data: transactionFee } = useGetUserTransactionFeeQuery();
+  const {
+    data: transactionFee,
+    refetch: refetchTransactionFee,
+    isFetching: isFetchingFee,
+    isSuccess: isFeeSuccess,
+  } = useGetUserTransactionFeeQuery();
+
+  useEffect(() => {
+    if (!isFetchingFee && transactionFee?.data?.fee) {
+      const formattedDate = new Date().toLocaleString("en-us", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      setFeeFetchedAt(formattedDate);
+    }
+  }, [isFetchingFee, transactionFee?.data?.fee]);
 
   const {
     data: clientSecretData,
@@ -68,19 +87,34 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
     refetch,
   } = useInitiatePaymentQuery();
 
+  console.log("so the client secret data callinig itself", clientSecretData);
+
   const handleInitiatePayment = async () => {
+    // if (upcomingRentPaymentsList?.data?.id) {
+    //   await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
+    //   if (initatePaymentSuccess) {
+    //     dispatch(setMakePayment("start"));
+    //     // window.location.href === data?.data?.authorizationUrl;
+    //     // dispatch(setMakePayment("complete"));
+    //   }
+    // }
+    if (upcomingRentPaymentsList?.data?.id && clientSecretData?.data?.token) {
+      dispatch(setMakePayment("start"));
+    }
+  };
+
+  const handleInitiateRyft = async () => {
     if (upcomingRentPaymentsList?.data?.id) {
       await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
       if (initatePaymentSuccess) {
-        dispatch(setMakePayment("start"));
-        // window.location.href === data?.data?.authorizationUrl;
-        // dispatch(setMakePayment("complete"));
+        dispatch(setMakePayment("ryft"));
       }
     }
   };
 
   useEffect(() => {
     dispatch(setRentPaymentStatus(""));
+    dispatch(setMakePayment(""));
   }, []);
 
   return (
@@ -118,17 +152,22 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               </button>
             </div>
           </div>
-          <p>{makePayment}</p>
           {makePayment === "" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-4">
               <div className="cardStyle bg-white h-fit  ">
                 <div className="flex items-center justify-between">
                   <p className="font-[600] text-[14px] ">Charges</p>
                   <div className="flex items-center gap-1">
-                    <p className="text-[10px] text-[#474747] ">
-                      As of March 01, 1:07 PM
-                    </p>
-                    <button>
+                    {feeFetchedAt && (
+                      <p className="text-[10px] text-[#474747]">
+                        As of {feeFetchedAt}
+                      </p>
+                    )}
+
+                    <button
+                      onClick={refetchTransactionFee}
+                      className={isFetchingFee ? "animate-spin" : ""}
+                    >
                       <RefreshIcon />
                     </button>
                   </div>
@@ -146,7 +185,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                       </p>
                     </div>
                     <p className="font-[500] text-[14px] text-[#474747] ">
-                      £{rentDetail?.monthlyPrice?.toLocaleString()}
+                      £{rentDetail?.monthlyPrice?.toString()}
                     </p>
                   </div>
                 </div>
@@ -170,7 +209,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
                         rentDetail &&
                         rentDetail?.monthlyPrice +
                           (transactionFee?.data?.fee ?? 0)
-                      )?.toLocaleString()}
+                      )?.toString()}
                     </p>
                   </div>
                 </div>
@@ -198,10 +237,16 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ setTab }) => {
               clientSecret={clientSecretData?.data?.token}
               initiatePaymentLoading={initiatePaymentLoading}
               initiatePaymentError={initiatePaymentError}
+              handleInitiateRyft={handleInitiateRyft}
             />
           ) : makePayment === "ryft" ? (
-            <RyftPayment clientSecret={clientSecretData?.data?.token} />
+            <RyftPayment
+              addPayment={true}
+              clientSecret={clientSecretData?.data?.token}
+              buttonText="Add Card"
+            />
           ) : (
+            // <RyftPayment clientSecret={clientSecretData?.data?.token} />
             <RyftPaymentResponse />
           )}
         </div>
