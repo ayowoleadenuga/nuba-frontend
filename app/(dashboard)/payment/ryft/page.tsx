@@ -65,9 +65,10 @@ const Ryft = () => {
               billingAddress: {
                 display: "minimum", // "full", "minimum", or "none"
               },
-              nameOnCard: true,
+              // nameOnCard: true,
             }}
             className=""
+            loading={false}
             // usage
           />
         </div>

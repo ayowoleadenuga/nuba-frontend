@@ -14,7 +14,7 @@ export interface FieldCollectionConfig {
   billingAddress?: {
     display: "full" | "minimum" | "none";
   };
-  nameOnCard: boolean;
+  // nameOnCard: boolean;
 }
 
 export interface PaymentMethod {
@@ -47,7 +47,10 @@ export interface RyftError {
 export interface CardValidationEvent {
   isValid: boolean;
 }
-
+export interface billingAddressalidationEvent {
+  eventName: "billingAddressValidationChanged";
+  isValid: boolean;
+}
 export interface WalletPaymentEvent {
   paymentSession: PaymentSession;
 }
@@ -156,4 +159,6 @@ export interface RyftPaymentComponentProps {
    * @default false
    */
   disabled?: boolean;
+
+  loading: boolean;
 }

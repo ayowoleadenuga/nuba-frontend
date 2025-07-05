@@ -9,20 +9,22 @@ import { baseQueryWithReauth } from "./authApiSlice";
 export const transactionsApi = createApi({
   reducerPath: "transactionsApi",
   baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getUserTransactions: builder.query<GetUserTransactionsResponse, void>({
       query: () => "/user/transactions",
     }),
 
     getUserTransactionByRef: builder.query<GetUserTransactionsResponse, string>(
       {
-        query: (ref) => `/user/transactions/references/${ref}`,
+        query: ref => `/user/transactions/references/${ref}`,
       }
     ),
 
-    getUserTransactionFee: builder.query<GetUserTransactionFeeResponse, void>({
-      query: () => "/user/transactions/fee",
-    }),
+    getUserTransactionFee: builder.query<GetUserTransactionFeeResponse, string>(
+      {
+        query: (paymentId: string) => `/user/rent-payments/${paymentId}/fee`,
+      }
+    ),
   }),
 });
 

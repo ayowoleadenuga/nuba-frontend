@@ -148,7 +148,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   placeholder=""
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
                   value={firstName}
-                  onChange={(e) => handleChange("firstName", e.target.value)}
+                  onChange={e => handleChange("firstName", e.target.value)}
                 />
                 {errors.firstName && (
                   <p className="text-red-500 text-[12px]">{errors.firstName}</p>
@@ -159,7 +159,7 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   placeholder=""
                   inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
                   value={lastName}
-                  onChange={(e) => handleChange("lastName", e.target.value)}
+                  onChange={e => handleChange("lastName", e.target.value)}
                 />
                 {errors.lastName && (
                   <p className="text-red-500 text-[12px]">{errors.lastName}</p>
@@ -183,13 +183,25 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   inputMode="numeric"
                   pattern="[0-9]*"
                   value={phoneNumber}
-                  onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                  onChange={e => handleChange("phoneNumber", e.target.value)}
                 />
 
                 {errors.phoneNumber && (
                   <p className="text-red-500 text-[12px]">
                     {errors.phoneNumber}
                   </p>
+                )}
+                <NubaInput
+                  containerClass={"w-full mt-6"}
+                  label="Email"
+                  placeholder=""
+                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
+                  value={userProfile?.email}
+                  readOnly
+                  // onChange={(e) => handleChange("lastName", e.target.value)}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-[12px]">{errors.lastName}</p>
                 )}
               </div>
 

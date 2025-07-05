@@ -6,6 +6,7 @@ import {
   RyftError,
   CardValidationEvent,
   WalletPaymentEvent,
+  billingAddressalidationEvent,
 } from "@/types/ryft-type";
 
 // Global loading promise to prevent multiple simultaneous script loads
@@ -25,6 +26,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
   buttonText = "PAY NOW",
   disabled = false,
   onPaymentLoadingChange,
+  loading,
 }) => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -224,6 +226,15 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                   }
                 );
 
+                (window.Ryft.addEventHandler as any)(
+                  "billingAddressValidationChanged",
+                  (e: CardValidationEvent) => {
+                    console.log("Card validation changed:", e);
+                    setIsFormValid(e.isValid);
+                    // payButton.disabled = !e.isValid;
+                  }
+                );
+
                 if (applePay) {
                   window.Ryft.addEventHandler(
                     "walletPaymentSessionResult",
@@ -375,17 +386,8 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
       </div>
     );
   }
-  console.log(
-    "form validity is",
-    isFormValid,
-    "is loading is",
-    isLoading,
-    "disabled is",
-    disabled
-  );
 
-  const buttonDisabled = !isFormValid || isLoading || disabled;
-  console.log("Button disabled state:", buttonDisabled);
+  const buttonDisabled = !isFormValid || isLoading || disabled || loading;
 
   return (
     <div
@@ -402,9 +404,11 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors pay-button ${
               buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-black  "
             }`}
-            aria-label={isLoading ? "Processing payment" : "Submit payment"}
+            aria-label={
+              isLoading || loading ? "Processing payment" : "Submit payment"
+            }
           >
-            {isLoading ? (
+            {isLoading || loading ? (
               <span className="flex items-center justify-center">
                 <svg
                   className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

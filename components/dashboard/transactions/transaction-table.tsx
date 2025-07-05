@@ -15,8 +15,11 @@ import { Transaction, TransactionStatus } from "./constants";
 import { OptionsIcon } from "@/assets/svg/options-icon";
 import { ArrowRightIcon } from "@/assets/svg/arrow-right-icon";
 import { ArrowLeftIcon } from "@/assets/svg/arrow-left";
+import { capitalizeFirstLetter } from "@/utils";
+import paymentCard from "@/assets/png/payment-card.png";
 import masterCard from "@/assets/svg/mastercard-logo.svg";
-import ammexCard from "@/assets/svg/amex-card.svg";
+import ammex from "@/assets/svg/amex-card.svg";
+import visa from "@/assets/png/visa-logo.png";
 
 // type SortKey = keyof Transaction
 
@@ -144,24 +147,21 @@ const TransactionTable = () => {
                       tx.status
                     )} w-2 h-2 rounded-full`}
                   />
-                  {tx.status}
+                  {capitalizeFirstLetter(tx.status)}
                 </div>
               </td>
               <td className="pr-10">
-                <div className="flex items-center gap-2 justify-between">
-                  {tx?.cardType}
-                  {/* {tx.cardType === "Amex" ? (
-                    <div className="flex items-center gap-2">
-                      <Image src={ammexCard} alt="Amex" />
-                      <p>Amex Card</p>
-                    </div>
+                <div className="flex items-center gap-2 ">
+                  {tx.cardType === "Mastercard" ? (
+                    <Image src={masterCard} alt="card" className="w-7 h-5 " />
+                  ) : tx.cardType === "Visa" ? (
+                    <Image src={visa} alt="card" className="w-7 h-5 " />
+                  ) : tx.cardType === "Ammex" ? (
+                    <Image src={ammex} alt="card" className="w-7 h-5 " />
                   ) : (
-                    <div className="flex items-center gap-2">
-                      <Image src={masterCard} alt="Mastercard" />
-                      <p>Mastercard</p>
-                    </div>
+                    <Image src={paymentCard} alt="card" className="w-7 h-5 " />
                   )}
-                  <span>..{tx.paymentMethod.slice(-4)}</span> */}
+                  {tx?.cardType}
                 </div>
               </td>
               <td>{tx.discount}</td>

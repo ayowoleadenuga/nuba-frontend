@@ -124,3 +124,8 @@ export const dayOptions = Array.from({ length: 31 }, (_, i) => {
       : "th";
   return `${day}${suffix}`;
 });
+
+export const capitalizeFirstLetter = (str: string | undefined): string => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};

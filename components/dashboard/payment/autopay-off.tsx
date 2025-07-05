@@ -40,7 +40,12 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
   );
   const rentDetail = rentDetails?.data;
 
-  const { data: transactionFee } = useGetUserTransactionFeeQuery();
+  const { data: upcomingRentPaymentsList } = useGetUpcomingRentPaymentQuery(
+    firstRentId ?? skipToken
+  );
+  const { data: transactionFee } = useGetUserTransactionFeeQuery(
+    upcomingRentPaymentsList?.data?.id ?? skipToken
+  );
 
   const [setDefaultPaymentMethodMutation] =
     useSetDefaultPaymentMethodMutation();
@@ -78,15 +83,28 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
         </div>
 
         <Accordion type="single" collapsible className=" ">
-          {paymentMethods?.data?.map((method, index: number) => (
-            <PaymentAccordionItem
-              key={method.id}
-              method={method}
-              index={index}
-              // isActive={method.id === activeMethodId}
-              onSelect={() => handleSelectPaymentMethod(method.id)}
-            />
-          ))}
+          {paymentMethods?.data
+            ?.slice()
+            .sort(
+              (a, b) =>
+                (b.default === true ? 1 : 0) - (a.default === true ? 1 : 0)
+            )
+            .map((method, index: number) => (
+              <PaymentAccordionItem
+                key={method.id}
+                method={method}
+                index={index}
+                onSelect={() => {
+                  console.log(
+                    "card name is",
+                    method.cardName,
+                    "id is",
+                    method.id
+                  );
+                  handleSelectPaymentMethod(method.id);
+                }}
+              />
+            ))}
         </Accordion>
       </div>
 

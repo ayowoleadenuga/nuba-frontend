@@ -81,15 +81,21 @@ const AccountTab: FC<AccountTabProps> = ({
                   <Image src={empty} alt="empty" className="w-10 h-10 " />
                 </div>
               )}
-              {paymentMethods?.data?.map((method, index: number) => (
-                <PaymentAccordionItem
-                  key={method.id}
-                  method={method}
-                  index={index}
-                  // isActive={method.id === activeMethodId}
-                  onSelect={() => handleSelectPaymentMethod(method.id)}
-                />
-              ))}
+              {paymentMethods?.data
+                ?.slice()
+                .sort(
+                  (a, b) =>
+                    (b.default === true ? 1 : 0) - (a.default === true ? 1 : 0)
+                )
+                ?.map((method, index: number) => (
+                  <PaymentAccordionItem
+                    key={method.id}
+                    method={method}
+                    index={index}
+                    // isActive={method.id === activeMethodId}
+                    onSelect={() => handleSelectPaymentMethod(method.id)}
+                  />
+                ))}
             </Accordion>
 
             <NubaInput

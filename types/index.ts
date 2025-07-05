@@ -178,7 +178,7 @@ export interface tenancyDetailsPayload {
 }
 
 export interface landlordDetailsPayload {
-  email: string;
+  // email: string;
   accountName: string;
   accountNumber: string;
   sortCode: string;
@@ -319,6 +319,7 @@ export interface PaymentMethod {
   state: string;
   mmYY: string;
   cardName: string;
+  cardType: string;
   lastDigits: string;
   created_at: string;
 }

@@ -65,7 +65,9 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
     refetch: refetchTransactionFee,
     isFetching: isFetchingFee,
     isSuccess: isFeeSuccess,
-  } = useGetUserTransactionFeeQuery();
+  } = useGetUserTransactionFeeQuery(
+    upcomingRentPaymentsList?.data?.id ?? skipToken
+  );
 
   useEffect(() => {
     if (!isFetchingFee && transactionFee?.data?.fee) {

@@ -8,6 +8,7 @@ import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
 import { formatDate3, formatDate4 } from "@/utils";
 import empty from "@/assets/gif/empty.gif";
 import Image from "next/image";
+import { Loader } from "@/components/ui/loader";
 
 const ReferralsRight = () => {
   const [faqQuestions, setFaqQuestions] = useState(pointsFaqs);
@@ -19,10 +20,11 @@ const ReferralsRight = () => {
   const [startDate, setStartDate] = useState<Date>(defaultStart);
   const [endDate, setEndDate] = useState<Date>(today);
 
-  const { data: userReferrals } = useGetreferralsQuery({
-    startDate: formatDate4(startDate),
-    endDate: formatDate4(endDate),
-  });
+  const { data: userReferrals, isLoading: referralsLoading } =
+    useGetreferralsQuery({
+      startDate: formatDate4(startDate),
+      endDate: formatDate4(endDate),
+    });
 
   const userReferral = userReferrals?.data;
 
@@ -66,6 +68,11 @@ const ReferralsRight = () => {
           </p>
 
           <div>
+            {referralsLoading && (
+              <div className="flex items-center justify-center py-10  ">
+                <Loader />
+              </div>
+            )}
             {userReferral?.referrals?.length === 0 ? (
               <div className="flex items-center justify-center py-10 ">
                 <Image

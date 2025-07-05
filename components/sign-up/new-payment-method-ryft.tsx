@@ -78,9 +78,10 @@ const NewPaymentMethodRyft = () => {
               billingAddress: {
                 display: "full", // "full", "minimum", or "none"
               },
-              nameOnCard: true,
+              // nameOnCard: true,
             }}
             className=""
+            loading={false}
             // usage
           />
         </div>

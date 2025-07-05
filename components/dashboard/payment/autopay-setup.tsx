@@ -47,7 +47,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   );
   const rentDetail = rentDetails?.data;
   const selectedMethod =
-    paymentMethods?.data?.find((method) => method.id === activeMethodId) ||
+    paymentMethods?.data?.find(method => method.id === activeMethodId) ||
     paymentMethods?.data?.[0];
 
   const {
@@ -108,7 +108,7 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
                 <div className="flex items-center justify-between w-full mb-2">
                   <p className="text-[14px] font-[600]">Payment Method</p>
                   <div
-                    onClick={() => setShowAllMethods((prev) => !prev)}
+                    onClick={() => setShowAllMethods(prev => !prev)}
                     className="h-[30px] px-3 bg-[#ececec] rounded-[4px] text-[10px] font-[500] flex items-center justify-center"
                   >
                     Change
@@ -158,18 +158,24 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
 
           {showAllMethods && (
             <Accordion type="single" collapsible className="space-y-2 mt-2">
-              {paymentMethods?.data?.map((method, index) => (
-                <PaymentAccordionItem
-                  key={method.id}
-                  method={method}
-                  index={index}
-                  // isActive={method.id === activeMethodId}
-                  onSelect={() => {
-                    handleSelectPaymentMethod(method.id);
-                    setShowAllMethods(false);
-                  }}
-                />
-              ))}
+              {paymentMethods?.data
+                ?.slice()
+                .sort(
+                  (a, b) =>
+                    (b.default === true ? 1 : 0) - (a.default === true ? 1 : 0)
+                )
+                .map((method, index) => (
+                  <PaymentAccordionItem
+                    key={method.id}
+                    method={method}
+                    index={index}
+                    // isActive={method.id === activeMethodId}
+                    onSelect={() => {
+                      handleSelectPaymentMethod(method.id);
+                      setShowAllMethods(false);
+                    }}
+                  />
+                ))}
             </Accordion>
           )}
         </div>

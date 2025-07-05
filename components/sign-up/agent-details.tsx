@@ -19,7 +19,7 @@ const AgentDetailsForm = () => {
   const [agreement, setAgreement] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(updateFormData({ [e.target.name]: e.target.value }));
-    setErrors((prevErrors) => ({
+    setErrors(prevErrors => ({
       ...prevErrors,
       [e.target.name]: "",
     }));
@@ -38,7 +38,7 @@ const AgentDetailsForm = () => {
     const errorMessages: { [key: string]: string } = {};
 
     if (!result.success) {
-      result.error.errors.forEach((err) => {
+      result.error.errors.forEach(err => {
         errorMessages[err.path[0]] = err.message;
       });
     }
@@ -52,7 +52,7 @@ const AgentDetailsForm = () => {
     const payload = {
       accountNumber: formData.accountNumber,
       accountName: formData.accountName,
-      email: formData.email,
+      // email: formData.email,
       sortCode: formData.sortCode,
     };
     await nubaApis.auth.handleUploadLandlordDetails(
@@ -95,7 +95,7 @@ const AgentDetailsForm = () => {
       {errors.accountNumber && (
         <p className="text-red-500 text-[12px]">{errors.accountNumber}</p>
       )}
-      <NubaInput
+      {/* <NubaInput
         containerClass={
           "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
         }
@@ -107,7 +107,7 @@ const AgentDetailsForm = () => {
       />
       {errors.email && (
         <p className="text-red-500 text-[12px]">{errors.email}</p>
-      )}
+      )} */}
 
       <NubaInput
         containerClass={

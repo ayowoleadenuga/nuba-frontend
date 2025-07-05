@@ -27,9 +27,11 @@ const TenancyAgreementUpload = () => {
   };
 
   const handleSubmit = async () => {
-    if (!file) return;
+    if (!file || !paymentReference) return;
+
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("reference", paymentReference);
     try {
       await uploadTenancyAgreement(formData).unwrap();
       dispatch(nextStep());

@@ -1,12 +1,12 @@
 import { RyftPaymentComponent } from "@/components/ryft/ryft-payment";
 import { env } from "@/env";
+import { useGetPaymentMethodsQuery } from "@/redux/features/paymentsApiSlice";
 import {
   setMakePayment,
   setRentPaymentStatus,
 } from "@/redux/features/paymentSlice";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-// import { RyftPaymentComponent } from "ryft-react";
 import { toast } from "sonner";
 
 const RyftPayment = ({
@@ -19,16 +19,26 @@ const RyftPayment = ({
   buttonText?: string;
 }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const { refetch: refreshPaymentMethods } = useGetPaymentMethodsQuery();
 
   const handlePaymentSuccess = () => {
+    setIsLoading(true);
     if (addPayment) {
-      toast.success("Payment added successfully");
+      setTimeout(() => {
+        refreshPaymentMethods();
+        toast.success("Payment added successfully");
+        setIsLoading(false);
+      }, 10000);
     } else {
       dispatch(setMakePayment("complete"));
       dispatch(setRentPaymentStatus("success"));
+      setIsLoading(false);
     }
   };
+
   const handlePaymentFailure = () => {
+    setIsLoading(false);
     if (addPayment) {
       toast.error("Error adding payment");
     } else {
@@ -37,18 +47,15 @@ const RyftPayment = ({
     }
   };
 
-  console.log("add payment is", addPayment, "client secret", clientSecret);
   return (
-    <div className="bg-white p-6 mt-10 ">
-      {/* <RyftPaymentForm
-                clientSecret={clientSecretData?.data?.token as string}
-              /> */}
+    <div className="bg-white p-6 mt-10">
       <RyftPaymentComponent
         publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
         clientSecret={clientSecret as string}
-        buttonText={buttonText ?? "Pay Now"}
+        buttonText={buttonText}
         onPaymentSuccess={handlePaymentSuccess}
         onPaymentError={handlePaymentFailure}
+        loading={isLoading}
         googlePay={{
           merchantIdentifier: "your_merchant_id",
           merchantName: "Your Business",
@@ -60,9 +67,8 @@ const RyftPayment = ({
         }}
         fieldCollection={{
           billingAddress: {
-            display: "full", // "full", "minimum", or "none"
+            display: "full",
           },
-          nameOnCard: true,
         }}
       />
     </div>

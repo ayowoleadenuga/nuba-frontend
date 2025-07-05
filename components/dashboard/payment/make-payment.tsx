@@ -23,6 +23,7 @@ import {
   useCreatePaymentMethodMutation,
   useGetDiscountQuery,
   useGetPaymentMethodsQuery,
+  useGetUpcomingRentPaymentQuery,
   useInitiatePaymentQuery,
   useMakePaymentMutation,
   useSetDefaultPaymentMethodMutation,
@@ -171,6 +172,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({
           }
         );
         console.log("the make payment response is", response);
+
+        // response.status === "success"
         if (response.status === "success") {
           toast.success("Payment successful");
           setShowPaymentOptionModal(false);
@@ -178,6 +181,15 @@ const MakePayment: React.FC<MakePaymentProps> = ({
           dispatch(setRentPaymentStatus("success"));
           dispatch(setPaymentId(response?.data?.reference));
           console.log("payment id is", response);
+          // dispatch(setMakePayment("ryft"));
+        }
+        if (response.status === "unknown") {
+          toast.error("Card Authentication Required");
+          // setShowPaymentOptionModal(false);
+          // dispatch(setMakePayment("complete"));
+          // dispatch(setRentPaymentStatus("success"));
+          // dispatch(setPaymentId(response?.data?.reference));
+          // console.log("payment id is", response);
           // dispatch(setMakePayment("ryft"));
         }
       } catch (error) {
@@ -189,11 +201,17 @@ const MakePayment: React.FC<MakePaymentProps> = ({
     }
   };
   const {
+    data: upcomingRentPaymentsList,
+    isLoading: upcomingRentPaymentsLoading,
+  } = useGetUpcomingRentPaymentQuery(firstRentId ?? skipToken);
+  const {
     data: transactionFee,
     refetch: refetchTransactionFee,
     isFetching: isFetchingFee,
     isSuccess: isFeeSuccess,
-  } = useGetUserTransactionFeeQuery();
+  } = useGetUserTransactionFeeQuery(
+    upcomingRentPaymentsList?.data?.id ?? skipToken
+  );
 
   console.log("fee is", transactionFee, "isfetchin fee is", isFetchingFee);
 
@@ -223,15 +241,21 @@ const MakePayment: React.FC<MakePaymentProps> = ({
       <div className="border border-border rounded-[12px] p-3 w-full md:w-[60%] xl:w-[47%]  ">
         <p className="font-[600] text-[14px] mb-1 ">Payment Method</p>
         <Accordion type="single" collapsible className="mt-6">
-          {paymentMethods?.data?.map((method, index: number) => (
-            <PaymentAccordionItem
-              key={method.id}
-              method={method}
-              index={index}
-              // isActive={method.id === activeMethodId}
-              onSelect={() => handleSelectPaymentMethod(method.id)}
-            />
-          ))}
+          {paymentMethods?.data
+            ?.slice()
+            .sort(
+              (a, b) =>
+                (b.default === true ? 1 : 0) - (a.default === true ? 1 : 0)
+            )
+            ?.map((method, index: number) => (
+              <PaymentAccordionItem
+                key={method.id}
+                method={method}
+                index={index}
+                // isActive={method.id === activeMethodId}
+                onSelect={() => handleSelectPaymentMethod(method.id)}
+              />
+            ))}
           {paymentMethods?.data?.length === 0 && (
             <div className="flex items-center justify-center w-full py-3">
               <Image src={empty} alt="empty" className="w-10 h-10 " />
@@ -279,8 +303,8 @@ const MakePayment: React.FC<MakePaymentProps> = ({
           <p className="text-[14px] font-[600] ">
             £
             {rentDetail &&
-              rentDetail?.monthlyPrice?.toLocaleString() +
-                transactionFee?.data?.fee}
+              transactionFee?.data?.fee &&
+              rentDetail?.monthlyPrice + transactionFee?.data?.fee}
           </p>
         </div>
         <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
@@ -322,12 +346,14 @@ const MakePayment: React.FC<MakePaymentProps> = ({
                     transactionFee?.data?.fee -
                     discount?.data?.discount
                   ).toLocaleString()
-                : (rentDetail?.monthlyPrice ?? 0).toLocaleString() +
-                  transactionFee?.data?.fee
+                : rentDetail &&
+                  transactionFee?.data?.fee &&
+                  rentDetail?.monthlyPrice + transactionFee?.data?.fee
             }`}
           </Button>
-          <p className="text-[12px] mt-5 text-red-500 ">
-            NOTE: Clicking Pay will debit your default card
+          <p className="text-[12px] mt-2 ">
+            Submitting this page will charge your default card and cannot be
+            undone
           </p>
         </div>
       </div>

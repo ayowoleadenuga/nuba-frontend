@@ -12,6 +12,7 @@ import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { useGetUserTransactionByRefQuery } from "@/redux/features/transactionsApiSlice";
 import html2pdf from "html2pdf.js";
 import { useGetUserRentsQuery } from "@/redux/features/rentsApiSlice";
+import { capitalizeFirstLetter } from "@/utils";
 
 const TransactionDetails = () => {
   const router = useRouter();
@@ -81,7 +82,7 @@ const TransactionDetails = () => {
       {/* Printable Section */}
       <div
         ref={receiptRef}
-        className="w-full md:w-[70%] xl:w-[45%] bg-white p-4 mt-5"
+        className="w-full md:w-[70%] xl:w-[50%] bg-white p-4 mt-5"
       >
         <p className="font-[600] text-[12px] mt-3">Transaction details</p>
         <div className="border border-[#D9D9D9] rounded-[4px] flex items-center justify-between p-2 md:p-5 mt-1">
@@ -121,7 +122,7 @@ const TransactionDetails = () => {
           </div>
           <div className="flex items-center justify-between py-3">
             <p className="text-[#2A4152]">Status</p>
-            <p>Successful</p>
+            <p>{capitalizeFirstLetter(userTransaction?.status)}</p>
           </div>
           <div className="flex items-center justify-between py-3">
             <p className="text-[#2A4152]">Rent amount</p>
