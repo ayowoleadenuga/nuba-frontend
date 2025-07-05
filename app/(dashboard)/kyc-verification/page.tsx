@@ -84,8 +84,8 @@ const kycVerification = () => {
     try {
       const response = await nubaApis.kyc.handleVerify(kycVerification);
       console.log("kyc res", response);
-      if (response?.data?.sessionUrl && response?.data?.session_id) {
-        localStorage.setItem("kyc_session_id", response.data.session_id);
+      if (response?.data?.sessionUrl && response?.data?.sessionId) {
+        localStorage.setItem("kyc_session_id", response.data.sessionId);
         window.location.href = response.data.sessionUrl;
       }
     } catch (error) {
