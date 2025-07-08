@@ -15,6 +15,7 @@ import signupReducer from "./features/authSlice";
 import supportCenterReducer from "./features/support-center-slice";
 import settingsReducer from "./features/settings-slice";
 import paymentReducer from "./features/paymentSlice";
+import rentReducer from "./features/rentSlice";
 import { authApi } from "@/redux/features/authApiSlice";
 import { userApi } from "@/redux/features/userApiSlice";
 import { rentsApi } from "@/redux/features/rentsApiSlice";
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   supportCenter: supportCenterReducer,
   settings: settingsReducer,
   payment: paymentReducer,
+  rent: rentReducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [rentsApi.reducerPath]: rentsApi.reducer,
@@ -52,7 +54,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

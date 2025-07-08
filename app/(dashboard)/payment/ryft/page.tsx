@@ -7,6 +7,7 @@ import { updateUserOnboardingStatus } from "@/redux/features/authSlice";
 import { useInitiatePaymentQuery } from "@/redux/features/paymentsApiSlice";
 import { nubaApis } from "@/services/api-services";
 import RyftPaymentForm from "@/services/ryft/ryft-payment-form";
+import { collectBrowserInfo } from "@/utils";
 import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -39,6 +40,7 @@ const Ryft = () => {
   const handleFailed = () => {
     toast.error("Payment Method Creation Failed");
   };
+  const browserInfo = collectBrowserInfo();
   return (
     <div className="w-full flex items-center justify-center">
       {isSuccess && (
@@ -65,6 +67,7 @@ const Ryft = () => {
               billingAddress: {
                 display: "minimum", // "full", "minimum", or "none"
               },
+              browserInfo: browserInfo,
               // nameOnCard: true,
             }}
             className=""

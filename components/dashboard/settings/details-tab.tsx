@@ -46,13 +46,18 @@ const DetailsTab: FC<DetailsTabProps> = ({
     isError: isRentsError,
     error: rentsError,
   } = useGetUserRentsQuery();
+
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const {
     data: rentDetails,
     isError: isRentDetailsError,
     error: rentDetailsError,
-  } = useGetUserRentsDetailsQuery(firstRentId ?? skipToken);
+  } = useGetUserRentsDetailsQuery(rentIdtoUse ?? skipToken);
   const rentDetail = rentDetails?.data;
 
   useEffect(() => {
@@ -267,15 +272,6 @@ const DetailsTab: FC<DetailsTabProps> = ({
                   // onChange={(e) => handleChange("landlordName", e.target.value)}
                 />
 
-                <NubaInput
-                  containerClass={"w-full mt-6"}
-                  label="Landlord's Email Address"
-                  placeholder=""
-                  inputClass="bg-[#edf1f4] rounded-[8px] border-0 text-[12px] "
-                  value={email ?? ""}
-                  readOnly
-                  // onChange={(e) => handleChange("leaseDuration", e.target.value)}
-                />
                 <NubaInput
                   containerClass={"w-full mt-6"}
                   label="Landlord's Bank Details"

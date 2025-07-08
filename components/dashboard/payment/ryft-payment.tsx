@@ -5,6 +5,7 @@ import {
   setMakePayment,
   setRentPaymentStatus,
 } from "@/redux/features/paymentSlice";
+import { collectBrowserInfo } from "@/utils";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -47,6 +48,7 @@ const RyftPayment = ({
     }
   };
 
+  const browserInfo = collectBrowserInfo();
   return (
     <div className="bg-white p-6 mt-10">
       <RyftPaymentComponent
@@ -69,6 +71,7 @@ const RyftPayment = ({
           billingAddress: {
             display: "full",
           },
+          browserInfo: browserInfo,
         }}
       />
     </div>

@@ -20,7 +20,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@mui/material";
 import NotificationIcon from "@/assets/svg/notification-icon";
-import { PointsIcon } from "@/assets/svg/points-icon";
+import { PointIcon } from "@/assets/svg/point-icon";
 import { DropdownIcon } from "@/assets/svg/dropdown-icon";
 import {
   adminSideListItems,
@@ -74,7 +74,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: prop => prop !== "open",
 })<AppBarProps>(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
@@ -97,7 +97,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: prop => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -226,7 +226,7 @@ export default function DashboardLayoutWrapper({
                   justifyContent: "center",
                 }}
               >
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics.unitsEarned} pts
                 </p>

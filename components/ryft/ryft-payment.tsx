@@ -8,6 +8,7 @@ import {
   WalletPaymentEvent,
   billingAddressalidationEvent,
 } from "@/types/ryft-type";
+import { collectBrowserInfo } from "@/utils";
 
 // Global loading promise to prevent multiple simultaneous script loads
 let scriptLoadingPromise: Promise<void> | null = null;
@@ -27,6 +28,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
   disabled = false,
   onPaymentLoadingChange,
   loading,
+  // browserInfo,
 }) => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -34,6 +36,7 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
   const ryftInitialized = useRef<boolean>(false);
   const baseUrl = "https://embedded.ryftpay.com/v2/ryft.min.js";
 
+  const browserInfo = collectBrowserInfo();
   useEffect(() => {
     // Load Ryft SDK if not already loaded
     const loadRyftSDK = (): Promise<void> => {
@@ -156,26 +159,20 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
 
           if (fieldCollection) {
             config.fieldCollection = fieldCollection;
+            config.fieldCollection.browserInfo = browserInfo;
           }
 
           try {
-            // const payButton = document.getElementById(
-            //   "pay-btn"
-            // ) as HTMLButtonElement;
             window.Ryft.init(config);
             ryftInitialized.current = true;
-
-            // Set up event handlers
             window.Ryft.addEventHandler(
               "cardValidationChanged",
               (e: CardValidationEvent) => {
                 console.log("Card validation changed:", e);
                 setIsFormValid(e.isValid);
-                // payButton.disabled = !e.isValid;
               }
             );
 
-            // Add wallet payment event handler if Apple Pay or Google Pay is configured
             if (applePay || googlePay) {
               window.Ryft.addEventHandler(
                 "walletPaymentSessionResult",
@@ -185,7 +182,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
               );
             }
 
-            // Inject custom styles for the country dropdown
             const style = document.createElement("style");
             style.innerHTML = `
               .ryft-form-group select {
@@ -197,8 +193,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
             document.head.appendChild(style);
           } catch (initError) {
             console.error("Ryft initialization failed:", initError);
-
-            // If Google Pay caused the issue, try reinitializing without it
             if (
               googlePay &&
               initError instanceof Error &&
@@ -215,14 +209,11 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
               try {
                 window.Ryft.init(fallbackConfig);
                 ryftInitialized.current = true;
-
-                // Set up event handlers
                 window.Ryft.addEventHandler(
                   "cardValidationChanged",
                   (e: CardValidationEvent) => {
                     console.log("Card validation changed:", e);
                     setIsFormValid(e.isValid);
-                    // payButton.disabled = !e.isValid;
                   }
                 );
 
@@ -231,7 +222,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                   (e: CardValidationEvent) => {
                     console.log("Card validation changed:", e);
                     setIsFormValid(e.isValid);
-                    // payButton.disabled = !e.isValid;
                   }
                 );
 
@@ -243,8 +233,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
                     }
                   );
                 }
-
-                // Inject custom styles for the country dropdown
                 const style = document.createElement("style");
                 style.innerHTML = `
                   .ryft-form-group select {
@@ -280,7 +268,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
 
     initializeRyft();
 
-    // Cleanup function to reset initialization flag when component unmounts
     return () => {
       ryftInitialized.current = false;
     };
@@ -325,7 +312,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
       }
     }
   };
-
   const handleSubmit = async (): Promise<void> => {
     console.log("handleSubmit called with state:", {
       isFormValid,
@@ -349,8 +335,6 @@ export const RyftPaymentComponent: React.FC<RyftPaymentComponentProps> = ({
 
     try {
       console.log("Attempting payment with Ryft...");
-
-      // Check if Ryft has any validation methods
       if ((window.Ryft as any).validateForm) {
         console.log("Ryft has validateForm method, calling it...");
         const validationResult = (window.Ryft as any).validateForm();

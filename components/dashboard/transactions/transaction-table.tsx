@@ -165,7 +165,7 @@ const TransactionTable = () => {
                 </div>
               </td>
               <td>{tx.discount}</td>
-              <td>${Number(tx.amount).toLocaleString()}</td>
+              <td>£{Number(tx.amount).toLocaleString()}</td>
               <td>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

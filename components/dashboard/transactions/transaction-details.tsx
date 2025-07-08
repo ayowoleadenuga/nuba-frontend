@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { useParams } from "next/navigation";
 import { OptionsIcon } from "@/assets/svg/options-icon";
-import { PointsIcon } from "@/assets/svg/points-icon";
+import { PointIcon } from "@/assets/svg/point-icon";
 import { IconButton } from "@mui/material";
 import { format } from "date-fns";
 import { TransactionsIcon } from "@/assets/svg/transactions";
@@ -64,7 +64,7 @@ const TransactionDetails = () => {
         <div className="flex items-center gap-4 ">
           <div>
             <div className="flex items-center">
-              <PointsIcon />
+              <PointIcon />
               <p className="font-[700] text-[#CF931D]  ">
                 {userProfile?.statistics.unitsEarned} pts
               </p>

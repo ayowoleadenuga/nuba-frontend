@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { OptionsIcon } from "@/assets/svg/options-icon";
-import { PointsIcon } from "@/assets/svg/points-icon";
-import { IconButton } from "@mui/material";
+import { PointIcon } from "@/assets/svg/point-icon";
 import PaymentPage from "./payment-page";
 import AutopaySetup from "./autopay-setup";
 import IncludePoints from "./include-points";
@@ -31,7 +29,7 @@ const PaymentClient = () => {
           ) : (
             <div>
               <div className="flex items-center gap-2">
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics.unitsEarned} pts
                 </p>

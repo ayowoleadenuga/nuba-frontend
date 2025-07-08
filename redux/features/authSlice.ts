@@ -140,6 +140,7 @@ const signupSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+  
   },
 });
 
@@ -151,6 +152,6 @@ export const {
   resetSignup,
   setAuthData,
   updateUserOnboardingStatus,
-  setToken,
+  setToken
 } = signupSlice.actions;
 export default signupSlice.reducer;

@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PointsIcon } from "@/assets/svg/points-icon";
+import { PointIcon } from "@/assets/svg/point-icon";
 import DetailsTab from "./details-tab";
 import AccountTab from "./account-tab";
 import SecurityTab from "./security-tab";
@@ -91,8 +91,8 @@ const SettingsClient = () => {
         return (
           <DetailsTab
             errors={errors}
-            onClearError={(field) => {
-              setErrors((prev) => {
+            onClearError={field => {
+              setErrors(prev => {
                 const updated = { ...prev };
                 delete updated[field];
                 return updated;
@@ -113,8 +113,8 @@ const SettingsClient = () => {
         return (
           <SecurityTab
             errors={errors}
-            onClearError={(field) => {
-              setErrors((prev) => {
+            onClearError={field => {
+              setErrors(prev => {
                 const updated = { ...prev };
                 delete updated[field];
                 return updated;
@@ -126,8 +126,8 @@ const SettingsClient = () => {
         return (
           <DetailsTab
             errors={errors}
-            onClearError={(field) => {
-              setErrors((prev) => {
+            onClearError={field => {
+              setErrors(prev => {
                 const updated = { ...prev };
                 delete updated[field];
                 return updated;
@@ -149,7 +149,7 @@ const SettingsClient = () => {
           ) : (
             <div>
               <div className="flex items-center gap-2">
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics.unitsEarned} pts
                 </p>
@@ -167,7 +167,7 @@ const SettingsClient = () => {
 
       <div className="mt-10 border-b border-b-[#D9D9D9]">
         <div className="w-fit flex items-center ">
-          {allTabs.map((tab) => {
+          {allTabs.map(tab => {
             const isActive = currentTab === tab;
             return (
               <button

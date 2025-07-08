@@ -1,6 +1,6 @@
 "use client";
 
-import { PointsIcon } from "@/assets/svg/points-icon";
+import { PointIcon } from "@/assets/svg/point-icon";
 import SupportFaqs from "@/components/dashboard/support/support-faqs";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useRef, useState } from "react";
@@ -116,7 +116,7 @@ const SupportClient = () => {
           ) : (
             <div>
               <div className="flex items-center gap-2">
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics.unitsEarned} pts
                 </p>

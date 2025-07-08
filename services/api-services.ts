@@ -15,6 +15,7 @@ import {
   loginPayload,
   loginResponse,
   newPaymentPayload,
+  newRentPayload,
   paymentInitiationPayload,
   signUpResponse,
   sigUpPayload,
@@ -59,6 +60,9 @@ export type makePaymentTrigger = (params: {
   unwrap: () => Promise<any>;
 };
 
+export type AddNewRentDetailsTrigger = (payload: newRentPayload) => {
+  unwrap: () => Promise<tenancyDetailsResponse>;
+};
 // export type verificationTrigger = (params: {
 //   kycId: string;
 //   payload: paymentInitiationPayload;
@@ -130,7 +134,7 @@ export const nubaApis = {
             toast.success("Email sent");
             setPending(false);
           },
-          (error) => {
+          error => {
             setPending(false);
             toast.error("Email failed", error);
             console.error("FAILED...", error.text);
@@ -524,4 +528,18 @@ export const nubaApis = {
   },
 
   admin: {},
+
+  rent: {
+    handleAddNewRent: async (
+      payload: newRentPayload,
+      UploadTenancyDetails: AddNewRentDetailsTrigger
+    ): Promise<loginResponse | void> => {
+      try {
+        await UploadTenancyDetails(payload).unwrap();
+        toast.success("New Rent Added");
+      } catch (error: any) {
+        toast.error(error.data.message);
+      }
+    },
+  },
 };

@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { OptionsIcon } from "@/assets/svg/options-icon";
-import { PointsIcon } from "@/assets/svg/points-icon";
+import { PointIcon } from "@/assets/svg/point-icon";
 import TransactionTable from "./transaction-table";
 import { IconButton } from "@mui/material";
 import ammexCard from "@/assets/svg/amex-card.svg";
@@ -17,6 +16,8 @@ import {
 } from "@/redux/features/rentsApiSlice";
 import { useGetDiscountQuery } from "@/redux/features/paymentsApiSlice";
 import { useGetreferralsQuery } from "@/redux/features/referralsApiSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const TransactionClient = () => {
   const router = useRouter();
@@ -26,10 +27,14 @@ const TransactionClient = () => {
   const userProfile = userProfileDetails?.data;
 
   const { data: rents } = useGetUserRentsQuery();
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
 
@@ -73,7 +78,7 @@ const TransactionClient = () => {
           ) : (
             <div>
               <div className="flex items-center gap-2">
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics?.unitsEarned} pts
                 </p>

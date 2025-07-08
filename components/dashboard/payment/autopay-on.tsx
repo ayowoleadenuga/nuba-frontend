@@ -5,10 +5,11 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
+import { RootState } from "@/redux/store";
 import { AutoPayOnProps } from "@/types";
 import { skipToken } from "@reduxjs/toolkit/query";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AutopayOn: React.FC<AutoPayOnProps> = ({
   setTab,
@@ -18,10 +19,14 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
 }) => {
   const dispatch = useDispatch();
   const { data: rents } = useGetUserRentsQuery();
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
 

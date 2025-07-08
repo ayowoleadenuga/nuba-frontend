@@ -71,10 +71,14 @@ const MakePayment: React.FC<MakePaymentProps> = ({
     useGetPaymentMethodsQuery();
 
   const { data: rents } = useGetUserRentsQuery();
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
 
@@ -203,7 +207,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
   const {
     data: upcomingRentPaymentsList,
     isLoading: upcomingRentPaymentsLoading,
-  } = useGetUpcomingRentPaymentQuery(firstRentId ?? skipToken);
+  } = useGetUpcomingRentPaymentQuery(rentIdtoUse ?? skipToken);
   const {
     data: transactionFee,
     refetch: refetchTransactionFee,

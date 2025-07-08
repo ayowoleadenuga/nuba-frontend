@@ -14,6 +14,7 @@ export interface FieldCollectionConfig {
   billingAddress?: {
     display: "full" | "minimum" | "none";
   };
+  browserInfo: any;
   // nameOnCard: boolean;
 }
 
@@ -161,4 +162,5 @@ export interface RyftPaymentComponentProps {
   disabled?: boolean;
 
   loading: boolean;
+  // browserInfo: any;
 }

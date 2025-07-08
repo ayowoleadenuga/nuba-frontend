@@ -49,8 +49,8 @@ export const baseQueryWithReauth: typeof baseQueryWithAuth = async (
       api.dispatch(setToken(newToken));
       result = await baseQueryWithAuth(args, api, extraOptions);
     } else {
-      api.dispatch(resetSignup());
-      window.location.href = "/login";
+      // api.dispatch(resetSignup());
+      // window.location.href = "/login";
     }
   }
 

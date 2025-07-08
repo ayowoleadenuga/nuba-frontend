@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-// import { OptionsIcon } from "@/assets/svg/options-icon";
-import { PointsIcon } from "@/assets/svg/points-icon";
 // import { IconButton } from "@mui/material";
 import DashboardPage from "@/components/dashboard/dashboard-page";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import PointsDateJoinSkeleton from "./skeletons/points-date-join-skeleton";
+import { PointIcon } from "@/assets/svg/point-icon";
 
 const DashboardClient = () => {
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
@@ -29,7 +28,7 @@ const DashboardClient = () => {
           ) : (
             <div>
               <div className="flex items-center gap-2">
-                <PointsIcon />
+                <PointIcon />
                 <p className="font-[700] text-[#CF931D]">
                   {userProfile?.statistics.unitsEarned} pts
                 </p>

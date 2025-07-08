@@ -13,7 +13,7 @@ import { AutoPayOffProps } from "@/types";
 import React, { useState } from "react";
 import PaymentAccordionItem from "../settings/payment-accordion-item";
 import { setMakePayment } from "@/redux/features/paymentSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
@@ -21,6 +21,7 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 import { nubaApis } from "@/services/api-services";
+import { RootState } from "@/redux/store";
 
 const AutopayOff: React.FC<AutoPayOffProps> = ({
   setTab,
@@ -33,15 +34,20 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
     useGetPaymentMethodsQuery();
 
   const { data: rents } = useGetUserRentsQuery();
+
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
 
   const { data: upcomingRentPaymentsList } = useGetUpcomingRentPaymentQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const { data: transactionFee } = useGetUserTransactionFeeQuery(
     upcomingRentPaymentsList?.data?.id ?? skipToken

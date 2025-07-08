@@ -26,6 +26,8 @@ import { nubaApis } from "@/services/api-services";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { AddIcon } from "@/assets/svg/add-icon";
 import RyftPayment from "@/components/dashboard/payment/ryft-payment";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface AutoPayProps {
   setTab: React.Dispatch<
@@ -40,10 +42,15 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
   const { data: paymentMethods, refetch: refreshPaymentMethods } =
     useGetPaymentMethodsQuery();
   const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
+
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
   const selectedMethod =

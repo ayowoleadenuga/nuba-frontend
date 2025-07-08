@@ -47,10 +47,14 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
   const userProfile = userProfileDetails?.data;
 
   const { data: rents } = useGetUserRentsQuery();
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
   const { makePayment } = useSelector((state: RootState) => state.payment);
@@ -58,7 +62,7 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
   const {
     data: upcomingRentPaymentsList,
     isLoading: upcomingRentPaymentsLoading,
-  } = useGetUpcomingRentPaymentQuery(firstRentId ?? skipToken);
+  } = useGetUpcomingRentPaymentQuery(rentIdtoUse ?? skipToken);
 
   const {
     data: transactionFee,
@@ -254,7 +258,7 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
         </div>
       )}
 
-      <p className="hidden md:block text-[18px] font-[500] mt-[210px] mb-4 ">
+      <p className="hidden md:block text-[18px] font-[500] mt-10 mb-4 ">
         Your rewards & benefits on Nuba
       </p>
       <div className="hidden md:flex items-center gap-10">

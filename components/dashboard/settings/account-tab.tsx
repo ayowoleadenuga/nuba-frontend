@@ -38,10 +38,15 @@ const AccountTab: FC<AccountTabProps> = ({
   const { data: paymentMethods, refetch: refreshPaymentMethods } =
     useGetPaymentMethodsQuery();
   const { data: rents, isLoading: isRentsLoading } = useGetUserRentsQuery();
+
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
   const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
 
   const { data: rentDetails } = useGetUserRentsDetailsQuery(
-    firstRentId ?? skipToken
+    rentIdtoUse ?? skipToken
   );
   const rentDetail = rentDetails?.data;
 

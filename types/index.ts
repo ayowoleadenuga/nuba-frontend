@@ -176,7 +176,18 @@ export interface tenancyDetailsPayload {
   rentFrequency: string;
   monthlyPrice: number;
 }
-
+export interface newRentPayload {
+  country: string;
+  address: string;
+  startDate: string;
+  endDate: string;
+  rentFrequency: string;
+  monthlyPrice: number | string;
+  landlordAccountName: string;
+  landlordAccountNumber: string;
+  landlordSortCode: string;
+  landlordEmail: string;
+}
 export interface landlordDetailsPayload {
   // email: string;
   accountName: string;
