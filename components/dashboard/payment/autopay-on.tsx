@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/rentsApiSlice";
 import { RootState } from "@/redux/store";
 import { AutoPayOnProps } from "@/types";
+import { formatDateToDisplay, getDaysLeft, getNextPaymentDate } from "@/utils";
 import { skipToken } from "@reduxjs/toolkit/query";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +31,20 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
   );
   const rentDetail = rentDetails?.data;
 
+  let nextPaymentDate: Date | undefined;
+  let formattedNextPayment;
+  let daysLeft: number | undefined;
+
+  if (rentDetail?.dueDate) {
+    nextPaymentDate = getNextPaymentDate(rentDetail.dueDate);
+    if (nextPaymentDate) {
+      formattedNextPayment = formatDateToDisplay(nextPaymentDate);
+    }
+  }
+
+  if (rentDetail?.dueDate) {
+    daysLeft = getDaysLeft(new Date(rentDetail.dueDate));
+  }
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -43,17 +58,17 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
               Your payment of £
               {rentDetail &&
                 (rentDetail?.monthlyPrice + 23.88).toLocaleString()}{" "}
-              is processing today
+              is processing in {daysLeft} days
             </p>
           </div>
           <button onClick={() => setTab("autopay-setup")}>
             <ArrowRightIcon />
           </button>
         </div>
-        <div className="flex items-center justify-between text-[#999B9E] mt-5">
+        {/* <div className="flex items-center justify-between text-[#999B9E] mt-5">
           <p className="font-[600] text-[12px] ">Last autopay</p>
           <p className="text-[10px]">£1,223.88 Mar 01,2025</p>
-        </div>
+        </div> */}
       </div>
       <div className="mt-2 bg-white p-4">
         <div className="flex items-center justify-between text-[#999B9E] ">

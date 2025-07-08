@@ -49,7 +49,7 @@ const Ryft = () => {
             Add Payment Method
           </p>
           <RyftPaymentComponent
-            publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+            publicKey="pk_sandbox_kimVdAdYA/3xMkVYz5icjS4nqqHFS+ghpxE1UJyVOhWrh7Ao8/DeM3hm8MKlJzFv"
             clientSecret={clientSecretData?.data?.token as string}
             buttonText="Save Card"
             onPaymentSuccess={handleSuccess}

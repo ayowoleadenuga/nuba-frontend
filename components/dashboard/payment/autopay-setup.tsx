@@ -145,22 +145,21 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
           </Accordion>
 
           {!showAllMethods && selectedMethod && (
-            <div className="flex items-center justify-between mt-2 border-b border-boder pb-5">
-              <div>
-                <p className="font-[600] text-[12px]">
-                  {selectedMethod.cardName}
-                </p>
-                <p className="text-[10px] text-red-500">
-                  Fee applies <span className="text-orange-500">ⓘ</span>
-                </p>
-              </div>
-              <div className="flex items-center">
-                <Image src={paymentCard} alt="card" className="w-7 h-5 " />
-                <p className="text-sm text-gray-700">
-                  {selectedMethod.lastDigits}
-                </p>
-              </div>
-            </div>
+            <Accordion type="single" collapsible className="w-full">
+              {paymentMethods?.data
+                ?.filter(method => method.default === true) // 👈 only keep default ones
+                .map((method, index) => (
+                  <PaymentAccordionItem
+                    key={method.id}
+                    method={method}
+                    index={index}
+                    onSelect={() => {
+                      handleSelectPaymentMethod(method.id);
+                      setShowAllMethods(false);
+                    }}
+                  />
+                ))}
+            </Accordion>
           )}
 
           {showAllMethods && (

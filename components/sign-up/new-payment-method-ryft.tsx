@@ -6,6 +6,7 @@ import { updateUserOnboardingStatus } from "@/redux/features/authSlice";
 import { useInitiatePaymentQuery } from "@/redux/features/paymentsApiSlice";
 import { nubaApis } from "@/services/api-services";
 import RyftPaymentForm from "@/services/ryft/ryft-payment-form";
+import { collectBrowserInfo } from "@/utils";
 import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -52,6 +53,7 @@ const NewPaymentMethodRyft = () => {
       })
     );
   };
+  const browserInfo = collectBrowserInfo();
   return (
     <div>
       {isSuccess && (
@@ -60,7 +62,8 @@ const NewPaymentMethodRyft = () => {
             New Payment Method
           </p>
           <RyftPaymentComponent
-            publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+            // publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+            publicKey="pk_sandbox_kimVdAdYA/3xMkVYz5icjS4nqqHFS+ghpxE1UJyVOhWrh7Ao8/DeM3hm8MKlJzFv"
             clientSecret={clientSecretData?.data?.token as string}
             buttonText="Save Card"
             onPaymentSuccess={handleSuccess}
@@ -78,6 +81,7 @@ const NewPaymentMethodRyft = () => {
               billingAddress: {
                 display: "full", // "full", "minimum", or "none"
               },
+              browserInfo: browserInfo,
               // nameOnCard: true,
             }}
             className=""
