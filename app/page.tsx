@@ -472,10 +472,10 @@ export default function Home() {
         <div className="flex justify-between items-center w-full mb-7">
           <p className="text-xl font-semibold text-white lg:text-[20px] text-[18px]">Hotel transfer partners</p>
           <div className="flex items-center gap-2">
-            <button onClick={() => scroll(scrollRef2, "left")} className="bg-white rounded-full p-2">
+            <button onClick={() => scroll(scrollRef2, "left")} className="bg-white rounded-full p-1">
               <FaArrowLeft className="text-black" />
             </button>
-            <button onClick={() => scroll(scrollRef2, "right")} className="bg-white rounded-full p-2">
+            <button onClick={() => scroll(scrollRef2, "right")} className="bg-white rounded-full p-1">
               <FaArrowRight className="text-black" />
             </button>
           </div>
