@@ -198,7 +198,7 @@ const SettingsClient = () => {
             <button
               type="button"
               onClick={() => router.push("/dashboard")}
-              className="text-[12px] font-[600] px-4 text-brandCore-orange border border-border rounded-[6px] flex items-center gap-2 "
+              className="text-[12px] font-[600] px-4 text-brandCore-orange border border-[#d9d9d9] rounded-[6px] flex items-center gap-2 "
             >
               Cancel <CancelIcon />
             </button>

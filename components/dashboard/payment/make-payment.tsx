@@ -242,7 +242,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
 
   return (
     <div className="flex md:flex-row flex-col items-start justify-between gap-10 ">
-      <div className="border border-border rounded-[12px] p-3 w-full md:w-[60%] xl:w-[47%]  ">
+      <div className="border border-[#d9d9d9] rounded-[12px] p-3 w-full md:w-[60%] xl:w-[47%]  ">
         <p className="font-[600] text-[14px] mb-1 ">Payment Method</p>
         <Accordion type="single" collapsible className="mt-6">
           {paymentMethods?.data
@@ -302,7 +302,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
         </Accordion>
       </div>
       <div className="w-full md:w-[60%] xl:w-[47%] ">
-        <div className="bg-white border border-border px-4 py-6 flex items-center justify-between rounded-[4px] ">
+        <div className="bg-white border border-[#d9d9d9] px-4 py-6 flex items-center justify-between rounded-[4px] ">
           <p className="text-[14px] font-[500] ">Payment amount</p>
           <p className="text-[14px] font-[600] ">
             £
@@ -311,7 +311,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
               rentDetail?.monthlyPrice + transactionFee?.data?.fee}
           </p>
         </div>
-        <div className="bg-white border border-border px-4 py-6 rounded-[4px] mt-1 ">
+        <div className="bg-white border border-[#d9d9d9] px-4 py-6 rounded-[4px] mt-1 ">
           <div className="flex items-center justify-between">
             {discountLoading ? (
               "Loading..."
@@ -330,7 +330,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
             />
           </div>
         </div>
-        <div className="bg-white border border-border px-4 py-6  mt-1 ">
+        <div className="bg-white border border-[#d9d9d9] px-4 py-6  mt-1 ">
           <Button
             disabled={makingPaymentLoading || discountLoading || isFetchingFee}
             onClick={handleMakePayment}

@@ -133,7 +133,7 @@ const SupportClient = () => {
           <input
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-[80%] h-[44px] pl-9 pr-4 border border-border rounded-[10px] outline-none text-[14px] "
+            className="w-[80%] h-[44px] pl-9 pr-4 border border-[#d9d9d9] rounded-[10px] outline-none text-[14px] "
             placeholder="Search Frequently Asked Questions"
           />
           <span className="absolute pl-4">

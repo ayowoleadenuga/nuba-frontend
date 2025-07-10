@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
   useGetDiscountQuery,
   useGetPaymentMethodsQuery,
+  useGetUpcomingRentPaymentQuery,
   useInitiatePaymentQuery,
   useSetDefaultPaymentMethodMutation,
   useToggleAutoPayMutation,
@@ -28,6 +29,7 @@ import { AddIcon } from "@/assets/svg/add-icon";
 import RyftPayment from "@/components/dashboard/payment/ryft-payment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 
 interface AutoPayProps {
   setTab: React.Dispatch<
@@ -95,6 +97,13 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
     refreshPaymentMethods();
   };
 
+  const { data: upcomingRentPaymentsList } = useGetUpcomingRentPaymentQuery(
+    rentIdtoUse ?? skipToken
+  );
+
+  const { data: transactionFee } = useGetUserTransactionFeeQuery(
+    upcomingRentPaymentsList?.data?.id ?? skipToken
+  );
   return (
     <div className="w-full md:w-[80%] xl:w-[50%] min-h-[70vh]">
       <button
@@ -145,22 +154,21 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
           </Accordion>
 
           {!showAllMethods && selectedMethod && (
-            <div className="flex items-center justify-between mt-2 border-b border-boder pb-5">
-              <div>
-                <p className="font-[600] text-[12px]">
-                  {selectedMethod.cardName}
-                </p>
-                <p className="text-[10px] text-red-500">
-                  Fee applies <span className="text-orange-500">ⓘ</span>
-                </p>
-              </div>
-              <div className="flex items-center">
-                <Image src={paymentCard} alt="card" className="w-7 h-5 " />
-                <p className="text-sm text-gray-700">
-                  {selectedMethod.lastDigits}
-                </p>
-              </div>
-            </div>
+            <Accordion type="single" collapsible className="w-full">
+              {paymentMethods?.data
+                ?.filter(method => method.default === true)
+                .map((method, index) => (
+                  <PaymentAccordionItem
+                    key={method.id}
+                    method={method}
+                    index={index}
+                    onSelect={() => {
+                      handleSelectPaymentMethod(method.id);
+                      setShowAllMethods(false);
+                    }}
+                  />
+                ))}
+            </Accordion>
           )}
 
           {showAllMethods && (
@@ -201,7 +209,13 @@ const AutopaySetup: React.FC<AutoPayProps> = ({ setTab }) => {
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm font-semibold mt-3">
             <p>Payment Amount</p>
-            <span>£{rentDetail?.monthlyPrice?.toLocaleString()}</span>
+            <span>
+              £
+              {rentDetail &&
+                (
+                  rentDetail?.monthlyPrice + (transactionFee?.data?.fee ?? 0)
+                ).toLocaleString()}
+            </span>
           </div>
         </div>
 

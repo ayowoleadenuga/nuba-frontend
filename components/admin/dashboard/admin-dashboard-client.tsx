@@ -32,7 +32,7 @@ const AdminDashboardClient = () => {
         {allMetrics.map((metric, index) => (
           <div
             key={index}
-            className=" border border-[#D9D9D9] rounded-[8px] p-3 w-fit "
+            className=" border border-[#D9D9D9]] rounded-[8px] p-3 w-fit "
           >
             <p className="text-[12px] font-[500] text-[#474747] ">
               {metric.name}{" "}

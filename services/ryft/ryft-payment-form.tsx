@@ -19,7 +19,9 @@ export default function RyftPaymentForm({
     script.onload = () => {
       // @ts-ignore
       Ryft.init({
-        publicKey: env.NEXT_PUBLIC_RYFT_PUBLIC_KEY,
+        // publicKey: env.NEXT_PUBLIC_RYFT_PUBLIC_KEY,
+        publicKey:
+          "pk_sandbox_kimVdAdYA/3xMkVYz5icjS4nqqHFS+ghpxE1UJyVOhWrh7Ao8/DeM3hm8MKlJzFv",
         clientSecret,
       });
 

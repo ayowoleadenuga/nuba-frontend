@@ -237,7 +237,7 @@ const DashboardPage = () => {
         ) : (
           <>
             <div className="flex items-center gap-2 flex-wrap">
-              <div className="border border-[#D9D9D9] rounded-[8px] p-2 md:p-3 w-fit">
+              <div className="border border-[#D9D9D9]] rounded-[8px] p-2 md:p-3 w-fit">
                 <p className="text-[10px] md:text-[12px] font-[500]">
                   Rent Day
                 </p>
@@ -247,7 +247,7 @@ const DashboardPage = () => {
                 <p className="text-[12px] font-[500]">Days Left</p>
               </div>
 
-              <div className="border border-[#D9D9D9] rounded-[8px] p-2 md:p-3 w-fit">
+              <div className="border border-[#D9D9D9]] rounded-[8px] p-2 md:p-3 w-fit">
                 <p className="text-[10px] md:text-[12px] font-[500]">
                   Next Payment
                 </p>
@@ -262,7 +262,7 @@ const DashboardPage = () => {
                 </p>
               </div>
 
-              <div className="border border-[#D9D9D9] rounded-[8px] p-2 md:p-3 w-fit">
+              <div className="border border-[#D9D9D9]] rounded-[8px] p-2 md:p-3 w-fit">
                 <p className="text-[10px] md:text-[12px] font-[500]">
                   Rewards & Referral
                 </p>

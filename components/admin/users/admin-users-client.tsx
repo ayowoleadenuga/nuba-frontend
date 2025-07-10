@@ -11,7 +11,7 @@ const AdminUsersClient = () => {
         <div className="w-[50%] ">
           <div className="w-full flex items-center justify-between  gap-2">
             <input
-              className="w-[80%] h-[44px] px-4 border border-border rounded-[10px] outline-none text-[14px] "
+              className="w-[80%] h-[44px] px-4 border border-[#d9d9d9] rounded-[10px] outline-none text-[14px] "
               placeholder="Search User"
             />
             <Button className="w-[20%] ">Search</Button>

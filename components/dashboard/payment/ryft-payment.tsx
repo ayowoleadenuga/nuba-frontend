@@ -52,7 +52,8 @@ const RyftPayment = ({
   return (
     <div className="bg-white p-6 mt-10">
       <RyftPaymentComponent
-        publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+        // publicKey={env.NEXT_PUBLIC_RYFT_PUBLIC_KEY}
+        publicKey="pk_sandbox_kimVdAdYA/3xMkVYz5icjS4nqqHFS+ghpxE1UJyVOhWrh7Ao8/DeM3hm8MKlJzFv"
         clientSecret={clientSecret as string}
         buttonText={buttonText}
         onPaymentSuccess={handlePaymentSuccess}

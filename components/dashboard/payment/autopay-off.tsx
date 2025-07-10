@@ -67,7 +67,7 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
-        <div className="flex items-center justify-between border-b border-[#d9d9d9] pb-2">
+        <div className="flex items-center justify-between border-b border-[#d9d9d9]] pb-2">
           <div>
             <div className="flex items-center gap-1">
               <CheckedIcon fill="#999B9E" />

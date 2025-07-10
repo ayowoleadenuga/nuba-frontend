@@ -3,7 +3,7 @@ import { array } from "zod";
 
 const TopReferrersTable = () => {
   return (
-    <div className="w-[43%] border rounded-[8px] border-[#D9D9D9]  h-[345px]  bg-[#f7f9fc] p-3  ">
+    <div className="w-[43%] border rounded-[8px] border-[#D9D9D9]]  h-[345px]  bg-[#f7f9fc] p-3  ">
       <p className="text-grayText font-[500] text-[12px] mb-4 ">
         Top Referrers
       </p>

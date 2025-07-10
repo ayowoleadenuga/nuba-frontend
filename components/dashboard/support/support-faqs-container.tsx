@@ -14,7 +14,7 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
         return (
           <div
             onClick={() => {
-              setFaqQuestions((prev) =>
+              setFaqQuestions(prev =>
                 prev.map((item, i) => ({
                   ...item,
                   expand: i === index ? !item.expand : false,
@@ -49,9 +49,7 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
 
                     // If it's a table row (contains '|')
                     if (trimmed.includes("|")) {
-                      const cells = trimmed
-                        .split("|")
-                        .map((cell) => cell.trim());
+                      const cells = trimmed.split("|").map(cell => cell.trim());
                       tableRows.push(cells);
                     } else {
                       // If we have accumulated tableRows and current line is not a table row
@@ -59,14 +57,14 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
                         content.push(
                           <table
                             key={`table-${index}-${idx}`}
-                            className="w-full mt-2 mb-4 border border-[#D9D9D9] text-[12px] text-[#4B525A]"
+                            className="w-full mt-2 mb-4 border border-[#D9D9D9]] text-[12px] text-[#4B525A]"
                           >
                             <thead>
                               <tr>
                                 {tableRows[0].map((cell, i) => (
                                   <th
                                     key={`head-${i}`}
-                                    className="border border-[#D9D9D9] px-2 py-1 text-left font-semibold bg-[#f8f8f8]"
+                                    className="border border-[#D9D9D9]] px-2 py-1 text-left font-semibold bg-[#f8f8f8]"
                                   >
                                     {cell}
                                   </th>
@@ -79,7 +77,7 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
                                   {row.map((cell, colIndex) => (
                                     <td
                                       key={`cell-${rowIndex}-${colIndex}`}
-                                      className="border border-[#D9D9D9] px-2 py-1"
+                                      className="border border-[#D9D9D9]] px-2 py-1"
                                     >
                                       {cell}
                                     </td>
@@ -96,7 +94,7 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
                         const [key, rest] = trimmed.split(":");
                         const bullets = rest
                           .split(".")
-                          .filter((item) => item.trim() !== "");
+                          .filter(item => item.trim() !== "");
 
                         content.push(
                           <div key={`bullets-${index}-${idx}`} className="mb-2">
@@ -132,14 +130,14 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
                     content.push(
                       <table
                         key={`table-end-${index}`}
-                        className="w-full mt-2 mb-4 border border-[#D9D9D9] text-[12px] text-[#4B525A]"
+                        className="w-full mt-2 mb-4 border border-[#D9D9D9]] text-[12px] text-[#4B525A]"
                       >
                         <thead>
                           <tr>
                             {tableRows[0].map((cell, i) => (
                               <th
                                 key={`head-end-${i}`}
-                                className="border border-[#D9D9D9] px-2 py-1 text-left font-semibold bg-[#f8f8f8]"
+                                className="border border-[#D9D9D9]] px-2 py-1 text-left font-semibold bg-[#f8f8f8]"
                               >
                                 {cell}
                               </th>
@@ -152,7 +150,7 @@ const SupportFaqsContainer: React.FC<SupportFaqsContainerProps> = ({
                               {row.map((cell, colIndex) => (
                                 <td
                                   key={`cell-end-${rowIndex}-${colIndex}`}
-                                  className="border border-[#D9D9D9] px-2 py-1"
+                                  className="border border-[#D9D9D9]] px-2 py-1"
                                 >
                                   {cell}
                                 </td>

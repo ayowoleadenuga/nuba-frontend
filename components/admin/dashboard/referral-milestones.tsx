@@ -7,7 +7,7 @@ const ReferralMilestones = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   return (
-    <div className="w-[55%] border rounded-[8px] border-[#D9D9D9]  bg-[#f7f9fc] p-3 h-[345px]  ">
+    <div className="w-[55%] border rounded-[8px] border-[#D9D9D9]]  bg-[#f7f9fc] p-3 h-[345px]  ">
       <p className="text-grayText font-[500] text-[12px] ">
         Referral Milestones
       </p>

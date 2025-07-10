@@ -25,7 +25,7 @@ import { supportApi } from "./features/supportApiSlice";
 import { KYCApi } from "@/redux/features/kycApiSlice";
 import { referralsApi } from "./features/referralsApiSlice";
 import { contactApi } from "./features/contactApiSlice";
-import cardReducer from "./cardSlice"; // <-- Add this import
+import cardReducer from "./cardSlice";
 
 const persistConfig = {
   key: "root",
@@ -34,7 +34,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  card: cardReducer, // <-- Add this line
+  card: cardReducer,
   contact: contactReducer,
   signup: signupReducer,
   supportCenter: supportCenterReducer,

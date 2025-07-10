@@ -7,7 +7,7 @@ const OverallSalesAnalytics = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   return (
-    <div className="w-[70%] h-fit border rounded-[8px] border-[#D9D9D9] mt-3 bg-[#f7f9fc] p-3 ">
+    <div className="w-[70%] h-fit border rounded-[8px] border-[#D9D9D9]] mt-3 bg-[#f7f9fc] p-3 ">
       <p className="text-grayText font-[500] text-[12px] ">Overall Sales</p>
       <div className="flex items-center justify-between w-full">
         <p className="text-[32px] font-[600] text-[#2A4152] ">£991,306.72</p>

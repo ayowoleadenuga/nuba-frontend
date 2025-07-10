@@ -35,7 +35,7 @@ const RyftPaymentResponse = () => {
           )}
         >
           {rentPaymentStatus === "success"
-            ? "Your payment has been submitted"
+            ? `Your payment has been successfully received`
             : " Your payment could not be processed"}
         </p>
         <p className="font-[500] text-[12px] md:text-[16px] text-center w-full md:w-[70%] lg:w-[50%] ">

@@ -85,7 +85,7 @@ const TransactionDetails = () => {
         className="w-full md:w-[70%] xl:w-[50%] bg-white p-4 mt-5"
       >
         <p className="font-[600] text-[12px] mt-3">Transaction details</p>
-        <div className="border border-[#D9D9D9] rounded-[4px] flex items-center justify-between p-2 md:p-5 mt-1">
+        <div className="border border-[#D9D9D9]] rounded-[4px] flex items-center justify-between p-2 md:p-5 mt-1">
           <div className="flex items-center gap-3">
             <TransactionsIcon />
             <div className="text-[12px] text-[#999B9E]">

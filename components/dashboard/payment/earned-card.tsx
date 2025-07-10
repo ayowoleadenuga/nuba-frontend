@@ -21,7 +21,7 @@ const EarnedCard: React.FC<CardProps> = ({
   handleClick,
 }) => {
   return (
-    <div className="p-6 border-border border w-[27%] rounded-[6px] min-h-[223px] relative ">
+    <div className="p-6 border-[#d9d9d9] border w-[27%] rounded-[6px] min-h-[223px] relative ">
       <div className="absolute top-[25%] left-0  ">
         <Icon />
       </div>

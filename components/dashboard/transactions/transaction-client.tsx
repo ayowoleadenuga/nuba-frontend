@@ -124,7 +124,7 @@ const TransactionClient = () => {
         <TransactionTable />
         <div
           onClick={() => router.push("/transactions/1")}
-          className="md:hidden block border border-border px-2 py-3 mt-4 cursor-pointer"
+          className="md:hidden block border border-[#d9d9d9] px-2 py-3 mt-4 cursor-pointer"
         >
           <div className="flex items-center justify-between w-full">
             <div className="w-[48%] ">

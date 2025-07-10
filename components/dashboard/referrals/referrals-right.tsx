@@ -62,7 +62,7 @@ const ReferralsRight = () => {
           </div>
         </div>
 
-        <div className="rounded-[4px] border border-[#d9d9d9] mt-10">
+        <div className="rounded-[4px] border border-[#d9d9d9]] mt-10">
           <p className="border-b border-b-[#d9d9d9] text-[11px] p-4 text-right">
             {formatDate3(startDate)} - {formatDate3(endDate)}
           </p>
