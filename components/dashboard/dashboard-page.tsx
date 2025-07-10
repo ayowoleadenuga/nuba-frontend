@@ -64,6 +64,7 @@ const DashboardPage = () => {
     error: rentDetailsError,
   } = useGetUserRentsDetailsQuery(rentIdtoUse ?? skipToken);
   const rentDetail = rentDetails?.data;
+  const [showAddNewRentForm, setShowAddNewRentForm] = useState(false);
 
   let nextPaymentDate: Date | undefined;
   let formattedNextPayment;
@@ -101,71 +102,82 @@ const DashboardPage = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-start justify-start md:pl-[500px] pt-[10%]   ">
           <div className="bg-white p-6 rounded-[10px] w-[400px] max-w-md shadow-lg relative ">
-            <h2 className="text-lg font-semibold mb-4">
-              Select the home you want to make payment for
-            </h2>
-            <div className="  max-h-[70vh] md:max-h-[50vh] overflow-y-auto">
-              <div className="flex flex-col gap-4">
-                {rents?.data
-                  ?.slice()
-                  .sort((a, b) =>
-                    a.id === rentIdtoUse ? -1 : b.id === rentIdtoUse ? 1 : 0
-                  )
-                  ?.map((rent, i) => (
-                    <div
-                      key={i}
-                      onClick={() => {
-                        console.log("rent id", rent.id);
-                        dispatch(setCurrentRentId(rent.id));
-                        setShowModal(false);
-                      }}
-                      className={`border w-full  hover:border-black rounded-[4px] h-[128px] flex justify-between items-center px-5 cursor-pointer ${
-                        rent.id === rentIdtoUse
-                          ? "border-black"
-                          : "border-gray-300"
-                      }  `}
-                    >
-                      <div>
-                        {" "}
-                        <p className="font-[600] ">Greenwood Apartments </p>
-                        <span className="text-[#474747CC]/80 text-[10px] flex items-center gap-1">
-                          <p className=" ">123 Main Street, {rent.country} </p>
-                          <span className="bg-[#2A4152] rounded-full h-[3px] w-[3px] "></span>
-                          <p>
-                            {userProfile?.firstName} {userProfile?.lastName}{" "}
-                          </p>
-                        </span>
-                        <p className="text-[#474747CC]/80 text-[10px]">
-                          Rent due in {getDaysLeft(new Date(rent.dueDate))} days
-                        </p>
-                      </div>
+            {!showAddNewRentForm && (
+              <div>
+                <h2 className="text-lg font-semibold mb-4">
+                  Select the home you want to make payment for
+                </h2>
+                <div className="  max-h-[70vh] md:max-h-[50vh] overflow-y-auto">
+                  <div className="flex flex-col gap-4">
+                    {rents?.data
+                      ?.slice()
+                      .sort((a, b) =>
+                        a.id === rentIdtoUse ? -1 : b.id === rentIdtoUse ? 1 : 0
+                      )
+                      ?.map((rent, i) => (
+                        <div
+                          key={i}
+                          onClick={() => {
+                            console.log("rent id", rent.id);
+                            dispatch(setCurrentRentId(rent.id));
+                            setShowModal(false);
+                          }}
+                          className={`border w-full  hover:border-black rounded-[4px] h-[128px] flex justify-between items-center px-5 cursor-pointer ${
+                            rent.id === rentIdtoUse
+                              ? "border-black"
+                              : "border-gray-300"
+                          }  `}
+                        >
+                          <div>
+                            {" "}
+                            <p className="font-[600] ">Greenwood Apartments </p>
+                            <span className="text-[#474747CC]/80 text-[10px] flex items-center gap-1">
+                              <p className=" ">
+                                123 Main Street, {rent.country}{" "}
+                              </p>
+                              <span className="bg-[#2A4152] rounded-full h-[3px] w-[3px] "></span>
+                              <p>
+                                {userProfile?.firstName} {userProfile?.lastName}{" "}
+                              </p>
+                            </span>
+                            <p className="text-[#474747CC]/80 text-[10px]">
+                              Rent due in {getDaysLeft(new Date(rent.dueDate))}{" "}
+                              days
+                            </p>
+                          </div>
 
-                      <ArrowRightIcon />
-                    </div>
-                  ))}
+                          <ArrowRightIcon />
+                        </div>
+                      ))}
+                  </div>
+                  <button
+                    onClick={() => setShowAddNewRentForm(true)}
+                    className="text-[12px] flex gap-3 items-center mt-10  "
+                  >
+                    {" "}
+                    <span className="flex items-center justify-center w-[30px] h-[30px] bg-[#2A4152] rounded-full  ">
+                      <AddIcon fill="white" />
+                    </span>{" "}
+                    Add New Address
+                  </button>
+                </div>
               </div>
-              <Accordion type="single" collapsible className="mt-4">
-                <AccordionItem value="item-1" className="border-0 ">
-                  <AccordionTrigger dropdownVisible>
-                    <div className="text-[12px] flex gap-3 items-center  ">
-                      {" "}
-                      <span className="flex items-center justify-center w-[30px] h-[30px] bg-[#2A4152] rounded-full  ">
-                        <AddIcon fill="white" />
-                      </span>{" "}
-                      Add New Address
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <AddNewRentForm />
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
+            )}
+
+            {showAddNewRentForm && (
+              <div className=" max-h-[80vh] md:max-h-[70vh] overflow-y-auto">
+                <AddNewRentForm />
+              </div>
+            )}
 
             <button
               className="absolute top-2 right-2 text-gray-500 font-[700] hover:text-black"
               onClick={() => {
-                setShowModal(false);
+                if (showAddNewRentForm) {
+                  setShowAddNewRentForm(false);
+                } else {
+                  setShowModal(false);
+                }
                 setIsArrowRotated(false);
               }}
             >
