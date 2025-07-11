@@ -17,6 +17,7 @@ import Boxtwo from "@/assets/svgs/ion_calendar.svg"
 import EllipseTwo from "@/assets/svgs/ellipse2.svg"
 import { Card, CardContent } from "@/components/ui/card"
 import FrameDo from "@/assets/svgs/framedo.svg"
+import { PiCoinsFill } from "react-icons/pi";
 import {  BiSolidPlaneAlt } from "react-icons/bi";
 import { RiBankFill } from "react-icons/ri";
 import { MdHomeFilled } from "react-icons/md";
@@ -84,9 +85,9 @@ export default function Home() {
                     <div data-aos="fade-down" className={`${styles.headline} text-start lg:w-[70%]`}> 
                       <h2 className={styles.title}> 
                         <span className={`${styles.highlight} lg:text-[62px] text-[35px] md:text-[50px] sm:text-[40px] lg:font-[500] leading-[100%]`}>Earn rents rewards </span>
-                        <p className="m-0 md:mt-3 md:text-[24px] sm:text-[22px] leading-[100%] font-[400]">Maximize benefits on your credit and debit card</p>
+                        <p className="m-0 md:mt-3 md:text-[24px] mt-2 sm:text-[22px] leading-[100%] font-[400]">Maximize benefits on your credit and debit card</p>
                       </h2> 
-                      <Link href="/login" className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] rounded-[20px] border-none`} target="_blank" rel="noopener noreferrer" > 
+                      <Link href="/login" className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-12 bg-[#fff] rounded-[20px] border-none`} target="_blank" rel="noopener noreferrer" > 
                         <p className={styles.ctaText}>Start earning today</p> 
                       </Link> 
                     </div> 
@@ -136,7 +137,7 @@ export default function Home() {
                       <div className={`${styles.pin } absolute  pos xl:left-0 xl:top-[30px]`}> 
                         <div className={`${styles.pinCard} backdrop-blur-sm bg-white/10`}> 
                           <div className={`${styles.pinIconWrapper} w-[48px] h-[48px] flex items-center justify-center bg-[#000A18]`} > 
-                            <MdHomeFilled className='text-white  text-3xl'/>
+                            <MdHomeFilled className='text-purple-200  text-3xl'/>
                           </div> 
                           <div className={styles.pinContent}> 
                             <p className={styles.pinTitle}>Hilton Honors</p> 
@@ -155,7 +156,7 @@ export default function Home() {
                       <div className={`${styles.pin} relative pos3  right-[50px] top-[120px]`}> 
                         <div className={`${styles.pinCard} backdrop-blur-sm bg-white/10`}> 
                           <div className={`${styles.pinIconWrapper} w-[48px] h-[48px] flex items-center justify-center bg-[#15150380] `}> 
-                            <Image alt='Home-Icon' src={Ph} className=''/>
+                            <PiCoinsFill  className='text-3xl text-green-100'/>
                           </div> 
                           <div className={`${styles.pinContent} text-start`}>  
                             <p className={styles.pinTitle}>IHG rewards</p> 
@@ -175,7 +176,7 @@ export default function Home() {
                       <div className={`${styles.pin} absolute pos4 top-[40px] left-[90px]`}> 
                         <div className={`${styles.pinCard}  backdrop-blur-sm bg-white/10`}> 
                           <div className={`${styles.pinIconWrapper} w-[48px] h-[48px] flex items-center justify-center bg-[#1e0e1a80] `}> 
-                            <RiBankFill className='text-blue-50 text-3xl' />
+                            <RiBankFill className='text-red-200 text-3xl' />
                           </div> 
                           <div className={styles.pinContent}> 
                             <p className={styles.pinTitle}>Platinum cashback</p> 
@@ -502,7 +503,7 @@ export default function Home() {
         <section className='lg:my-[10rem] lg:mt-[16rem] md:mt-[12rem]'>
           <div>
             <div className='sm:mx-10 xl:mx-20  xl:w-[975px] lg:w-[900px] mx-5 md:mx-15 md:my-8  sm:my-3 my-14 lg:mt-42'> 
-              <p className="m-0 lg:text-[48px] md:text-[45px] sm:text-[40px] text-[30px] text-white font-[500] leading-[100%]">Why over 4 million members choose the smarter way to pay rent</p>
+              <p className="m-0 lg:text-[48px] md:text-[45px] sm:text-[40px] text-[30px] text-white font-[500] leading-[100%]">Why over 1 million members choose the smarter way to pay rent</p>
             </div>
             <div>
 
