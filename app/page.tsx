@@ -86,7 +86,7 @@ export default function Home() {
                         <span className={`${styles.highlight} lg:text-[62px] text-[35px] md:text-[50px] sm:text-[40px] lg:font-[500] leading-[100%]`}>Earn rents rewards </span>
                         <p className="m-0 md:mt-3 md:text-[24px] sm:text-[22px] leading-[100%] font-[400]">Maximize benefits on your credit and debit card</p>
                       </h2> 
-                      <Link href="https://id.biltrewards.com/login/enter-email/" className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] rounded-[20px] border-none`} target="_blank" rel="noopener noreferrer" > 
+                      <Link href="/login" className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] rounded-[20px] border-none`} target="_blank" rel="noopener noreferrer" > 
                         <p className={styles.ctaText}>Start earning today</p> 
                       </Link> 
                     </div> 
@@ -216,7 +216,7 @@ export default function Home() {
                   </div>
                   <div>
                     <Link
-                      href="#"
+                      href=""
                       className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] hover:bg-blue-400 hover:text-white rounded-[20px] border-none`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -272,7 +272,7 @@ export default function Home() {
             </div>
           </div> 
         </section> 
-        <section className='lg:mx-20 md:mx-2 mx-6 md:my-32 xl:my-38 my-20'> 
+        <section className='xl:mx-20 lg:mx-10 md:mx-2 mx-6 md:my-32 xl:my-38 my-20'> 
           <div className=''>
             <div className='lg:w-[575px] md:mb-10 mb-3 md:w-[100%]'>
               <p className="m-0 lg:text-[48px] text-[#ffffff] md:text-[45px] sm:text-[40px] text-[35px] font-[500] leading-[100%]">Earn rewards on rent</p>
@@ -283,7 +283,7 @@ export default function Home() {
                 <div className="bg-transparent xl:w-[407px] lg:h-[576px] md:h-[600px] rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group">
                   <div className="overflow-hidden">
                     <div className={`${styles.img2} px-7 py-6 flex justify-center items-center`}>
-                      <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/45 xl:w-[359px] xl:h-[143px] lg:w-[120px] lg:h-[140px] md:w-[330px] md:h-[130px] w-[300px] h-[150px]'>
+                      <div className='backdrop-blur-md px-7 py-5 rounded-[8px] bg-black/35 xl:w-[359px] xl:h-[143px] lg:w-[120px] lg:h-[140px] md:w-[330px] md:h-[130px] w-[300px] h-[150px]'>
                         <div className='flex xl:mt-1 mt-3 justify-between items-center'>
                           <div> 
                             <p className="m-0 xl:text-[14px] text-[13px]  text-white">Your rent</p>
@@ -294,7 +294,7 @@ export default function Home() {
                         </div>
                         <div className='flex xl:mt-4 mt-3 justify-between items-center'>
                           <div> 
-                            <p className="m-0 xl:text-[14px] text-[13px]  text-white">Good</p>
+                            <p className="m-0 xl:text-[14px] text-[13px]  text-white">Reward</p>
                           </div>
                           <div className=''>
                             <div className="m-0 xl:text-[14px] flex items-center gap-2 text-[13px]  text-[#FFC73B]">
@@ -308,7 +308,7 @@ export default function Home() {
                           </div>
                         </div>
                         <div className={`${styles.hr} xl:mt-3`}></div>
-                        <div className='flex items-center gap-2 mt-3 justify-center'>
+                        <div className='flex items-center gap-4 mt-3 justify-center'>
                             <div>
                               <Image src={Visa} alt="visa-icon"/>
                             </div>
@@ -336,7 +336,7 @@ export default function Home() {
               <div className="w-full md:my-3 xl:my-0 my-5 max-w-md mx-auto">
                 <div  className="bg-transparent  xl:w-[407px] lg:h-[576px] md:h-[600px] rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group ">
                   <div className={`${styles.img} px-7 py-6 flex justify-center items-center`}>
-                    <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/50 xl:w-[359px] xl:h-[269px] lg:w-[350px] lg:h-[250px] md:w-[330px] md:h-[260px] w-[300px] h-[280px]'>
+                    <div className='backdrop-blur-lg px-7 py-5 rounded-[8px]  bg-black/35 xl:w-[359px] xl:h-[269px] lg:w-[359px] lg:h-[250px] md:w-[330px] md:h-[269px] w-[300px] h-[280px]'>
                       <p className="m-0 text-white xl:text-[14px] text-[13px] opacity-[90%]">Credit score</p>
                       <p className="m-0 text-white text-[12px] mb-2  opacity-[60%]">
                         Experian, Equifax and Transunion
@@ -432,7 +432,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className='md:my-14 xl:mx-20  mx-5 lg:my-20 md:mx-15'>
+        <section className='md:my-14 xl:mx-20 mt-[6rem]  lg:mt-[15rem] md:mt-[7rem] mx-5 lg:my-40 md:mx-15'>
           <div className='lg:w-[575px] md:mb-0 mb-4 w-[100%]'>
             <p className="m-0 font-[500] mb-3 leading-[100%] lg:text-[48px] md:text-[45px] text-white sm:text-[42px] text-[35px]">Travel Perks</p>
             <p className="m-0 lg:text-[20px] md:text-[18px] text-[#ffffff] opacity-[66%] ">Use your favorite points accumulated from credit cards for airmiles and hotel discounts.</p>
@@ -499,14 +499,14 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className=''>
+        <section className='lg:my-[10rem] lg:mt-[16rem] md:mt-[12rem]'>
           <div>
-            <div className='sm:mx-10 xl:mx-20  xl:w-[975px] lg:w-[900px] mx-5 md:mx-15 md:my-8 sm:my-3 my-14 lg:my-24'> 
+            <div className='sm:mx-10 xl:mx-20  xl:w-[975px] lg:w-[900px] mx-5 md:mx-15 md:my-8  sm:my-3 my-14 lg:mt-42'> 
               <p className="m-0 lg:text-[48px] md:text-[45px] sm:text-[40px] text-[30px] text-white font-[500] leading-[100%]">Why over 4 million members choose the smarter way to pay rent</p>
             </div>
             <div>
 
-              <div className="px-4 lg:mt-8 md:mt-5 mt-6">
+              <div className="px-4 lg:mt-14 md:mt-5 mt-6">
                 <div className="flex overflow-x-auto gap-2 no-scrollbar pb-2">
                   {cardsCarou.map((card, index) => (
                     <div

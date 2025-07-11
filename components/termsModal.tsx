@@ -20,7 +20,7 @@ export default function TermsModal({ open, onClose }) {
           </DialogHeader>
 
           {/* Scrollable content */}
-<ScrollArea className="flex-1 p-6 space-y-4 text-gray-700 dark:text-gray-300 overflow-x-auto">
+            {/* <ScrollArea className="flex-1 p-6 space-y-4 text-gray-700 dark:text-gray-300 overflow-x-auto">
             <p>These are the terms and conditions on which we provide our website and our services. You must accept these terms when signing up or making payments through our service.</p>
 
             <h3 className="font-semibold text-lg">About us and our services</h3>
@@ -65,7 +65,7 @@ export default function TermsModal({ open, onClose }) {
 
             <h3 className="font-semibold text-lg">Complaints</h3>
             <p>For complaints, contact us at support@nuba.com.</p>
-          </ScrollArea>
+            </ScrollArea> */}
         </div>
       </DialogContent>
     </Dialog>
