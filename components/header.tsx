@@ -47,7 +47,7 @@ export default function Navbar() {
 
         {/* 🔍 Login + Mobile Menu Trigger */}
         <div className="flex  items-center space-x-4">
-          <Link href="/login" className="bg-white px-3 rounded-[20px]">
+          <Link href="/login" className="bg-white px-3 hover:bg-blue-400 hover:text-white rounded-[20px]">
             <Button variant="secondary" size="sm">
               Get Started
             </Button>

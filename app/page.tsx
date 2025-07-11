@@ -217,7 +217,7 @@ export default function Home() {
                   <div>
                     <Link
                       href="https://id.biltrewards.com/login/enter-email/"
-                      className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] rounded-[20px] border-none`}
+                      className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] hover:bg-blue-400 hover:text-white rounded-[20px] border-none`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -226,7 +226,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="lg:w-[40%] md:mt-0 mt-10 md:w-[50%]  relative lg:top-[250px] md:px-5 flex justify-end">
-                  <div className="w-full backdrop-blur-sm bg-black/12 sm:bg-white/1 rounded-[20px] p-5 mt-auto">
+                  <div className="w-full backdrop-blur-sm bg-black/35 sm:bg-white/1 rounded-[20px] p-5 mt-auto">
                     <div className="md:py-3 py-2 lg:py-4">
                       <p className="m-0 text-white lg:text-[20px] font-[600] md:text-[18px]">Fall seasons Apt</p>
                       <p className="m-0 text-[#ffffff] opacity-[66%] lg:text-[14px] font-[400] md:text-[13px]">WH3 1BS</p>
@@ -272,18 +272,18 @@ export default function Home() {
             </div>
           </div> 
         </section> 
-        <section className='lg:mx-12 md:mx-2 mx-6 md:my-10  my-15'> 
+        <section className='lg:mx-20 md:mx-2 mx-6 md:my-32 xl:my-38 my-20'> 
           <div className=''>
             <div className='lg:w-[575px] md:mb-10 mb-3 md:w-[100%]'>
               <p className="m-0 lg:text-[48px] text-[#ffffff] md:text-[45px] sm:text-[40px] text-[35px] font-[500] leading-[100%]">Earn rewards on rent</p>
               <p className="m-0 mt-4 lg:text-[20px] leading-[145%] md:text-[18px] text-[16px] text-[#ffffff] opacity-[66%]">Transform your largest monthly expense into valuable rewards – earn Nuba Points with every on-time rent payment and unlock exclusive monthly Rent Day® benefits.</p>
             </div>
-            <div className='xl:flex md:mt-0 mt-4 lg:block items-center justify-center gap-5'>
+            <div className='xl:flex md:mt-0 mt-4 lg:block  items-center justify-center gap-5'>
               <div className="w-full   max-w-md mx-auto">
                 <div className="bg-transparent xl:w-[407px] lg:h-[576px] md:h-[600px] rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group">
                   <div className="overflow-hidden">
                     <div className={`${styles.img2} px-7 py-6 flex justify-center items-center`}>
-                      <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/20 xl:w-[359px] xl:h-[143px] lg:w-[120px] lg:h-[140px] md:w-[330px] md:h-[130px] w-[300px] h-[150px]'>
+                      <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/45 xl:w-[359px] xl:h-[143px] lg:w-[120px] lg:h-[140px] md:w-[330px] md:h-[130px] w-[300px] h-[150px]'>
                         <div className='flex xl:mt-1 mt-3 justify-between items-center'>
                           <div> 
                             <p className="m-0 xl:text-[14px] text-[13px]  text-white">Your rent</p>
@@ -333,10 +333,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="w-full md:my-3 xl:my-0 max-w-md mx-auto">
+              <div className="w-full md:my-3 xl:my-0 my-5 max-w-md mx-auto">
                 <div  className="bg-transparent  xl:w-[407px] lg:h-[576px] md:h-[600px] rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group ">
                   <div className={`${styles.img} px-7 py-6 flex justify-center items-center`}>
-                    <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/30 xl:w-[359px] xl:h-[269px] lg:w-[350px] lg:h-[250px] md:w-[330px] md:h-[260px] w-[300px] h-[280px]'>
+                    <div className='backdrop-blur-sm px-7 py-5 rounded-[20px] bg-black/50 xl:w-[359px] xl:h-[269px] lg:w-[350px] lg:h-[250px] md:w-[330px] md:h-[260px] w-[300px] h-[280px]'>
                       <p className="m-0 text-white xl:text-[14px] text-[13px] opacity-[90%]">Credit score</p>
                       <p className="m-0 text-white text-[12px] mb-2  opacity-[60%]">
                         Experian, Equifax and Transunion
@@ -432,76 +432,76 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className='md:my-14  mx-5 lg:my-20 md:mx-15'>
+        <section className='md:my-14 xl:mx-20  mx-5 lg:my-20 md:mx-15'>
           <div className='lg:w-[575px] md:mb-0 mb-4 w-[100%]'>
             <p className="m-0 font-[500] mb-3 leading-[100%] lg:text-[48px] md:text-[45px] text-white sm:text-[42px] text-[35px]">Travel Perks</p>
             <p className="m-0 lg:text-[20px] md:text-[18px] text-[#ffffff] opacity-[66%] ">Use your favorite points accumulated from credit cards for airmiles and hotel discounts.</p>
           </div>
- <div>
-      {/* --- Airline Section --- */}
-      <div className="flex flex-col items-start md:mt-12 lg:mt-20 px-3 md:px-6">
-        <div className="flex justify-between items-center w-full mb-7">
-          <p className="text-xl font-semibold text-white lg:text-[20px] text-[18px]">Airline transfer partners</p>
-          <div className="flex items-center gap-2">
-            <button onClick={() => scroll(scrollRef1, "left")}className="bg-white rounded-full p-2">
-              <FaArrowLeft className="text-black" />
-            </button>
-            <button onClick={() => scroll(scrollRef1, "right")} className="bg-white rounded-full p-2">
-              <FaArrowRight className="text-black" />
-            </button>
-          </div>
-        </div>
-        <div
-          ref={scrollRef1}
-          className="flex gap-[8px] overflow-x-hidden scrollbar-hide w-full"
-        >
-          {cards.map((card, index) => (
-            <div key={index} className="flex-shrink-0 w-[120px] md:w-[144px]">
-              <Image
-                src={card.image}
-                alt={card.title}
-                className="object-contain w-full h-auto"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* --- Hotel Section --- */}
-      <div className="flex flex-col items-start md:mt-12 mt-3 lg:mt-20 px-3 md:px-6">
-        <div className="flex justify-between items-center w-full mb-7">
-          <p className="text-xl font-semibold text-white lg:text-[20px] text-[18px]">Hotel transfer partners</p>
-          <div className="flex items-center gap-2">
-            <button onClick={() => scroll(scrollRef2, "left")} className="bg-white rounded-full p-1">
-              <FaArrowLeft className="text-black" />
-            </button>
-            <button onClick={() => scroll(scrollRef2, "right")} className="bg-white rounded-full p-1">
-              <FaArrowRight className="text-black" />
-            </button>
-          </div>
-        </div>
-        <div
-          ref={scrollRef2}
-          className="flex gap-[8px] overflow-x-hidden  scrollbar-hide w-full"
-        >
-          {cardsDuo.map((card, index) => (
-            <div key={index} className="flex-shrink-0 w-[120px]  flex justify-center items-center md:h-[144px] h-[113px] md:p-0 sm:p-0 p-3 md:w-[152px] rounded-[5px] bg-[rgba(255,255,255,0.07)]">
-              <div className='flex justify-center items-center'>
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  className="object-contain w-full h-auto"
-                />
+          <div>
+            {/* --- Airline Section --- */}
+            <div className="flex flex-col items-start md:mt-12 lg:mt-20 px-3 md:px-2">
+              <div className="flex justify-between items-center w-full mb-7">
+                <p className="text-xl font-semibold text-white lg:text-[20px] text-[18px]">Airline transfer partners</p>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => scroll(scrollRef1, "left")}className="bg-white rounded-full p-2">
+                    <FaArrowLeft className="text-black" />
+                  </button>
+                  <button onClick={() => scroll(scrollRef1, "right")} className="bg-white rounded-full p-2">
+                    <FaArrowRight className="text-black" />
+                  </button>
+                </div>
+              </div>
+              <div
+                ref={scrollRef1}
+                className="flex gap-[8px] overflow-x-hidden scrollbar-hide w-full"
+              >
+                {cards.map((card, index) => (
+                  <div key={index} className="flex-shrink-0 w-[120px] md:w-[144px]">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      className="object-contain w-full h-auto"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+
+            {/* --- Hotel Section --- */}
+            <div className="flex flex-col items-start md:mt-12 mt-3 lg:mt-20 px-3 md:px-2">
+              <div className="flex justify-between items-center w-full mb-7">
+                <p className="text-xl font-semibold text-white lg:text-[20px] text-[18px]">Hotel transfer partners</p>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => scroll(scrollRef2, "left")} className="bg-white rounded-full p-2">
+                    <FaArrowLeft className="text-black" />
+                  </button>
+                  <button onClick={() => scroll(scrollRef2, "right")} className="bg-white rounded-full p-2">
+                    <FaArrowRight className="text-black" />
+                  </button>
+                </div>
+              </div>
+              <div
+                ref={scrollRef2}
+                className="flex gap-[8px] overflow-x-hidden  scrollbar-hide w-full"
+              >
+                {cardsDuo.map((card, index) => (
+                  <div key={index} className="flex-shrink-0 w-[120px]  flex justify-center items-center md:h-[144px] h-[113px] md:p-0 sm:p-0 p-3 md:w-[152px] rounded-[5px] bg-[rgba(255,255,255,0.07)]">
+                    <div className='flex justify-center items-center'>
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        className="object-contain w-full h-auto"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
         <section className=''>
           <div>
-            <div className='sm:mx-10 mx-5 md:mx-15 md:my-8 sm:my-3 my-14 lg:my-24'> 
+            <div className='sm:mx-10 xl:mx-20  xl:w-[975px] lg:w-[900px] mx-5 md:mx-15 md:my-8 sm:my-3 my-14 lg:my-24'> 
               <p className="m-0 lg:text-[48px] md:text-[45px] sm:text-[40px] text-[30px] text-white font-[500] leading-[100%]">Why over 4 million members choose the smarter way to pay rent</p>
             </div>
             <div>
