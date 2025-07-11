@@ -216,7 +216,7 @@ export default function Home() {
                   </div>
                   <div>
                     <Link
-                      href="https://id.biltrewards.com/login/enter-email/"
+                      href="#"
                       className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] hover:bg-blue-400 hover:text-white rounded-[20px] border-none`}
                       target="_blank"
                       rel="noopener noreferrer"
