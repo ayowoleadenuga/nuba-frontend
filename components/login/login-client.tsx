@@ -34,11 +34,11 @@ const LoginClient = () => {
   const user = useSelector((state: RootState) => state.signup.user);
   const userAll = useSelector((state: RootState) => state.signup);
 
-  useEffect(() => {
-    if (userAll?.token) {
-      router.push(`/dashboard`);
-    }
-  }, [user, router]);
+  // useEffect(() => {
+  //   if (userAll?.token) {
+  //     router.push(`/dashboard`);
+  //   }
+  // }, [user, router]);
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginDetails({
       ...loginDetails,
