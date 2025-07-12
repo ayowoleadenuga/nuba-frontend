@@ -55,8 +55,11 @@ const kycVerification = () => {
     const handleValidateKYCStatus = async () => {
       const sessionId = localStorage.getItem("kyc_session_id") ?? "";
       if (!sessionId) return;
-      await nubaApis.kyc.handleValidateKYCStatus(sessionId, triggerValidateKYC);
-      console.log("kyc response", kycResponse);
+      const theKYCResponse = await nubaApis.kyc.handleValidateKYCStatus(
+        sessionId,
+        triggerValidateKYC
+      );
+      console.log("kyc response", theKYCResponse);
       localStorage.removeItem("kyc_session_id");
     };
 
@@ -139,7 +142,7 @@ const kycVerification = () => {
           : "Start kyc process"}
       </Button>
       {(userProfile?.isKycVerified ||
-        kycResponse?.data?.status === "verified") && (
+        kycResponse?.data?.status === "created") && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg">
             <h2 className="text-2xl font-semibold mb-4">
@@ -149,8 +152,10 @@ const kycVerification = () => {
               <SuccessIcon />
             </div>
             <p className="mb-6">
-              Your identity has been verified. You can now access your
-              dashboard.
+              We are currently processing your verification. We will get back to
+              you on the status of your verification.
+              {/* Your identity has been verified. You can now access your
+              dashboard. */}
             </p>
             <Button
               onClick={() => router.push("/dashboard")}
@@ -161,7 +166,7 @@ const kycVerification = () => {
           </div>
         </div>
       )}
-      {(kycResponse?.data?.status === "not-verified" || showFailedModal) && (
+      {(kycResponse?.data?.status !== "created" || showFailedModal) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg relative">
             <button

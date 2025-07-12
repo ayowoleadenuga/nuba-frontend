@@ -406,9 +406,14 @@ export interface kycResponse {
   };
 }
 export interface kycStatusResponse {
-  status: boolean;
+  statusCode: number;
   data: {
     status: string;
+    id: string;
+    sessionId: string;
+    reason: string | null;
+    submittedAt: string | null;
+    decisionMadeAt: string | null;
   };
 }
 

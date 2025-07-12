@@ -87,7 +87,7 @@ const LoginClient = () => {
   // const userAll = useSelector((state: RootState) => state.signup);
 
   return (
-    <div className="w-full flex items-center justify-center h-full flex-col">
+    <div className="w-full flex items-center justify-center h-full flex-col bg-white ">
       <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">
         Welcome Back
       </p>
