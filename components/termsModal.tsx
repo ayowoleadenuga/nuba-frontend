@@ -20,7 +20,7 @@ type TermsModalProps = {
 export default function TermsModal({ open, onClose }: TermsModalProps) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="xl:max-w-5xl h-[100vh] overflow-auto lg:max-w-3xl max-h-[90vh] p-0 rounded-2xl">
+      <DialogContent className="xl:max-w-5xl h-[100vh]  overflow-auto lg:max-w-3xl max-h-[90vh] p-0 rounded-2xl">
         <div className="relative bg-white dark:bg-gray-900 flex flex-col h-full">
           <DialogHeader className="p-6 border-b">
             <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
@@ -31,6 +31,13 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
             </DialogDescription>
           </DialogHeader>
 
+          <DialogClose className="hidden"></DialogClose>
+          <button
+            type="button"
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground text-[5rem]"
+          >
+            <X className="h-5 w-5 dark:text-white" />
+          </button>
           <ScrollArea className="flex-1 p-6 space-y-4 text-gray-700 dark:text-gray-300 overflow-x-auto">
             <h3 className="font-semibold text-lg">1. Introduction</h3>
             <p>
@@ -65,7 +72,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               any concerns or questions.
             </p>
 
-            <h3 className="font-semibold text-lg">3. Scope of Services</h3>
+            <h3 className="font-semibold mt-4 text-lg">3. Scope of Services</h3>
             <p>
               a) Nuba provides Users with access to the following services:
               <li>Facilitation of rent payments via debit and credit card;</li>
@@ -178,7 +185,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               errors.
             </p>
 
-            <h3 className="font-semibold text-lg">5. Payment Terms</h3>
+            <h3 className="font-semibold mt-4 text-lg">5. Payment Terms</h3>
             <h4>Payment Timing and Processing</h4>
             <p>
               You acknowledge and agree that Nuba has no control over the timing
@@ -208,7 +215,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               suspect to be fraudulent, unauthorised, or unlawful.
             </p>
 
-            <h3 className="font-semibold text-lg">6. Rewards & Points</h3>
+            <h3 className="font-semibold mt-4 text-lg">6. Rewards & Points</h3>
             <p>
               <li>
                 You earn Nuba Points through referrals and eligible

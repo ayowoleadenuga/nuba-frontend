@@ -65,20 +65,12 @@ export default function Home() {
   return ( 
     <div className="min-h-screen bg-gray-50 font-sans">
       <Navbar/>
-      <Head> 
-        <title>Bilt Rewards - Earn Rewards on Rent</title> 
-          <meta name="description" content="Join Bilt Rewards to earn points on rent payments and more." />
-      </Head> 
       {/* Hero Section */} 
       <main className='bg-[#020A13]'> 
         <section className="text-center"> 
           <div className="">
             <div className=""> 
               <div className={styles.hero}> 
-                <Head> 
-                  <title>Bilt Rewards - Earn Rewards on Rent</title> 
-                  <meta name="description" content="Join Bilt Rewards to earn points on rent payments and more." /> 
-                </Head> 
                 {/* Hero Section */} 
                 <div className={`${styles.container} items-center  md:block lg:flex`}> 
                   <div  className={`${styles.content} md:block items-center lg:flex `}> {/* Headline */} 
@@ -217,10 +209,8 @@ export default function Home() {
                   </div>
                   <div>
                     <Link
-                      href=""
+                      href="#earn-rewards"
                       className={`${styles.ctaButton} md:mt-10 sm:mt-6 mt-3 bg-[#fff] hover:bg-blue-400 hover:text-white rounded-[20px] border-none`}
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       <p className={styles.ctaText}>Explore rewards</p>
                     </Link>
@@ -273,7 +263,7 @@ export default function Home() {
             </div>
           </div> 
         </section> 
-        <section className='xl:mx-20 lg:mx-10 md:mx-2 mx-6 md:my-32 xl:my-38 my-20'> 
+        <section id='earn-rewards' className='xl:mx-20 lg:mx-10 md:mx-2 mx-6 md:my-32 xl:my-38 my-20'> 
           <div className=''>
             <div className='lg:w-[575px] md:mb-10 mb-3 md:w-[100%]'>
               <p className="m-0 lg:text-[48px] text-[#ffffff] md:text-[45px] sm:text-[40px] text-[35px] font-[500] leading-[100%]">Earn rewards on rent</p>

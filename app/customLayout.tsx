@@ -8,6 +8,7 @@ import ReduxProvider from "@/redux/provider";
 import { Toaster } from "sonner";
 import NextTopLoader from "nextjs-toploader";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   title: "Nuba - Rewards from your rent",
   description: "Nuba - Rewards from your rent",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.svg",
   },
 };
 
