@@ -13,6 +13,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { SuccessIcon } from "@/assets/svg/success-icon";
 import { useSearchParams } from "next/navigation";
 import { ErrorLogo } from "@/assets/svg/error-logo";
+import { PendingIcon } from "@/assets/svg/pending-icon";
 
 const kycVerification = () => {
   const [
@@ -59,7 +60,6 @@ const kycVerification = () => {
         sessionId,
         triggerValidateKYC
       );
-      console.log("kyc response", theKYCResponse);
       localStorage.removeItem("kyc_session_id");
     };
 
@@ -141,15 +141,17 @@ const kycVerification = () => {
           ? "Checking Verification Status"
           : "Start kyc process"}
       </Button>
+
       {(userProfile?.isKycVerified ||
         kycResponse?.data?.status === "created") && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg">
             <h2 className="text-2xl font-semibold mb-4">
-              Verification Successful!
+              Verification Pending!
             </h2>
             <div className="flex items-center justify-center w-full mb-4">
-              <SuccessIcon />
+              {/* <SuccessIcon /> */}
+              <PendingIcon width={50} height={50} />
             </div>
             <p className="mb-6">
               We are currently processing your verification. We will get back to
@@ -166,7 +168,7 @@ const kycVerification = () => {
           </div>
         </div>
       )}
-      {(kycResponse?.data?.status !== "created" || showFailedModal) && (
+      {(kycResponse?.data?.status === "not_started" || showFailedModal) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg relative">
             <button
