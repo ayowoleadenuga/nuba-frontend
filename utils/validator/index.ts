@@ -47,12 +47,14 @@ export const tenancyDetailsSchema = z
     endDate: z.date({ required_error: "End date is required" }),
     rentFrequency: z.string().min(1, "Rent frequency is required"),
     monthlyRentAmt: z.string().min(1, "Monthly rent amount is required"),
+    rentAddress: z.string().min(1, "Rent address is required"),
+    rentName: z.string().min(1, "Rent name is required"),
   })
   .refine(
     data => data.endDate >= data.startDate,
     {
       message: "End date cannot be earlier than start date",
-      path: ["endDate"], // this will show the error under endDate
+      path: ["endDate"],
     }
     // checkAgreement: z.boolean().refine(val => val === true, {
     //   message: "You must agree to the terms and conditions",
@@ -144,7 +146,8 @@ export const newRentSchema = z
     landlordAccountName: z.string().min(1, "Account name is required"),
     landlordAccountNumber: z.string().min(1, "Account number is required"),
     landlordSortCode: z.string().min(1, "Sort code is required"),
-    landlordEmail: z.string().min(1, "landlord email is required"),
+    rentName: z.string().min(1, "Appartment name is required"),
+    rentAddress: z.string().min(1, "Rent address is required"),
   })
   .refine(
     data => data.endDate >= data.startDate,

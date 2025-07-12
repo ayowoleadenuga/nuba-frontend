@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import CreateAccountForm from "@/components/sign-up/create-account-form";
@@ -12,12 +12,22 @@ import AgentDetailsForm from "@/components/sign-up/agent-details";
 import NewPaymentForm from "@/components/sign-up/new-payment-method";
 import { Button } from "@/components/ui/button";
 import NewPaymentMethodRyft from "@/components/sign-up/new-payment-method-ryft";
+import { useRouter } from "nextjs-toploader/app";
 
 const SignUpClient = () => {
   const dispatch = useDispatch();
   const currentStep = useSelector(
     (state: RootState) => state.signup.currentStep
   );
+  const router = useRouter();
+  const user = useSelector((state: RootState) => state.signup.user);
+  const userAll = useSelector((state: RootState) => state.signup);
+
+  useEffect(() => {
+    if (userAll?.token) {
+      router.push(`/dashboard`);
+    }
+  }, [user, router]);
 
   const renderStep = () => {
     switch (currentStep) {

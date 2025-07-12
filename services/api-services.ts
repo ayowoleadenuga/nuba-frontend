@@ -491,7 +491,7 @@ export const nubaApis = {
     ) => {
       try {
         await validateKYCStatus(kycId).unwrap();
-        toast.success("Payment validated successfully");
+        toast.success("KYC validation completed");
       } catch (error: any) {
         console.error(error);
         toast.error(error?.data?.message || "Failed to validate payment");

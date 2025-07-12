@@ -19,25 +19,15 @@ import { cn, formatDate } from "@/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar } from "@mui/material";
-import NotificationIcon from "@/assets/svg/notification-icon";
 import { PointIcon } from "@/assets/svg/point-icon";
-import { DropdownIcon } from "@/assets/svg/dropdown-icon";
-import {
-  adminSideListItems,
-  supportList,
-  sideListItems,
-} from "@/components/sidebar/constants";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown";
-import LogoutButton from "@/components/ui/logout-button";
+import { supportList, sideListItems } from "@/components/sidebar/constants";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import UserInfoSkeleton from "../dashboard/skeletons/user-info-skeleton";
+import Image from "next/image";
+import verified from "@/assets/jpg/verified.jpeg";
+import { LogoutIcon } from "@/assets/svg/logout-icon";
+import { resetSignup } from "@/redux/features/authSlice";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -140,6 +130,8 @@ export default function DashboardLayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  const dispatch = useDispatch();
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -156,7 +148,10 @@ export default function DashboardLayoutWrapper({
   const { data: userProfileDetails, isLoading: isProfileDetailsLoading } =
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
-
+  const handleLogout = () => {
+    dispatch(resetSignup());
+    router.push("/");
+  };
   return (
     <Box sx={{ display: "flex" }}>
       {/* <CssBaseline /> */}
@@ -211,14 +206,14 @@ export default function DashboardLayoutWrapper({
             <UserInfoSkeleton />
           ) : (
             <Box className="flex items-center gap-2">
-              <IconButton
+              {/* <IconButton
                 size="small"
                 aria-label="Notifications"
                 color="inherit"
                 sx={{ mr: 2 }}
               >
                 <NotificationIcon />
-              </IconButton>
+              </IconButton> */}
               <Box
                 sx={{
                   display: "flex",
@@ -235,7 +230,10 @@ export default function DashboardLayoutWrapper({
               <p className="font-[700] text-white">
                 {userProfile?.firstName} {userProfile?.lastName}
               </p>
-              <div className="relative w-auto">
+              {userProfile?.isKycVerified && (
+                <Image src={verified} alt="verified" className="w-4 h-4" />
+              )}
+              {/* <div className="relative w-auto">
                 <button onClick={() => setShowLogout(!showLogout)}>
                   <DropdownIcon />
                 </button>
@@ -244,7 +242,7 @@ export default function DashboardLayoutWrapper({
                     <LogoutButton />
                   </div>
                 )}
-              </div>
+              </div> */}
             </Box>
           )}
         </Toolbar>
@@ -398,6 +396,59 @@ export default function DashboardLayoutWrapper({
               </Link>
             );
           })}
+        </List>
+        <List sx={{ mt: 5 }}>
+          <ListItem disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              onClick={handleLogout}
+              sx={[
+                {
+                  minHeight: 50,
+                  color: "red",
+                  backgroundColor: "white",
+                  borderRadius: "8px",
+                  "&:hover": {
+                    backgroundColor: "red",
+                    color: "white",
+                  },
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                    color: "black",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <LogoutIcon fill="red" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Log out"
+                sx={[
+                  {
+                    opacity: open ? 1 : 0,
+                  },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       <Box

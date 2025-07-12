@@ -5,24 +5,23 @@ import { Button } from "@/components/ui/button";
 import {
   useKycVerificationMutation,
   useLazyValidateKYCQuery,
+  useValidateKYCQuery,
 } from "@/redux/features/kycApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { nubaApis } from "@/services/api-services";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "nextjs-toploader/app";
-import { SuccessIcon } from "@/assets/svg/success-icon";
 import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { PendingIcon } from "@/assets/svg/pending-icon";
 import { ErrorLogo } from "@/assets/svg/error-logo";
 
-const kycVerification = () => {
-  const [
-    kycVerification,
-    {
-      isLoading: verificationLoading,
-      isSuccess,
-      data: kycVerificationResponse,
-    },
-  ] = useKycVerificationMutation();
+const KycVerification = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const verificationStatus = searchParams.get("verificationStatus");
+
+  const [showFailedModal, setShowFailedModal] = useState(false);
 
   const {
     data: userProfileDetails,
@@ -30,60 +29,24 @@ const kycVerification = () => {
     isError: isUserProfileError,
     refetch: refetchUserProfile,
   } = useGetUserProfileQuery();
+
   const userProfile = userProfileDetails?.data;
 
-  useEffect(() => {
-    refetchUserProfile();
-  }, []);
-
-  const searchParams = useSearchParams();
-  const verificationId = searchParams.get("verificationStatus");
+  const [kycVerification, { isLoading: verificationLoading }] =
+    useKycVerificationMutation();
 
   const [
     triggerValidateKYC,
-    { data: kycResponse, isLoading: kycResponseLoading },
+    {
+      data: kycResponse,
+      isLoading: kycResponseLoading,
+      isError: kycValidationFailed,
+    },
   ] = useLazyValidateKYCQuery();
 
-  useEffect(() => {
-    // const handleValidateKYCStatus = async (kycId: string) => {
-    //   await nubaApis.kyc.handleValidateKYCStatus(
-    //     kycVerificationResponse?.data?.session_id ?? "",
-    //     triggerValidateKYC
-    //   );
-    // };
-
-    const handleValidateKYCStatus = async () => {
-      const sessionId = localStorage.getItem("kyc_session_id") ?? "";
-      if (!sessionId) return;
-      await nubaApis.kyc.handleValidateKYCStatus(sessionId, triggerValidateKYC);
-      console.log("kyc response", kycResponse);
-      localStorage.removeItem("kyc_session_id");
-    };
-
-    // if (
-    //   verificationId === "complete" &&
-    //   kycVerificationResponse?.data?.session_id
-    // ) {
-    //   handleValidateKYCStatus(kycVerificationResponse?.data?.session_id);
-    // }
-    if (verificationId === "complete") {
-      handleValidateKYCStatus();
-    }
-  }, [verificationId]);
-
   const handleVerifyUser = async () => {
-    // try {
-    //   const response = await nubaApis.kyc.handleVerify(kycVerification);
-    //   console.log("kyc res", response);
-    //   if (response?.data?.sessionUrl) {
-    //     window.location.href = response.data.sessionUrl;
-    //   }
-    // } catch (error) {
-    //   console.error("KYC verification failed:", error);
-    // }
     try {
       const response = await nubaApis.kyc.handleVerify(kycVerification);
-      console.log("kyc res", response);
       if (response?.data?.sessionUrl && response?.data?.sessionId) {
         localStorage.setItem("kyc_session_id", response.data.sessionId);
         window.location.href = response.data.sessionUrl;
@@ -92,65 +55,98 @@ const kycVerification = () => {
       console.error("KYC verification failed:", error);
     }
   };
-  const router = useRouter();
-  const [showFailedModal, setShowFailedModal] = useState(false);
+
+  const handleValidateKYCStatus = async () => {
+    const sessionId = localStorage.getItem("kyc_session_id") ?? "";
+    if (!sessionId) return;
+    const res = await nubaApis.kyc.handleValidateKYCStatus(
+      sessionId,
+      triggerValidateKYC
+    );
+    localStorage.removeItem("kyc_session_id");
+
+    // if (res?.data?.status === "created") {
+    //   // Show pending modal
+    // } else {
+    //   setShowFailedModal(true);
+    // }
+  };
+  useEffect(() => {
+    const sessionId = localStorage.getItem("kyc_session_id");
+    const handleValidateKYCStatus2 = async () => {
+      await nubaApis.kyc.handleValidateKYCStatus("", triggerValidateKYC);
+    };
+    if (!sessionId) {
+      handleValidateKYCStatus2();
+    } else return;
+  }, []);
+
+  useEffect(() => {
+    if (userProfile?.isKycVerified) {
+      toast.success("Your KYC has been verified");
+      router.push("/dashboard");
+    }
+  }, [userProfile]);
+
+  useEffect(() => {
+    if (verificationStatus === "complete") {
+      handleValidateKYCStatus();
+    }
+  }, [verificationStatus]);
+
+  const isDisabled =
+    verificationLoading ||
+    isUserProfileLoading ||
+    isUserProfileError ||
+    userProfile?.isKycVerified ||
+    kycResponseLoading;
+
   return (
-    <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center text-[#0B2233] ">
+    <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center text-[#0B2233]">
       <Note />
 
-      <p className="font-[600] text-[18px] md:text-[28px] text-center w-[90%] md:w-[60%] ">
+      <p className="font-[600] text-[18px] md:text-[28px] text-center w-[90%] md:w-[60%]">
         Just a quick ID check!
         <br /> We verify your identity to protect your payments.
-        <br />
       </p>
-      <div className=" mt-6">
-        <div className="flex items-center gap-3 mt-2">
-          <Checkk />
-          <p className="text-[20px] font-[500] ">Protect your payment.</p>
-        </div>
 
-        <div className="flex items-center gap-3 mt-2">
-          <Checkk />
-          <p className="text-[20px] font-[500] ">
-            Ensure regulatory compliance.
-          </p>
-        </div>
-        <div className="flex items-center gap-3 mt-2">
-          <Checkk />
-          <p className="text-[20px] font-[500] "> Takes less than 2 minutes.</p>
-        </div>
+      <div className="mt-6">
+        {[
+          "Protect your payment",
+          "Ensure regulatory compliance",
+          "Takes less than 2 minutes",
+        ].map((text, idx) => (
+          <div key={idx} className="flex items-center gap-3 mt-2">
+            <Checkk />
+            <p className="text-[20px] font-[500]">{text}</p>
+          </div>
+        ))}
       </div>
+
       <Button
         onClick={handleVerifyUser}
-        disabled={
-          verificationLoading ||
-          isUserProfileLoading ||
-          isUserProfileError ||
-          userProfile?.isKycVerified ||
-          kycResponseLoading
-        }
-        className="uppercase mt-10 "
+        disabled={isDisabled}
+        className="uppercase mt-10"
       >
-        {" "}
         {verificationLoading
           ? "Verifying..."
           : kycResponseLoading
           ? "Checking Verification Status"
           : "Start kyc process"}
       </Button>
-      {(userProfile?.isKycVerified ||
-        kycResponse?.data?.status === "verified") && (
+
+      {kycResponse?.data?.status === "created" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg">
+          <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg flex flex-col items-center justify-center">
             <h2 className="text-2xl font-semibold mb-4">
-              Verification Successful!
+              Verification Pending!
             </h2>
-            <div className="flex items-center justify-center w-full mb-4">
-              <SuccessIcon />
+            <div className="mb-4">
+              <PendingIcon width={50} height={50} />
             </div>
             <p className="mb-6">
-              Your identity has been verified. You can now access your
-              dashboard.
+              We are currently processing your verification. We will get back to
+              you on the status.
             </p>
             <Button
               onClick={() => router.push("/dashboard")}
@@ -161,32 +157,27 @@ const kycVerification = () => {
           </div>
         </div>
       )}
-      {(kycResponse?.data?.status === "not-verified" || showFailedModal) && (
+
+      {/* FAILED MODAL */}
+      {(kycValidationFailed || showFailedModal) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg relative">
             <button
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
               onClick={() => setShowFailedModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
             >
-              <p className="w-5 h-5 font-[700] ">X</p>
+              <p className="w-5 h-5 font-bold">X</p>
             </button>
-
             <h2 className="text-2xl font-semibold mb-4">
-              Verification Failed!
+              Verification Statuc Check Failed!
             </h2>
-            <div className="flex items-center justify-center w-full mb-4">
+            <div className="mb-4">
               <ErrorLogo />
             </div>
             <p className="mb-6">Your identity verification failed.</p>
             <Button
-              disabled={
-                verificationLoading ||
-                isUserProfileLoading ||
-                isUserProfileError ||
-                userProfile?.isKycVerified ||
-                kycResponseLoading
-              }
               onClick={handleVerifyUser}
+              disabled={isDisabled}
               className="w-full"
             >
               Retry
@@ -198,4 +189,4 @@ const kycVerification = () => {
   );
 };
 
-export default kycVerification;
+export default KycVerification;

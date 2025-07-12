@@ -22,6 +22,8 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetUserTransactionFeeQuery } from "@/redux/features/transactionsApiSlice";
 import { nubaApis } from "@/services/api-services";
 import { RootState } from "@/redux/store";
+import { useRouter } from "nextjs-toploader/app";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 
 const AutopayOff: React.FC<AutoPayOffProps> = ({
   setTab,
@@ -29,6 +31,7 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
   handleInitiatePayment,
   upcomingRentPaymentsLoading,
 }) => {
+  const router = useRouter();
   // const [activeMethodId, setActiveMethodId] = useState<string | null>(null);
   const { data: paymentMethods, refetch: refreshPaymentMethods } =
     useGetPaymentMethodsQuery();
@@ -64,6 +67,12 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
     refreshPaymentMethods();
   };
 
+  const {
+    data: userProfileDetails,
+    isLoading: isUserProfileLoading,
+    isError: isUserProfileError,
+  } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -127,8 +136,19 @@ const AutopayOff: React.FC<AutoPayOffProps> = ({
           </p>
         </div>
         <Button
-          onClick={handleInitiatePayment}
-          disabled={upcomingRentPaymentsLoading || initiatePaymentLoading}
+          onClick={() => {
+            if (userProfile?.isKycVerified) {
+              handleInitiatePayment();
+            } else {
+              router.push("/kyc-verification");
+            }
+          }}
+          disabled={
+            upcomingRentPaymentsLoading ||
+            initiatePaymentLoading ||
+            isUserProfileLoading ||
+            isUserProfileError
+          }
           className=" flex items-center justify-center w-full mt-2 "
         >
           {initiatePaymentLoading ? "Initiating Payment..." : "Make Payment"}

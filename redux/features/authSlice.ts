@@ -47,6 +47,8 @@ interface SignUpState {
     state: string;
     cardName: string;
     referralCode: string;
+    rentAddress: string;
+    rentName: string;
   };
   token: string | null;
   user: loginResponseData | null;
@@ -89,6 +91,8 @@ const initialState: SignUpState = {
     state: "",
     cardName: "",
     referralCode: "",
+    rentAddress: "",
+    rentName: "",
   },
   token: null,
   user: null,
@@ -140,7 +144,6 @@ const signupSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
-  
   },
 });
 
@@ -152,6 +155,6 @@ export const {
   resetSignup,
   setAuthData,
   updateUserOnboardingStatus,
-  setToken
+  setToken,
 } = signupSlice.actions;
 export default signupSlice.reducer;

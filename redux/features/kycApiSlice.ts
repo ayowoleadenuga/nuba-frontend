@@ -28,4 +28,8 @@ export const KYCApi = createApi({
   }),
 });
 
-export const { useKycVerificationMutation, useLazyValidateKYCQuery } = KYCApi;
+export const {
+  useKycVerificationMutation,
+  useLazyValidateKYCQuery,
+  useValidateKYCQuery,
+} = KYCApi;

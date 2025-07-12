@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/accordion";
 import NewPaymentForm from "@/components/sign-up/new-payment-method";
 import AddNewRentForm from "@/components/dashboard/dashboard-components/add-new-rent";
+import { Rent } from "@/types";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -114,7 +115,7 @@ const DashboardPage = () => {
                       .sort((a, b) =>
                         a.id === rentIdtoUse ? -1 : b.id === rentIdtoUse ? 1 : 0
                       )
-                      ?.map((rent, i) => (
+                      ?.map((rent: Rent, i: number) => (
                         <div
                           key={i}
                           onClick={() => {
@@ -130,10 +131,10 @@ const DashboardPage = () => {
                         >
                           <div>
                             {" "}
-                            <p className="font-[600] ">Greenwood Apartments </p>
+                            <p className="font-[600] ">{rent.name} </p>
                             <span className="text-[#474747CC]/80 text-[10px] flex items-center gap-1">
                               <p className=" ">
-                                123 Main Street, {rent.country}{" "}
+                                {rent.address}, {rent.country}{" "}
                               </p>
                               <span className="bg-[#2A4152] rounded-full h-[3px] w-[3px] "></span>
                               <p>
@@ -166,7 +167,7 @@ const DashboardPage = () => {
 
             {showAddNewRentForm && (
               <div className=" max-h-[80vh] md:max-h-[70vh] overflow-y-auto">
-                <AddNewRentForm />
+                <AddNewRentForm setShowAddNewRentForm={setShowAddNewRentForm} />
               </div>
             )}
 
@@ -202,17 +203,19 @@ const DashboardPage = () => {
           <div className="bg-[#2A4152] py-7 px-10 text-white rounded-[8px]  w-full md:w-[80%] lg:w-[60%] xl:w-[40%] mt-5  ">
             <p className="font-[500] ">Rent Details</p>
             <p className="font-[500] mt-6 text-[32px]">
-              £{rentDetail?.monthlyPrice.toLocaleString()}
+              {rentDetail?.rentFrequency} £ (
+              {rentDetail?.monthlyPrice.toLocaleString()})
             </p>
             <div className="mt-6">
-              <p className="font-[700] text-[10px]"> Rent Frequency </p>
-              <p className="font-[700] text-[12px]">
-                {rentDetail?.rentFrequency}
-              </p>
+              <p className="font-[700] text-[10px]"> Property Name </p>
+              <p className="font-[700] text-[12px]">{rentDetail?.name}</p>
             </div>
             <div className="mt-6">
               <p className="font-[700] text-[10px]"> Address </p>
-              <p className="font-[700] text-[12px]">{rentDetail?.country}</p>
+              <p className="font-[700] text-[12px]">
+                {" "}
+                {rentDetail?.address}, {rentDetail?.country}
+              </p>
             </div>
             <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 w-fit">
               <button

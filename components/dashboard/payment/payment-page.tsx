@@ -93,8 +93,6 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
     refetch,
   } = useInitiatePaymentQuery();
 
-  console.log("so the client secret data callinig itself", clientSecretData);
-
   const handleInitiatePayment = async () => {
     // if (upcomingRentPaymentsList?.data?.id) {
     //   await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
@@ -264,7 +262,7 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
       <div className="hidden md:flex items-center gap-10">
         <EarnedCard
           earned="You’ve earned"
-          point="30,265"
+          point={userProfile?.statistics?.unitsEarned}
           title="on paid referrals"
           description="Terms apply to earn points"
           action="Explore rewards"
@@ -281,9 +279,10 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
         <EarnedCard
           title="Boost your credit with rent reporting"
           description="Build your credit history with free rent reporting of the three major credit bureaus."
-          action="Enable rent reporting (soon)"
+          action="Enable rent reporting"
           Icon={Boost}
           handleClick={() => {}}
+          actionLink="http://www.creditladder.co.uk/partner/nuba"
         />
       </div>
     </div>

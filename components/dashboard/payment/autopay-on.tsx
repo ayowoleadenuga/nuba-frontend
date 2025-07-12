@@ -5,10 +5,12 @@ import {
   useGetUserRentsDetailsQuery,
   useGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
+import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { RootState } from "@/redux/store";
 import { AutoPayOnProps } from "@/types";
 import { formatDateToDisplay, getDaysLeft, getNextPaymentDate } from "@/utils";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useRouter } from "nextjs-toploader/app";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -18,6 +20,7 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
   handleInitiatePayment,
   upcomingRentPaymentsLoading,
 }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { data: rents } = useGetUserRentsQuery();
   const currentRentId = useSelector(
@@ -44,6 +47,13 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
   if (rentDetail?.dueDate) {
     daysLeft = getDaysLeft(new Date(rentDetail.dueDate));
   }
+
+  const {
+    data: userProfileDetails,
+    isLoading: isUserProfileLoading,
+    isError: isUserProfileError,
+  } = useGetUserProfileQuery();
+  const userProfile = userProfileDetails?.data;
   return (
     <div className=" rounded-[4px] ">
       <div className="bg-white p-4">
@@ -78,8 +88,19 @@ const AutopayOn: React.FC<AutoPayOnProps> = ({
           </p>
         </div>
         <Button
-          onClick={handleInitiatePayment}
-          disabled={upcomingRentPaymentsLoading || initiatePaymentLoading}
+          onClick={() => {
+            if (userProfile?.isKycVerified) {
+              handleInitiatePayment();
+            } else {
+              router.push("/kyc-verification");
+            }
+          }}
+          disabled={
+            upcomingRentPaymentsLoading ||
+            initiatePaymentLoading ||
+            isUserProfileLoading ||
+            isUserProfileError
+          }
           className=" flex items-center justify-center w-full mt-2 "
         >
           {initiatePaymentLoading ? "Initiating Payment..." : "Make Payment"}

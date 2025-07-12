@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "nextjs-toploader/app";
 import { useSearchParams } from "next/navigation";
 import { RootState } from "@/redux/store";
+import { resetSignup } from "@/redux/features/authSlice";
 
 const LoginClient = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,14 @@ const LoginClient = () => {
     [key in keyof FormLoginValue]?: string;
   }>({});
 
+  const user = useSelector((state: RootState) => state.signup.user);
+  const userAll = useSelector((state: RootState) => state.signup);
+
+  useEffect(() => {
+    if (userAll?.token) {
+      router.push(`/dashboard`);
+    }
+  }, [user, router]);
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginDetails({
       ...loginDetails,
@@ -87,7 +96,7 @@ const LoginClient = () => {
   // const userAll = useSelector((state: RootState) => state.signup);
 
   return (
-    <div className="w-full flex items-center justify-center h-full flex-col">
+    <div className="w-full flex items-center justify-center h-full flex-col bg-white ">
       <p className="text-[24px] md:text-[30px] lg:text-[48px] font-[700] text-center mb-10 ">
         Welcome Back
       </p>
@@ -134,7 +143,10 @@ const LoginClient = () => {
         <span className="mt-3 text-[14px] flex items-center justify-center gap-1 ">
           <p className=" ">No Account?</p>
           <button
-            onClick={() => router.push("/sign-up")}
+            onClick={() => {
+              dispatch(resetSignup());
+              router.push("/sign-up");
+            }}
             type="button"
             className="font-[700] text-brandCore-orange "
           >

@@ -10,6 +10,7 @@ interface CardProps {
   action: string;
   Icon: React.ElementType;
   handleClick?: () => void;
+  actionLink?: string;
 }
 const EarnedCard: React.FC<CardProps> = ({
   earned,
@@ -19,6 +20,7 @@ const EarnedCard: React.FC<CardProps> = ({
   action,
   Icon,
   handleClick,
+  actionLink,
 }) => {
   return (
     <div className="p-6 border-[#d9d9d9] border w-[27%] rounded-[6px] min-h-[223px] relative ">
@@ -36,7 +38,14 @@ const EarnedCard: React.FC<CardProps> = ({
         <p className="text-[#0B2233] text-[12px] ">{description}</p>
       </div>
       <div className="flex items-center justify-between mt-4 border-t border-t-black pt-4 absolute bottom-4 w-[calc(100%-48px)] ">
-        <p>{action}</p>
+        {actionLink ? (
+          <a href={actionLink} target="_blank" className="text-[#CF931D] ">
+            {action}
+          </a>
+        ) : (
+          <p>{action}</p>
+        )}
+
         <button>
           <ArrowRightIcon />{" "}
         </button>

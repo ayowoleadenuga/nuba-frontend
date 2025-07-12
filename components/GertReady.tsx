@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image'
 import styles from '../components/home.module.css'
 import { Button } from './ui/button'
