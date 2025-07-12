@@ -8,6 +8,11 @@ import check from "@/assets/gif/check.gif";
 import { useDispatch, useSelector } from "react-redux";
 import { setMakePayment } from "@/redux/features/paymentSlice";
 import { RootState } from "@/redux/store";
+import {
+  useGetUserRentsDetailsQuery,
+  useGetUserRentsQuery,
+} from "@/redux/features/rentsApiSlice";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const RyftPaymentResponse = () => {
   const router = useRouter();
@@ -16,7 +21,18 @@ const RyftPaymentResponse = () => {
     (state: RootState) => state.payment.rentPaymentStatus
   );
   const paymentId = useSelector((state: RootState) => state.payment.paymentId);
+  const currentRentId = useSelector(
+    (state: RootState) => state.rent.currentRentId
+  );
 
+  const { data: rents } = useGetUserRentsQuery();
+  const firstRentId = rents?.data?.[0]?.id;
+  const rentIdtoUse = !currentRentId ? firstRentId : currentRentId;
+
+  const { data: rentDetails } = useGetUserRentsDetailsQuery(
+    rentIdtoUse ?? skipToken
+  );
+  const rentDetail = rentDetails?.data;
   return (
     <div>
       <div className="w-full flex items-center justify-center flex-col text-center gap-5 mt-10 mb-[153px] ">
@@ -35,7 +51,7 @@ const RyftPaymentResponse = () => {
           )}
         >
           {rentPaymentStatus === "success"
-            ? `Your payment has been successfully received`
+            ? `Your payment for ${rentDetail?.name} has been submitted`
             : " Your payment could not be processed"}
         </p>
         <p className="font-[500] text-[12px] md:text-[16px] text-center w-full md:w-[70%] lg:w-[50%] ">

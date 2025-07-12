@@ -109,13 +109,13 @@ const AddNewRentForm: React.FC<AddNewRentFormProps> = ({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   return (
-    <form onSubmit={handleContinue} className="h-full ">
+    <form onSubmit={handleContinue} className="h-full  ">
       <p className="text-[18px] font-[600] text-center my-3 ">
         Add Rent Details
       </p>
 
       <NubaInput
-        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px]  "}
+        containerClass={"w-full "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Appartment Name"
         name="name"
@@ -127,9 +127,7 @@ const AddNewRentForm: React.FC<AddNewRentFormProps> = ({
         <p className="text-red-500 text-start text-[12px]">{errors.name}</p>
       )}
       <NubaInput
-        containerClass={
-          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
-        }
+        containerClass={"w-full mt-7 "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Home Address"
         name="address"

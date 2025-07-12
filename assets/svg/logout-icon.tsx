@@ -1,8 +1,9 @@
-import React from "react";
+import React, { SVGProps } from "react";
 
-export const LogoutIcon = () => {
+export const LogoutIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
+      {...props}
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -12,7 +13,7 @@ export const LogoutIcon = () => {
     >
       <g
         transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-        fill="#fff"
+        fill={props.fill || "#fff"}
         stroke="none"
       >
         <path

@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/accordion";
 import NewPaymentForm from "@/components/sign-up/new-payment-method";
 import AddNewRentForm from "@/components/dashboard/dashboard-components/add-new-rent";
+import { Rent } from "@/types";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -114,7 +115,7 @@ const DashboardPage = () => {
                       .sort((a, b) =>
                         a.id === rentIdtoUse ? -1 : b.id === rentIdtoUse ? 1 : 0
                       )
-                      ?.map((rent, i) => (
+                      ?.map((rent: Rent, i: number) => (
                         <div
                           key={i}
                           onClick={() => {
@@ -202,8 +203,8 @@ const DashboardPage = () => {
           <div className="bg-[#2A4152] py-7 px-10 text-white rounded-[8px]  w-full md:w-[80%] lg:w-[60%] xl:w-[40%] mt-5  ">
             <p className="font-[500] ">Rent Details</p>
             <p className="font-[500] mt-6 text-[32px]">
-              {rentDetail?.rentFrequency} £
-              {rentDetail?.monthlyPrice.toLocaleString()}
+              {rentDetail?.rentFrequency} £ (
+              {rentDetail?.monthlyPrice.toLocaleString()})
             </p>
             <div className="mt-6">
               <p className="font-[700] text-[10px]"> Property Name </p>

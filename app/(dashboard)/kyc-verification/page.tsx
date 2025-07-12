@@ -15,7 +15,6 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { PendingIcon } from "@/assets/svg/pending-icon";
 import { ErrorLogo } from "@/assets/svg/error-logo";
-import { kycStatusResponse } from "@/types";
 
 const KycVerification = () => {
   const router = useRouter();
@@ -73,13 +72,13 @@ const KycVerification = () => {
     // }
   };
   useEffect(() => {
+    const sessionId = localStorage.getItem("kyc_session_id");
     const handleValidateKYCStatus2 = async () => {
-      const res = await nubaApis.kyc.handleValidateKYCStatus(
-        "",
-        triggerValidateKYC
-      );
+      await nubaApis.kyc.handleValidateKYCStatus("", triggerValidateKYC);
     };
-    handleValidateKYCStatus2();
+    if (!sessionId) {
+      handleValidateKYCStatus2();
+    } else return;
   }, []);
 
   useEffect(() => {
@@ -88,12 +87,6 @@ const KycVerification = () => {
       router.push("/dashboard");
     }
   }, [userProfile]);
-
-  useEffect(() => {
-    if (kycValidationFailed) {
-      setShowFailedModal(true);
-    }
-  }, [kycValidationFailed]);
 
   useEffect(() => {
     if (verificationStatus === "complete") {

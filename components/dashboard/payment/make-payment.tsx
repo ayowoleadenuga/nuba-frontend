@@ -322,7 +322,7 @@ const MakePayment: React.FC<MakePaymentProps> = ({
             )}
           </div>
           <div className="flex items-center justify-between pt-5">
-            <p className="text-[12px]  ">Pay with points to reduce paymment</p>
+            <p className="text-[12px]  ">Pay with points to reduce payment</p>
             <ToggleSwitch
               isOn={isOn}
               setIsOn={setIsOn}
