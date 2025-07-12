@@ -17,7 +17,8 @@ const initialState: newRentState = {
     landlordAccountNumber: "",
     landlordAccountName: "",
     landlordSortCode: "",
-    landlordEmail: "",
+    // landlordEmail: "",
+    name: "",
   },
   currentRentId: "",
 };

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "nextjs-toploader/app";
 import { useSearchParams } from "next/navigation";
 import { RootState } from "@/redux/store";
+import { resetSignup } from "@/redux/features/authSlice";
 
 const LoginClient = () => {
   const dispatch = useDispatch();
@@ -134,7 +135,10 @@ const LoginClient = () => {
         <span className="mt-3 text-[14px] flex items-center justify-center gap-1 ">
           <p className=" ">No Account?</p>
           <button
-            onClick={() => router.push("/sign-up")}
+            onClick={() => {
+              dispatch(resetSignup());
+              router.push("/sign-up");
+            }}
             type="button"
             className="font-[700] text-brandCore-orange "
           >

@@ -87,6 +87,8 @@ export interface CreateAccountState {
   newCity: string;
   state: string;
   cardName: string;
+  rentAddress: string;
+  rentName: string;
 }
 
 export interface loginResponse {
@@ -175,10 +177,11 @@ export interface tenancyDetailsPayload {
   endDate: string;
   rentFrequency: string;
   monthlyPrice: number;
+  name: string;
+  address: string;
 }
 export interface newRentPayload {
   country: string;
-  address: string;
   startDate: string;
   endDate: string;
   rentFrequency: string;
@@ -186,7 +189,9 @@ export interface newRentPayload {
   landlordAccountName: string;
   landlordAccountNumber: string;
   landlordSortCode: string;
-  landlordEmail: string;
+  // landlordEmail: string;
+  name: string;
+  address: string;
 }
 export interface landlordDetailsPayload {
   // email: string;
@@ -229,6 +234,8 @@ export interface Landlord {
 
 export interface Rent {
   id: string;
+  address: string;
+  name: string;
   country: string;
   startDate: string;
   dueDate: string;

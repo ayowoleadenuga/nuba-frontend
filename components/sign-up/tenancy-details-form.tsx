@@ -15,6 +15,7 @@ import { countries } from "@/components/sign-up/constants";
 import { useRegisterTenancyDetailsMutation } from "@/redux/features/authApiSlice";
 import { nubaApis } from "@/services/api-services";
 import { formatDate } from "@/utils";
+import { rentsApi } from "@/redux/features/rentsApiSlice";
 const TenancyDetailsForm = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.signup.formData);
@@ -63,6 +64,8 @@ const TenancyDetailsForm = () => {
       endDate,
       rentFrequency: formData.rentFrequency,
       monthlyRentAmt: formData.monthlyRentAmt,
+      rentAddress: formData.rentAddress,
+      rentName: formData.rentName,
     });
 
     const errorMessages: { [key: string]: string } = {};
@@ -87,6 +90,8 @@ const TenancyDetailsForm = () => {
       monthlyPrice: Number(
         String(formData.monthlyRentAmt).replace(/[^\d]/g, "")
       ),
+      name: formData.rentName,
+      address: formData.rentAddress,
     };
     await onSubmit(payload);
   };
@@ -100,6 +105,35 @@ const TenancyDetailsForm = () => {
       </p>
       <NubaInput
         containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] "}
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Home Address"
+        name="rentAddress"
+        value={formData?.rentAddress}
+        onChange={handleChange}
+      />
+
+      {errors.rentAddress && (
+        <p className="text-red-500 text-start text-[12px]">
+          {errors.rentAddress}
+        </p>
+      )}
+      <NubaInput
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Appartment Name"
+        name="rentName"
+        value={formData?.rentName}
+        onChange={handleChange}
+      />
+
+      {errors.rentName && (
+        <p className="text-red-500 text-start text-[12px]">{errors.rentName}</p>
+      )}
+
+      <NubaInput
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7"}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Country"
         name="country"

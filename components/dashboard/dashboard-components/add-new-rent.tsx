@@ -15,7 +15,13 @@ import {
   useGetUserRentsQuery,
   useLazyGetUserRentsQuery,
 } from "@/redux/features/rentsApiSlice";
-const AddNewRentForm = () => {
+
+interface AddNewRentFormProps {
+  setShowAddNewRentForm: (show: boolean) => void;
+}
+const AddNewRentForm: React.FC<AddNewRentFormProps> = ({
+  setShowAddNewRentForm,
+}) => {
   const [getUserRents] = useLazyGetUserRentsQuery();
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.rent.formData);
@@ -63,7 +69,9 @@ const AddNewRentForm = () => {
       landlordAccountName: formData.landlordAccountName,
       landlordAccountNumber: formData.landlordAccountNumber,
       landlordSortCode: formData.landlordSortCode,
-      landlordEmail: formData.landlordEmail,
+      // landlordEmail: formData.landlordEmail,
+      rentName: formData.name,
+      rentAddress: formData.address,
     });
 
     const errorMessages: { [key: string]: string } = {};
@@ -90,9 +98,11 @@ const AddNewRentForm = () => {
       landlordAccountName: formData.landlordAccountName,
       landlordAccountNumber: formData.landlordAccountNumber,
       landlordSortCode: formData.landlordSortCode,
-      landlordEmail: formData.landlordEmail,
+      name: formData.name,
+      // landlordEmail: formData.landlordEmail,
     };
     await onSubmit(payload);
+    setShowAddNewRentForm(false);
     getUserRents();
   };
 
@@ -103,8 +113,36 @@ const AddNewRentForm = () => {
       <p className="text-[18px] font-[600] text-center my-3 ">
         Add Rent Details
       </p>
+
       <NubaInput
-        containerClass={"w-full "}
+        containerClass={"w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px]  "}
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Appartment Name"
+        name="name"
+        value={formData?.name}
+        onChange={handleChange}
+      />
+
+      {errors.name && (
+        <p className="text-red-500 text-start text-[12px]">{errors.name}</p>
+      )}
+      <NubaInput
+        containerClass={
+          "w-[300px] md:w-[400px] lg:w-[500px] xl:w-[570px] mt-7 "
+        }
+        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
+        label="Home Address"
+        name="address"
+        value={formData?.address}
+        onChange={handleChange}
+      />
+
+      {errors.address && (
+        <p className="text-red-500 text-start text-[12px]">{errors.address}</p>
+      )}
+
+      <NubaInput
+        containerClass={"w-full mt-7 "}
         inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
         label="Country"
         name="country"
@@ -234,23 +272,12 @@ const AddNewRentForm = () => {
         <p className="text-red-500 text-[12px]">{errors.landlordSortCode}</p>
       )}
 
-      <NubaInput
-        containerClass={"w-full mt-7 "}
-        inputClass=" rounded-[8px] bg-[#f2f6f9] border-b-0"
-        label="Landlord Email"
-        name="landlordEmail"
-        value={formData?.landlordEmail}
-        onChange={handleChange}
-      />
-      {errors.landlordEmail && (
-        <p className="text-red-500 text-[12px]">{errors.landlordEmail}</p>
-      )}
       <Button
         disabled={!agreement || isLoading}
         type="submit"
         className="w-full mt-7"
       >
-        {isLoading ? "Uploading tenancy details" : "Continue"}
+        {isLoading ? "Adding new rent" : "Continue"}
       </Button>
       <span className="font-[700] text-[12px] text- mt-5 flex items-center gap-2 w-full ">
         <input
