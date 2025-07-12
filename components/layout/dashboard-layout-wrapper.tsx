@@ -149,7 +149,6 @@ export default function DashboardLayoutWrapper({
     useGetUserProfileQuery();
   const userProfile = userProfileDetails?.data;
   const handleLogout = () => {
-    // await logout().unwrap();
     dispatch(resetSignup());
     router.push("/");
   };
@@ -398,9 +397,10 @@ export default function DashboardLayoutWrapper({
             );
           })}
         </List>
-        <List onClick={handleLogout} sx={{ mt: 5 }}>
+        <List sx={{ mt: 5 }}>
           <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
+              onClick={handleLogout}
               sx={[
                 {
                   minHeight: 50,

@@ -93,8 +93,6 @@ const PaymentPage: FC<PaymentPageProps> = ({ setTab }) => {
     refetch,
   } = useInitiatePaymentQuery();
 
-  console.log("so the client secret data callinig itself", clientSecretData);
-
   const handleInitiatePayment = async () => {
     // if (upcomingRentPaymentsList?.data?.id) {
     //   await nubaApis.createPaymentMethod.handleInitiatePay(refetch);
