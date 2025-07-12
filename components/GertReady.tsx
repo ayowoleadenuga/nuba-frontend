@@ -26,7 +26,7 @@ export default function GetReady() {
                     <div className=''>
                       <p onClick={()=> SetTerms(true)} className="m-0 cursor-pointer text-[#ffffff] text-[16px] bg-transparent p-0">Terms and conditions</p>
                     </div>
-                    <div className='flex items-start xl:pe-1 justify-start'>
+                    <div className='flex items-start xl:pe-[3px] justify-start'>
                       <p className="m-0 text-[#ffffff]">Career</p>
                     </div>  
                   </div>   

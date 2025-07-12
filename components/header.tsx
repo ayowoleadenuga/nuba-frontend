@@ -49,7 +49,7 @@ export default function Navbar() {
         <div className="flex  items-center space-x-4">
           <Link href="/login" className="bg-white px-3 hover:bg-blue-400 hover:text-white rounded-[20px]">
             <Button variant="secondary" size="sm">
-              Get Started
+              Sign Up / Log In
             </Button>
           </Link>
 
@@ -90,13 +90,6 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
-                <Link
-                  href="/login"
-                  className="block text-white hover:text-gray-300 font-medium text-lg"
-                  onClick={() => setOpen(false)}
-                >
-                  Login
-                </Link>
                 <div>
                   <Button className="w-full bg-white px-3">Sign up / Log In</Button>
                 </div>

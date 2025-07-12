@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -7,8 +7,8 @@ import { X } from "lucide-react"
 
 export default function TermsModal({ open, onClose }) {
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="xl:max-w-5xl h-[100vh] overflow-auto lg:max-w-3xl max-h-[90vh] p-0 rounded-2xl">
+    <Dialog open={open}  onOpenChange={onClose}>
+      <DialogContent  className="xl:max-w-5xl h-[100vh]  overflow-auto lg:max-w-3xl max-h-[90vh] p-0 rounded-2xl">
         <div className="relative bg-white dark:bg-gray-900 flex flex-col h-full">
           <DialogHeader className="p-6 border-b">
             <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
@@ -19,18 +19,22 @@ export default function TermsModal({ open, onClose }) {
             </DialogDescription>
           </DialogHeader>
 
+            <DialogClose className="hidden"></DialogClose>
+            <button type="button" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground text-[5rem]">
+              <X className="h-5 w-5 dark:text-white" />
+            </button>
           <ScrollArea className="flex-1 p-6 space-y-4 text-gray-700 dark:text-gray-300 overflow-x-auto">
 
             <h3 className="font-semibold text-lg">1. Introduction</h3>
             <p>These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User", "you" or "your") and Nuba ("Nuba", "we", "us" or "our") in relation to your access to and use of the Nuba website and any associated services. By registering for and/or using our services, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree with these Terms, you must refrain from using our services.</p>
 
-            <h3 className="font-semibold text-lg">2. About Us</h3>
+            <h3 className="font-semibold mt-4 text-lg">2. About Us</h3>
             <p>Nuba is a trading name of Nuba Technologies LTD, a company registered in England and Wales with company number 16344130 and registered address at 3 Breeze 4 Owls Road, Bournemouth, BH51FE.  Nuba enables individuals to pay their rent using a debit or credit card and earn rewards on their cards and rent discounts.
             Nuba provides technology-enabled services to facilitate the payment of rent using credit and debit cards. We are not authorised or regulated by the Financial Conduct Authority to provide payment services. To enable such functionality, we collaborate with regulated third-party service providers, including Ryft (an FCA-authorised payment institution) and (an FCA-authorised electronic money institution). 
             From time to time, we might need to change the companies who we work with to provide services to you. Where we do this, we will make you aware of this by updating these Terms and our Privacy Policy. If any such change has a material impact on how we provide the service to you or to these Terms, we will notify you in advance and you should contact us if you have any concerns or questions.
             </p>
 
-            <h3 className="font-semibold text-lg">3. Scope of Services</h3>
+            <h3 className="font-semibold mt-4 text-lg">3. Scope of Services</h3>
             <p>
                 a) Nuba provides Users with access to the following services:
                 <li>
@@ -48,7 +52,7 @@ export default function TermsModal({ open, onClose }) {
                 d) If you interact with third-party services through our platform—such as payment processors or identity verification providers—you’ll also be subject to their own terms and privacy policies. We’re not responsible for the content or performance of any external sites you access, and it’s your responsibility to review and comply with any applicable terms or charges they impose.
             </p>
 
-            <h3 className="font-semibold text-lg">4. Account Registration and Verification</h3>
+            <h3 className="font-semibold mt-4 text-lg">4. Account Registration and Verification</h3>
             <p>To access our services, Users must:
                 <li>Create a verified account on the Nuba platform;</li>
                 <li>Provide accurate, complete and up-to-date personal information;</li>
@@ -62,7 +66,7 @@ export default function TermsModal({ open, onClose }) {
             </p>
 
 
-            <h3 className="font-semibold text-lg">Using Our Services</h3>
+            <h3 className="font-semibold mt-4 text-lg">Using Our Services</h3>
             <p>Upon successful verification, you may access your Nuba account to make rent payments directly to your landlord or their authorised agent. The service must not be used for any other type of payment.
             Each time you initiate a transaction, you are responsible for:
             <li>Ensuring that your payment card details are current and valid;</li>
@@ -103,7 +107,7 @@ export default function TermsModal({ open, onClose }) {
             If we refuse a payment, we will inform you as soon as reasonably possible unless prohibited by law. Where appropriate, we will provide the reason for the refusal and guidance on correcting any errors.
             </p>
 
-            <h3 className="font-semibold text-lg">5. Payment Terms</h3>
+            <h3 className="font-semibold mt-4 text-lg">5. Payment Terms</h3>
             <h4>Payment Timing and Processing</h4>
             <p>You acknowledge and agree that Nuba has no control over the timing or processing delays that may be imposed by your card issuer, payment provider, or your landlord’s (or their agent’s) financial institution. Accordingly, we cannot guarantee when payments will be received by the intended recipient.
             It is your responsibility to initiate payments sufficiently in advance to ensure they are received by your landlord or agent on time. Nuba will not be liable for any late payment consequences resulting from your failure to do so.
@@ -114,7 +118,7 @@ export default function TermsModal({ open, onClose }) {
             We reserve the right to decline or halt any payment we reasonably suspect to be fraudulent, unauthorised, or unlawful.
             </p>
 
-            <h3 className="font-semibold text-lg">6. Rewards & Points</h3>
+            <h3 className="font-semibold mt-4 text-lg">6. Rewards & Points</h3>
             <p>
                 <li>
                 You earn Nuba Points through referrals and eligible transactions.
@@ -148,13 +152,13 @@ export default function TermsModal({ open, onClose }) {
                 By choosing to use Nuba, you acknowledge that you are voluntarily selecting our platform as your method of rent payment. Alternative, fee-free payment methods may be available to you. You accept any applicable Nuba service fees, which are transparently displayed before payment is confirmed.
             </p>
 
-            <h3 className="font-semibold text-lg">Refunds and Payment Finality</h3>
+            <h3 className="font-semibold mt-4 text-lg">Refunds and Payment Finality</h3>
             <p>Payments made via Nuba are processed immediately and, once sent to your landlord (or their agent), are considered final and non-refundable. You may not schedule future-dated payments.
             If you believe a refund is due, you must resolve this directly with your landlord or their agent. Should they choose to return funds to us instead of to you, we will forward the full amount received back to your original payment method. Our service fee is separate from your rent payment and is non-refundable unless we are found to be in breach of these Terms.
 
             </p>
 
-            <h3 className="font-semibold text-lg">Relationship with Your Landlord or Agent</h3>
+            <h3 className="font-semibold mt-4 text-lg">Relationship with Your Landlord or Agent</h3>
             <p>Your use of Nuba does not alter, affect, or create any rights or obligations under the legal arrangement between you and your landlord or their authorised agent. Nuba acts solely as a payment facilitator and is not a party to your tenancy agreement.
             You acknowledge and agree that:
             <li>
@@ -173,7 +177,7 @@ export default function TermsModal({ open, onClose }) {
             If your landlord or their agent also uses Nuba’s platform to receive rent payments, this shall not alter the enforceability of the terms stated in this section.
             </p>
 
-            <h3 className="font-semibold text-lg">Suspension and Termination of Services</h3>
+            <h3 className="font-semibold mt-4 text-lg">Suspension and Termination of Services</h3>
             <p>We reserve the right to suspend, limit, or permanently withdraw access to our services, including the ability to process payments, without prior notice or explanation, at our sole discretion.
             We may, without liability, cancel or reject any payment instruction or impose limits on the amount, frequency, or timing of your transactions. We are under no obligation to provide a reason for such actions.
             If you initiate a chargeback with your card issuer for a payment that has already been disbursed to your landlord or their agent:
@@ -206,7 +210,7 @@ export default function TermsModal({ open, onClose }) {
             </li>
             </p>
 
-            <h3 className="font-semibold text-lg">7. Refunds and Chargebacks</h3>
+            <h3 className="font-semibold mt-4 text-lg">7. Refunds and Chargebacks</h3>
             <p>
             <li>
             Payments made to landlords are non-refundable by Nuba.
@@ -219,7 +223,7 @@ export default function TermsModal({ open, onClose }) {
             </li>
             </p>
 
-            <h3 className="font-semibold text-lg">8. Use Restrictions</h3>
+            <h3 className="font-semibold mt-4 text-lg">8. Use Restrictions</h3>
             <p>You must not:
                 <li>
                     Use Nuba for illegal or commercial purposes;
@@ -235,7 +239,7 @@ export default function TermsModal({ open, onClose }) {
                 </li>
             </p>
 
-            <h3 className="font-semibold text-lg">9. Limitation of Liability</h3>
+            <h3 className="font-semibold mt-4 text-lg">9. Limitation of Liability</h3>
             <p>Nuba is not liable for:
                 <li>
                     Landlord disputes or tenancy matters;
@@ -251,10 +255,10 @@ export default function TermsModal({ open, onClose }) {
                 </li>
             </p>
 
-            <h3 className="font-semibold text-lg">10. Changes to Terms</h3>
+            <h3 className="font-semibold mt-4 text-lg">10. Changes to Terms</h3>
             <p>We may amend these Terms at any time. You will be notified of material changes at least 30 days in advance. Continued use of Nuba services after changes indicates your acceptance.</p>
 
-            <h3 className="font-semibold text-lg">11. Contact Us</h3>
+            <h3 className="font-semibold mt-4 text-lg">11. Contact Us</h3>
             <p>For support or questions, contact: support@nubarewards.com
             These Terms are governed by the laws of England and Wales.
             </p>
