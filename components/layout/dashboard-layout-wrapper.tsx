@@ -38,6 +38,9 @@ import {
 import LogoutButton from "@/components/ui/logout-button";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import UserInfoSkeleton from "../dashboard/skeletons/user-info-skeleton";
+import { NotVerified } from "@/assets/svg/not-verified";
+import Image from "next/image";
+import verified from "@/assets/jpg/verified.jpeg";
 
 const drawerWidth = 260;
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -235,6 +238,9 @@ export default function DashboardLayoutWrapper({
               <p className="font-[700] text-white">
                 {userProfile?.firstName} {userProfile?.lastName}
               </p>
+              {userProfile?.isKycVerified && (
+                <Image src={verified} alt="verified" className="w-4 h-4" />
+              )}
               <div className="relative w-auto">
                 <button onClick={() => setShowLogout(!showLogout)}>
                   <DropdownIcon />

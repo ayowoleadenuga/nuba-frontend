@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   useKycVerificationMutation,
   useLazyValidateKYCQuery,
+  useValidateKYCQuery,
 } from "@/redux/features/kycApiSlice";
 import { useGetUserProfileQuery } from "@/redux/features/userApiSlice";
 import { nubaApis } from "@/services/api-services";
@@ -71,6 +72,15 @@ const KycVerification = () => {
     //   setShowFailedModal(true);
     // }
   };
+  useEffect(() => {
+    const handleValidateKYCStatus2 = async () => {
+      const res = await nubaApis.kyc.handleValidateKYCStatus(
+        "",
+        triggerValidateKYC
+      );
+    };
+    handleValidateKYCStatus2();
+  }, []);
 
   useEffect(() => {
     if (userProfile?.isKycVerified) {
@@ -134,7 +144,7 @@ const KycVerification = () => {
 
       {kycResponse?.data?.status === "created" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg">
+          <div className="bg-white p-6 rounded-xl text-center w-[90%] max-w-md shadow-lg flex flex-col items-center justify-center">
             <h2 className="text-2xl font-semibold mb-4">
               Verification Pending!
             </h2>
