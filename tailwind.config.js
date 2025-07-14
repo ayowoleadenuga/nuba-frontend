@@ -29,6 +29,10 @@ const config = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
       },
+      fontFamily: {
+              inter: ["var(--font-inter)", "latin"],
+              rubik: ["var(--font-rubik)"],
+            },
       borderColor: {
         border: "hsl(var(--border))",
       },

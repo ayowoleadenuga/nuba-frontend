@@ -85,7 +85,9 @@ const DashboardPage = () => {
   const [isArrowRotated, setIsArrowRotated] = useState(false);
   return (
     <div className="py-6 px-4">
-      <p className="font-[600]  ">Welcome {userProfile?.firstName},</p>
+      <p className="font-[600] font-rubik  ">
+        Welcome {userProfile?.firstName},
+      </p>
       <button
         onClick={() => {
           setShowModal(prev => !prev);

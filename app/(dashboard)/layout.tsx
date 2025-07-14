@@ -22,7 +22,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
   if (!user) return null;
 
   return (
-    <div className="h-[100vh] w-full flex">
+    <div className="h-[100vh] w-full flex font-rubik">
       <div className="h-[100vh] w-full hidden md:flex">
         <DashboardLayoutWrapper>{children}</DashboardLayoutWrapper>
       </div>

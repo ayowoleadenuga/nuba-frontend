@@ -50,7 +50,7 @@ const SignUpClient = () => {
 
   return (
     <div className="h-full pb-10">
-      <div className="overflow-y-auto h-[calc(100%-548px)] flex items-center justify-center">
+      <div className="overflow-y-auto h-[calc(100%-548px)] flex items-center justify-center font-rubik">
         {renderStep()}
       </div>
       {/* <div className="flex justify-between mt-4">

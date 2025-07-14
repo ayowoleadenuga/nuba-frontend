@@ -37,10 +37,18 @@
 //   );
 // }
 
-
 // app/layout.tsx
-import CustomLayout from './customLayout'
+import { Metadata } from "next";
+import CustomLayout from "./customLayout";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <CustomLayout>{children}</CustomLayout>
+export const metadata: Metadata = {
+  title: "Nuba - Rewards from your rent",
+  description: "Nuba - Rewards from your rent",
+};
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <CustomLayout>{children}</CustomLayout>;
 }
