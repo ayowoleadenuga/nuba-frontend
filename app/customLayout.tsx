@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "Nuba - Rewards from your rent",
   description: "Nuba - Rewards from your rent",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.ico",
   },
 };
 
