@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "start:server": "pm2 start npm --name nuba-frontend -- start",
+    "restart:server": "pm2 restart nuba-frontend --silent"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

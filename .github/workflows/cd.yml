@@ -1,0 +1,54 @@
+name: Deploy Next.js Application
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js App
+        run: npm run build
+
+      - name: Remove prod Deps
+        run: npm prune --production
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Navigate to project directory
+            cd ${{ secrets.PROD_TARGET }}
+            
+            # Pull latest changes
+            git pull origin main
+            
+            # Install dependencies
+            npm ci
+            
+            # Build the application
+            npm run build
+            
+            # Restart PM2 process
+            pm2 delete nuba-frontend || true
+            npm run start:server
+            
+            # Ensure PM2 starts on system reboot
+            pm2 save
+            
+            echo "Deployment completed successfully!"
