@@ -24,6 +24,8 @@ const rubik = Rubik({
   subsets: ["latin"],
 });
 
+
+// Meta Data for Landing Page
 export const metadata: Metadata = {
   title: "Nuba - Rewards from your rent",
   description: "Nuba - Rewards from your rent",
