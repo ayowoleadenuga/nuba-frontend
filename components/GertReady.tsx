@@ -6,9 +6,11 @@ import ArrowUp from "@/assets/svgs/arrow-up.svg"
 import Link from 'next/link'
 import { useState } from 'react'
 import TermsModal from './termsModal'
+import Policy from './policy'
 
 export default function GetReady() {
   const [terms, SetTerms] = useState(false)
+  const [policy, SetPolicy] = useState(false)
     return(
         <div>
         <section>
@@ -41,7 +43,7 @@ export default function GetReady() {
                   </div> 
                   <div className="flex justify-between md:pe-12 xl:pe-13">
                     <div>
-                      <p className="m-0 text-[#ffffff] ">Privacy Center</p>
+                      <p className="m-0 text-[#ffffff] cursor-pointer"  onClick={()=> SetPolicy(true)}>Privacy Center</p>
                     </div>
                     <div className=' '>
                       <p className="m-0 text-[#ffffff]">App</p>
@@ -133,7 +135,7 @@ export default function GetReady() {
                   </div> 
                   <div className="flex justify-between pe-12">
                     <div>
-                      <p className="m-0 text-[#ffffff] ">Privacy Center</p>
+                      <p className="m-0 text-[#ffffff] cursor-pointer" onClick={()=> SetPolicy(true)}>Privacy Center</p>
                     </div>
                     <div className=' xl:pr-[51px]'>
                       <p className="m-0 text-[#ffffff]">App</p>
@@ -157,6 +159,14 @@ export default function GetReady() {
               (
                 <div>
                   <TermsModal open={terms} onClose={() => SetTerms(false)}/>
+                </div>
+              )
+            }
+            {
+              policy && 
+              (
+                <div>
+                  <Policy open={policy} onClose={() => SetPolicy(false)}/>
                 </div>
               )
             }
