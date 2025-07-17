@@ -50,7 +50,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               agree with these Terms, you must refrain from using our services.
             </p>
 
-            <h3 className="font-semibold text-lg">2. About Us</h3>
+            <h3 className="font-semibold mt-3 text-lg">2. About Us</h3>
             <p>
               Nuba is a trading name of Nuba Technologies LTD, a company
               registered in England and Wales with company number 16344130 and
@@ -72,7 +72,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               any concerns or questions.
             </p>
 
-            <h3 className="font-semibold mt-4 text-lg">3. Scope of Services</h3>
+            <h3 className="font-semibold mt-3 text-lg">3. Scope of Services</h3>
             <p>
               a) Nuba provides Users with access to the following services:
               <li>Facilitation of rent payments via debit and credit card;</li>
@@ -97,7 +97,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               impose.
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold mt-4 text-lg">
               4. Account Registration and Verification
             </h3>
             <p>
@@ -132,7 +132,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               compensate us for any resulting losses, penalties, or expenses.
             </p>
 
-            <h3 className="font-semibold text-lg">Using Our Services</h3>
+            <h3 className="font-semibold mt-3 text-lg">Using Our Services</h3>
             <p>
               Upon successful verification, you may access your Nuba account to
               make rent payments directly to your landlord or their authorised
@@ -259,7 +259,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               displayed before payment is confirmed.
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold mt-3 text-lg">
               Refunds and Payment Finality
             </h3>
             <p>
@@ -274,7 +274,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               in breach of these Terms.
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold mt-3 text-lg">
               Relationship with Your Landlord or Agent
             </h3>
             <p>
@@ -309,7 +309,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               stated in this section.
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold mt-3 text-lg">
               Suspension and Termination of Services
             </h3>
             <p>
@@ -362,7 +362,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               </li>
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold mt-3 text-lg">
               7. Refunds and Chargebacks
             </h3>
             <p>
@@ -377,7 +377,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               </li>
             </p>
 
-            <h3 className="font-semibold text-lg">8. Use Restrictions</h3>
+            <h3 className="font-semibold mt-3 text-lg">8. Use Restrictions</h3>
             <p>
               You must not:
               <li>Use Nuba for illegal or commercial purposes;</li>
@@ -386,7 +386,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               <li>Misuse referral programs or create fake accounts.</li>
             </p>
 
-            <h3 className="font-semibold text-lg">
+            <h3 className="font-semibold text-lg mt-3">
               9. Limitation of Liability
             </h3>
             <p>
@@ -397,14 +397,14 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               <li>Indirect or consequential damages.</li>
             </p>
 
-            <h3 className="font-semibold text-lg">10. Changes to Terms</h3>
+            <h3 className="font-semibold text-lg mt-3">10. Changes to Terms</h3>
             <p>
               We may amend these Terms at any time. You will be notified of
               material changes at least 30 days in advance. Continued use of
               Nuba services after changes indicates your acceptance.
             </p>
 
-            <h3 className="font-semibold text-lg">11. Contact Us</h3>
+            <h3 className="font-semibold text-lg mt-3">11. Contact Us</h3>
             <p>
               For support or questions, contact: support@nubarewards.com These
               Terms are governed by the laws of England and Wales.

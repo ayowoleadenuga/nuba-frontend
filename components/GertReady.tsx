@@ -119,7 +119,7 @@ export default function GetReady() {
                 <div className="xl:p-4 my-5 p-2 sm:hidden block space-y-2">
                   <div className="flex justify-between items-center  pe-8">
                     <div>
-                      <p onClick={()=> SetTerms(true)} className="m-0 cursor-pointer text-[#ffffff] bg-transparent p-0">Terms and conditions</p>
+                      <p  onClick={()=> SetTerms(true)} className="m-0 cursor-pointer text-[#ffffff] bg-transparent p-0">Terms and conditions</p>
                     </div>
                     <div className='flex items-start justify-start'>
                       <p className="m-0 text-[#ffffff]">Career</p>

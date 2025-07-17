@@ -74,57 +74,82 @@ export default function PrivacyModal({ open, onClose }: PrivacyModalProps) {
             <div>
                     <p className=" mt-3">For Tenants</p>
                     <li>
-                        Identity & Contact: Name, email, phone, address
+                        <b>Identity Data</b>:  name, username or similar identifier, marital status, title, date of birth.
                     </li>
                     <li>
-                        Account Info: Username, encrypted password
+                        <b>Contact Data</b>: includes email address and telephone number, address and billing address.
                     </li>
                     <li>
-                        Transaction Data: Rent payments, rewards redeemed
+                        <b>Transaction Data</b>: includes details about payments from you.
                     </li>
                     <li>
-                        Technical & Usage Data: IP address, browser/device info, activity logs
+                        <b>Technical & Usage Data</b>: IP address, browser/device info, activity logs
                     </li>
                     <li>
-                        Marketing Preferences: Email opt‑ins/opt‑outs
+                        <b>Marketing Preferences</b>: Email opt‑ins/opt‑outs
                     </li>
+                    <li><b>Technical Data</b>: includes your computer’s Internet Protocol (IP) address, your browser type and version, the pages you visit, the time and date of your visit, the time spent on each page, the device type, operating system, unique device identifiers, device settings, and geo-location data</li>
 
                     <p className=" mt-3">
-                        For Landlords / Agents
+                        Representatives of landlords or agents
                     </p>
                     <li>
-Identity & Contact: Name, business email, phone, company name
+<b>Identity & Contact</b>: Name, business email, phone, company name
 
                     </li>
                     <li>
-Financial Data: Bank account details for rewards payouts
+<b>Financial Data</b>: Bank account details for rewards payouts
 
                     </li>
                     <li>
-Property Data: Address and related info
+<b>Property Data</b>: Address and related info
 
                     </li>
                     <li>
-Usage & Technical Data: As above
+<b>Usage & Technical Data</b>: includes information about how you use our website, and our Services.
 
                     </li>
                     <p className=" mt-3">
-For Website Visitors
-
+For Website Users
                     </p>
                     <li>
-                        Technical & Usage Data: IP address, browser, device type, pages viewed, session duration, and location data 
+                        <b>Technical Data</b>:  This includes, computer’s Internet Protocol (IP) address, your browser type and version, the pages you visit, the time and date of your visit, the time spent on each page, the device type, operating system, unique device identifiers, device settings, and geo-location data.
                     </li>
+                    <p className="my-2">We may also collect, use, and share Aggregated Data—such as statistical or demographic information—for various purposes. While this type of data may be derived from your personal information, it is not legally considered personal data because it does not directly or indirectly identify you. For instance, we might use your Usage Data to determine the percentage of users who engage with a particular feature of our website. However, if we combine or link Aggregated Data with personal information in a way that could identify you, we will treat that combined data as personal data and handle it in accordance with this privacy policy.
+
+                    </p>
+                    <b>If you fail to provide personal data</b>
+                    <p className="mt-2">In certain situations, we are required by law or by the terms of a contract to collect personal data from you. If you do not provide this information when requested, we may not be able to fulfill the contract we have with you—or are attempting to enter into with you—such as delivering our Services. If this happens, we may need to cancel a Service you’ve requested or purchased. If so, we will inform you at the time.</p>
            </div>
             <h3 className="font-semibold text-lg  mt-3">7. Data Sources</h3>
             <p>
               Data comes directly from you, through cookies, or from partners like payment processors.
             </p>
-            <h3 className="font-semibold text-lg mt-3">8. How We Use Data</h3>
-<p>
-  We process your data based on the following lawful grounds:
-</p>
-
+            <h3 className="font-semibold text-lg mt-3">8. How is your personal data collected?</h3>
+            <p>
+            We use different methods to collect data from and about you including through:
+            </p>
+            <li className="mt-3">
+                <b>Direct interactions</b>
+                <p>You may provide us with your personal data by completing forms or by communicating with us via post, phone, email, or other methods. This includes any personal information you share when you:</p>
+            </li>
+            <div className="ps-6">
+                <li>Request access to our Services</li>
+                <li>
+                    create an account on our website;
+                </li>
+                <li>subscribe to our publications;</li>
+                <li>
+                    request marketing to be sent to you; or
+                </li>
+                <li>
+                    give us feedback or contact us.
+                </li>
+            </div>
+            <li className="mt-3">
+                <b>Automated technologies or interactions. </b>
+                <p>When you interact with our website, we automatically collect Technical Data about your device, browsing behaviour, and usage patterns. This information is gathered through cookies, server logs, and similar technologies. Additionally, we may receive Technical Data if you visit other websites that use our cookies. For more information, please refer to our Cookie Policy.</p>
+            </li>
 <div className="overflow-x-auto">
   <table className="min-w-full mt-4 text-sm border border-gray-300 dark:border-gray-700">
     <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
@@ -136,39 +161,62 @@ For Website Visitors
     </thead>
     <tbody className="text-gray-800 dark:text-gray-300">
       <tr>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Create/manage your account</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Identity, Contact, Technical</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contractual necessity</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">To register you and create your account as a new customer, including individual tenants or representatives of organisations (e.g., corporate tenants).</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Identity, Contact, Biometrics, KYC, Tenancy, technical</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contractual necessity, Compliance with a legal obligation</td>
       </tr>
       <tr>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Process rent payments & rewards</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Transaction, Financial</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contractual necessity, Legitimate interest</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Process rent payments & rewards, Manage payments, fees and charges, To collect and recover outstanding payments due to us or third parties.</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Transaction, Financial, Marketing Communication</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contractual necessity, Necessary for our legitimate interests (to recover debts due to us), Consent</td>
       </tr>
       <tr>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Send service updates & offers</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contact, Profile, Marketing Preferences</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Consent or Legitimate interest</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">To manage and safeguard our business and website operations, including troubleshooting, data analysis, testing, system maintenance, technical support, reporting, and data hosting.</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Contact, Identity, Technical</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Required to support our legitimate interests—such as operating our business, providing administrative and IT services, ensuring network security, preventing fraud, and managing business reorganisations or group restructurings.</td>
       </tr>
       <tr>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Improve platform & detect fraud</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">To provide you with relevant website content and advertisements, and to assess the effectiveness of our advertising efforts. This may involve ‘profiling’ to analyze certain characteristics about you; however, this does not result in any legal or similarly significant impact on you.</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Identity,
+            Contact
+            Profile,
+            Usage,
+            Marketing and Communications,
+            Technical
+        </td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Necessary for our legitimate interests (to study how customers use our Services, to develop them, to grow our business and to inform our marketing strategy)</td>
+      </tr>
+      <tr>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">To use data analytics to improve our website, Services, marketing, customer relationships and experiences	</td>
         <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Technical, Usage</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Legitimate interest</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Necessary for our legitimate interests (to define types of customers for our Services, to keep our website updated and relevant, to develop our business and to inform our marketing strategy)</td>
       </tr>
-      <tr>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Comply with legal/regulatory obligations</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Identity, Transaction</td>
-        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Legal obligation</td>
+      {/* <tr>
+        <td>
+        </td>
+        <td>Communication Details, Device and System Information,  Interaction and Activity Data, Profile, Marketing and Communications</td>
+        <td>Necessary for our legitimate interests (to develop our Services and grow our business)</td>
+      </tr> */}
+        <tr>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">To make suggestions and recommendations to you about Services that may be of interest to you</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Communication Details, Device and System Information,  Interaction and Activity Data, Profile, Marketing and Communications</td>
+        <td className="px-4 py-2 border border-gray-300 dark:border-gray-700">Necessary for our legitimate interests (to develop our Services and grow our business)</td>
       </tr>
     </tbody>
   </table>
 </div>
 
             <h3 className="font-semibold text-lg mt-3">9. Marketing</h3>
-            <p>
-With your consent (or if you haven’t opted out), we may email you about new features, offers, or platform updates. You can opt out anytime by clicking the unsubscribe link or emailing us at support@nubarewards.com. Opt‑out does not affect transactional emails required for service.
+            <div>
+<p className="my-2">We aim to give you control over how your personal data is used, especially when it comes to marketing and advertising.</p>
+<p>
+    We may use details such as your Identity, Contact, Technical, Usage, and Profile information to better understand your interests and preferences. This helps us determine which of our Services or offers may be most relevant to you — this is what we refer to as marketing.
+</p>
+<p className="my-2">
+    If you are an individual tenant, you may receive marketing messages from us if you have given your consent, or if you’ve previously requested information or purchased Services from us and haven’t opted out of marketing communications.
+</p>
 
-            </p>
+            </div>
             <h3 className="font-semibold text-lg mt-3" >10. Cookies</h3>
             <p>
 We use cookies to optimize the experience, remember preferences, and perform analytics. You may disable cookies in your browser, though this could limit functionality. See our [Cookie Policy] for details.
@@ -185,48 +233,75 @@ Service providers (e.g. payment, verification, email, hosting)
 Landlords (to credit rewards where applicable)
 
 </li>
-<li>
+<li className="mb-2">
 Legal or regulatory bodies, as required
 
 </li>
 All processors are contractually bound to protect your data, and we don’t sell your information.            </p>
+            <p>We require all third parties to respect the security of your personal data and to treat it in accordance with the law. We do not allow our third-party service providers to use your personal data for their own purposes and only permit them to process your personal data for specified purposes and in accordance with our instructions.</p>
+
             <h3 className="font-semibold text-lg mt-3">12. International Transfers</h3>
             <p>
 If your data is processed outside the UK, we ensure adequate protections are in place—such as EU/UK-approved Standard Contractual Clauses or transfers to countries deemed adequate by the UK government.
-
             </p>
             <h3 className="font-semibold text-lg mt-3">13. Security</h3>
             <p>
-We maintain technical and organizational measures—such as encryption and restricted access—to protect personal data. Data breach protocols are in place, and affected users/regulators will be notified if required by law.
+We maintain technical and organizational measures—such as encryption and restricted access—to protect personal data. Data breach protocols are in place, and affected users/regulators will be notified if required by law. We have established procedures to respond to any suspected breach of personal data. Where required by law, we will notify you and the appropriate regulatory authorities of any such breach.
+
+
 
             </p>
             <h3 className="font-semibold text-lg mt-3">14. Retention</h3>
             <p>
-We retain your personal data only as long as needed to provide our services, comply with legal requirements, resolve disputes, or enforce agreements. Details on retention periods are available upon request.
+We retain your personal data only as long as needed to provide our services, comply with legal requirements, resolve disputes, or enforce agreements. Details on retention periods are available upon request. To determine the appropriate retention period for personal data, we consider the amount, nature and sensitivity of the personal data, the potential risk of harm from unauthorised use or disclosure of your personal data, the purposes for which we process your personal data and whether we can achieve those purposes through other means, and the applicable legal, regulatory, tax, accounting or other requirements.
+
+
 
             </p>
-            <h3 className="font-semibold text-lg mt-3">15. Your Rights</h3>
-            <p>
-Depending on relevant data protection laws (e.g., UK GDPR), you may have rights to:
+            <h3 className="font-semibold text-lg mt-3">15. Your Legal Rights</h3>
+            <div>
+                <p>
+You have the following rights concerning your personal data:
+                </p>
 <li>
-Access, correct, or delete your data
-
+<b>Access</b>: You can request a copy of the personal data we hold about you to ensure we are processing it lawfully.
 </li>
 <li>
-Object to or restrict processing
-
+<b>Correction</b>: You can ask us to correct any incomplete or inaccurate data we hold about you. We may need to verify the accuracy of the new data you provide.
 </li>
 <li>
-Request data portability
-
+    <b>Erasure</b>: You can request the deletion of your personal data where there is no valid reason for us to continue processing it. This also applies if you have successfully objected to processing, if your data was processed unlawfully, or if we are legally required to erase it. Note that we may not always be able to fulfill your request for legal or regulatory reasons, which will be communicated to you at the time.
 </li>
 <li>
-Withdraw consent
+<b>
+Objection
+</b>: You can object to our processing of your data where it is based on our legitimate interests (or those of a third party), particularly if it affects your fundamental rights and freedoms. You can also object to the use of your data for direct marketing purposes. In some cases, we may demonstrate compelling legitimate grounds to continue processing your data.
+</li>
+<li className="my-4">
+<b>
+Restriction
 
+</b>: You can ask us to temporarily suspend the processing of your data in the following situations:
+</li>
+<div className="ps-7 ">
+    <li>
+        If you want us to verify the accuracy of your data.
+    </li>
+    <li>
+        Where the use of your data is unlawful but you prefer restriction over deletion.
+    </li>
+    <li>
+        If you need us to retain the data for legal claims, even if we no longer require it.
+    </li>
+    <li>
+        You’ve objected to our use of your data and we are verifying whether we have overriding legitimate grounds.
+    </li>
+</div>
+<li>
+    <b>Data Portability</b>: You can request the transfer of your data to you or a third party. We will provide it in a structured, commonly used, machine-readable format. This right applies only to automated data processed based on your consent or a contract.
 </li>
 <li>
-Lodge a complaint with the ICO
-
+    <b>Withdraw Consent</b>:  You can withdraw your consent at any time where we rely on it to process your data. This does not affect the lawfulness of any processing done before the withdrawal. Note that withdrawing consent may affect our ability to provide certain services, and we will inform you of this if applicable.
 </li>
 
 
@@ -235,7 +310,7 @@ Lodge a complaint with the ICO
 
 To exercise your rights, contact us at support@nubarewards.com. We generally respond within one month, though complex requests may require additional time.
 
-            </p>
+            </div>
           </ScrollArea>
         </div>
       </DialogContent>
