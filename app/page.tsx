@@ -40,6 +40,7 @@ import Discover from "@/assets/svgs/discover.svg"
 import American from "@/assets/svgs/american.svg"
 import Rect from "@/assets/svgs/rect.svg"
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import CookieConsent from '@/components/cookie-consent';
 
 export default function Home() { 
   const cards = useSelector((state: RootState) => state.card.cards);
@@ -559,6 +560,7 @@ export default function Home() {
         <GetReady/>
         <Footer/>
       </main> 
+      <CookieConsent variant="default" onAcceptCallback={() => console.log('Accepted')} onDeclineCallback={() => console.log('Declined')}/>
       {/* Footer */} 
     </div> 
   );
